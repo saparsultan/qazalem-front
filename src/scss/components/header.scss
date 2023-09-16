@@ -1,0 +1,127 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  &__container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 99;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--base-color);
+    padding-top: 1.25em;
+    padding-bottom: 1.25em;
+    box-shadow: 0 0 24px rgba(0, 0, 0, 0.06);
+    &--home {
+      color: var(--light-color);
+      box-shadow: none;
+
+      .lang {
+        .ant-select-selector {
+          color: var(--light-color)!important;
+        }
+      }
+    }
+  }
+  &-nav {
+    margin-left: 1.875em;
+    margin-right: auto;
+  }
+  &-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    &__container {
+      padding-top: .5em;
+      padding-bottom: .5em;
+      border-bottom: 1px solid rgba(255, 255, 255, .3);
+    }
+  }
+  &-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+  }
+  &-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75em;
+  }
+}
+
+.social {
+  display: flex;
+  align-items: center;
+  margin-left: -1.25em;
+  margin-right: -1.25em;
+  &__item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-left: 1.25em;
+    padding-right: 1.25em;
+    &:not(:last-child) {
+      border-right: 1px solid var(--light-color);
+    }
+  }
+  &__link {
+    display: flex;
+    align-items: center;
+    font-size: .75rem;
+    font-weight: 500;
+    color: var(--light-color);
+  }
+  &__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 0.3333333333333333em;
+    svg {
+      width: 18px;
+      height: 18px;
+    }
+  }
+  &__text {
+    line-height: 1.2;
+  }
+}
+
+.lang {
+  &-current {
+    display: flex;
+    align-items: center;
+    font-size: .75rem;
+    font-weight: 500;
+    color: inherit;
+    &__text {
+      margin-right: 0.6666666666666666em;
+    }
+    &__icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  &__text {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--light-color);
+  }
+}
+
+.nav {
+  &__link {
+    font-weight: 600;
+    color: currentColor;
+    padding: 0 0.9375em;
+  }
+}

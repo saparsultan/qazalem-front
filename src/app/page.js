@@ -1,95 +1,138 @@
-import Image from 'next/image'
-import styles from './page.module.css'
+"use client";
+import SliderMain from "@/components/sliderMain";
+import SliderInfo from "@/components/sliderInfo";
+import CompanyList from "@/components/companyList";
+import SliderEmbassy from "@/components/sliderEmbassy";
+import ProjectsHome from "@/components/projectsHome";
+import BlogList from "@/components/blogList";
+import BannerBlock from "@/components/bannerBlock";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation } from "swiper/modules";
+import Link from "next/link";
+import Image from "next/image";
+import embassy1 from "@/assets/img/embassy1.jpeg";
+import youtubeIcon from "@/assets/img/icons/youtube.svg";
+import BannerLink from "@/components/bannerLink";
+import WorldNews from "@/components/worldNews";
+import News from "@/components/news";
 
-export default function Home() {
+const Home = () => {
+  const demo = [
+    {
+      title: "1",
+      desc: "desc 1",
+    },
+    {
+      title: "2",
+      desc: "desc 2",
+    },
+    {
+      title: "3",
+      desc: "desc 3",
+    },
+  ];
+
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.js</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    <div className="main">
+      <SliderMain />
+      <SliderInfo />
+      <CompanyList />
+      <section className="section embassy__container">
+        <div className="container">
+          <div className="embassy">
+            <h2 className="title title-h2">Бронирование в консульствe</h2>
+            <SliderEmbassy slidesPerView={4} />
+          </div>
         </div>
-      </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore the Next.js 13 playground.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
-}
+      </section>
+      <section className="section projects-home__container">
+        <div className="container">
+          <div className="projects-home">
+            <h2 className="title title-h2 projects-home__title">Проекты</h2>
+            <ProjectsHome />
+          </div>
+        </div>
+      </section>
+      <section className="section interview-home__container">
+        <div className="container">
+          <div className="interview-home">
+            <h2 className="title title-h2 interview-home__title">Интервью</h2>
+            <BlogList />
+          </div>
+        </div>
+      </section>
+      <BannerBlock />
+      <section className="section helpful-home__container">
+        <div className="container">
+          <div className="helpful-home">
+            <h2 className="title title-h2 helpful-home__title">
+              ПОЛЕЗНАЯ ИНФОРМАЦИЯ
+            </h2>
+            <SliderEmbassy slidesPerView={5} />
+          </div>
+        </div>
+      </section>
+      <BannerLink />
+      <section className="section video__container">
+        <div className="container">
+          <div className="video">
+            <h2 className="title title-h2 video__title">
+              QAZALEM{" "}
+              <Image
+                src={youtubeIcon}
+                alt="video-icon"
+                className="video__title-icon"
+              />{" "}
+              CHANNEL
+            </h2>
+            <div className="video-content">
+              <div className="video-content__list">
+                <div className="video-content__item video-content__item--one">
+                  <div className="video-block"></div>
+                </div>
+                <div className="video-content__item video-content__item--two">
+                  <div className="video-block"></div>
+                  <div className="video-block"></div>
+                </div>
+              </div>
+              <Link href="/" className="video-content__link">
+                Все видео
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section className="section world-news-home__container">
+        <div className="container">
+          <div className="world-news-home">
+            <h2 className="title title-h2 world-news-home__title">
+              Мировые события
+            </h2>
+            <div className="world-news-home__content">
+              <WorldNews />
+            </div>
+          </div>
+        </div>
+      </section>
+      <section className="section news-home__container">
+        <div className="container">
+          <div className="news-home">
+            <h2 className="title title-h2 news-home__title">Новости</h2>
+            <div className="news-home__content">
+              <News />
+            </div>
+          </div>
+        </div>
+      </section>
+      <section className="section partners__container">
+        <div className="container">
+          <div className="partners">
+            <h2 className="title title-h2 partners__title">Наши партнеры</h2>
+            <SliderEmbassy slidesPerView={6} />
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+export default Home;

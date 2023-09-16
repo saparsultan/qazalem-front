@@ -1,0 +1,48 @@
+.signup {
+  &__container {
+    margin-top: 125px;
+    margin-bottom: 2.5em;;
+  }
+  &-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 2.5em;
+    margin-bottom: 2.5em;
+  }
+}
+
+.login {
+  &__container {
+    margin-top: 125px;
+    margin-bottom: 2.5em;;
+  }
+}
+
+.form {
+  &-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.25em;
+  }
+  &-item {
+    width: 100%;
+    &--full {
+      width: 100%;
+    }
+    &-auto {
+      width: auto;
+    }
+  }
+  &-avatar {
+    .ant-upload {
+      width: 230px!important;
+      height: 230px!important;
+    }
+  }
+  &-btns {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
