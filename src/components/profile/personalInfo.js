@@ -1,16 +1,9 @@
-"use client";
 import React, { useState } from "react";
-import { Form, Input, message, Select, Upload, DatePicker, Button } from "antd";
-import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
+import { DatePicker, Form, Input, Select } from "antd";
 import { useQuery } from "@tanstack/react-query";
 import AuthService from "@/services/AuthService";
 
-const onChange = (date, dateString) => {
-  console.log("date", date);
-  console.log("dateString", dateString);
-};
-
-const StepSecond = ({ form, onFinish, onBack }) => {
+const PersonalInfo = (props) => {
   const [country, setCountry] = useState([]);
   const [citizenship, setCitizenship] = useState([]);
   const [fieldOfActivity, setFieldOfActivity] = useState([]);
@@ -28,16 +21,8 @@ const StepSecond = ({ form, onFinish, onBack }) => {
     staleTime: Infinity,
   });
 
-  console.log({ configs });
-
   return (
-    <Form
-      form={form}
-      name="validateOnly"
-      layout="vertical"
-      autoComplete="off"
-      onFinish={onFinish}
-    >
+    <Form layout="vertical">
       <div className="form-row">
         <div className="form-item">
           <Form.Item
@@ -46,7 +31,6 @@ const StepSecond = ({ form, onFinish, onBack }) => {
             valuePropName="dateString"
           >
             <DatePicker
-              onChange={onChange}
               style={{
                 width: "100%",
               }}
@@ -57,8 +41,8 @@ const StepSecond = ({ form, onFinish, onBack }) => {
               placeholder="Выберите страну"
               allowClear
               options={
-                country.length &&
-                country.map(({ id, value }) => {
+                configs?.data?.country.length &&
+                configs?.data?.country.map(({ id, value }) => {
                   return {
                     value: id,
                     label: value,
@@ -142,25 +126,8 @@ const StepSecond = ({ form, onFinish, onBack }) => {
           </Form.Item>
         </div>
       </div>
-      <div
-        className="form-btns"
-        style={{
-          marginTop: 24,
-        }}
-      >
-        <Button onClick={onBack}>Назад</Button>
-        <Button
-          type="primary"
-          style={{
-            marginLeft: "auto",
-          }}
-          htmlType="submit"
-        >
-          Далее
-        </Button>
-      </div>
     </Form>
   );
 };
 
-export default StepSecond;
+export default PersonalInfo;

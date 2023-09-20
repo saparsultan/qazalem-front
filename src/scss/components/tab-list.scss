@@ -7,6 +7,18 @@
       font-size: .875rem;
       border-bottom: 1px solid #b1b1b1;
       margin-bottom: 2.857142857142857em;
+      &--form {
+        margin-bottom: 0;
+        border-bottom: none;
+        .tab-list {
+          &__tab {
+            font-weight: 500;
+            &:not(:last-child) {
+              margin-right: 1.7142857142857142em;
+            }
+          }
+        }
+      }
       &-wrap {
         position: relative;
       }

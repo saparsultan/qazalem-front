@@ -4,15 +4,22 @@ import { BASE_URL } from "@/utils/constants";
 
 export default class AuthService {
   static config() {
-    return $api.get(`${BASE_URL}config/?lang=ru`);
+    return $api.get("config/?lang=ru");
   }
   static async emailExists(data) {
-    return $api.post(`${BASE_URL}email_exists/`, { email: data });
+    return $api.post("email_exists/", { email: data });
   }
 
   static async login(email, password) {
     // console.log(apiInstance);
-    return $apiPrivate.post(`login/`, { email, password });
+    return $api.post(
+      `login/`,
+      { email, password },
+      {
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true,
+      },
+    );
   }
 
   static async registerStepFirst(

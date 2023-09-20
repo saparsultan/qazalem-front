@@ -5,7 +5,8 @@
   gap: 2.5em;
   color: var(--light-color);
   &__container {
-  background-color: var(--base-color);
+    margin-top: auto;
+    background-color: var(--base-color);
     padding: 4.375em 0 5.625em 0;
   }
   &__logo {

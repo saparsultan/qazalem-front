@@ -1,20 +1,29 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { Button, ConfigProvider, Form, Input } from "antd";
 import theme from "@/theme/themeConfig";
 import Link from "next/link";
 import { useMutation } from "@tanstack/react-query";
 import AuthService from "@/services/AuthService";
-import axios from "axios";
+import { useAuthContext } from "@/providers/AuthProvider";
 import { BASE_URL } from "@/utils/constants";
-import { useSearchParams } from "next/navigation";
+import useAxiosPrivate from "@/hooks/useAxiosPrivate";
 
 const Login = (props) => {
+  const { auth, setAuth } = useAuthContext();
   const [form] = Form.useForm();
+
+  const axiosPrivate = useAxiosPrivate();
 
   const { mutate: onSubmitAuth } = useMutation({
     mutationFn: async (values) => {
       const { data } = await AuthService.login(values.email, values.password);
+      const userId = data?.user?.id;
+      const emailConfirm = data?.user?.email_confirmation;
+      const accessToken = data?.access;
+      setAuth({ userId, accessToken, emailConfirm });
+      localStorage.setItem("notat", accessToken);
+      localStorage.setItem("user", data?.user);
       console.log("values", data);
     },
     onSuccess: (res) => {
@@ -26,6 +35,25 @@ const Login = (props) => {
       console.log("error-login", error);
     },
   });
+
+  const { mutate: onSubmitRefresh } = useMutation({
+    mutationFn: async (values) => {
+      const { data } = await axiosPrivate.get(
+        `${BASE_URL}user/profile/main/45`,
+      );
+      console.log("values", data);
+    },
+    onSuccess: (res) => {
+      console.log("success");
+      // localStorage.setItem("token", res);
+      // console.log("values", res);
+    },
+    onError: (error) => {
+      console.log("error-login", error);
+    },
+  });
+
+  console.log({ auth });
 
   // const onSubmitAuth = async (values) => {
   //   const res = await axios.post(`${BASE_URL}login/`, {
@@ -95,6 +123,7 @@ const Login = (props) => {
                     или <Link href="/">Зарегистрируйтесь</Link>
                   </Form.Item>
                 </Form>
+                <button onClick={onSubmitRefresh}>refresh</button>
               </div>
             </div>
           </div>

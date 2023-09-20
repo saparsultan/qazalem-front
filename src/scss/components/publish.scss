@@ -1,0 +1,44 @@
+.publish {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  &-filter {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    &__left {
+      display: flex;
+      align-items: center;
+      gap: 1em;
+    }
+  }
+  &-content {
+  }
+  &-search {
+    width: 100%;
+    &__item {
+      width: 100%;
+      padding: 1em!important;
+      background-color: #f6f6f6;
+      margin-bottom: 0!important;
+      border-radius: 8px;
+    }
+    &__input {
+      .ant-input {
+      }
+      .ant-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px!important;
+      }
+    }
+  }
+  &-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 1.25em;
+    width: 100%;
+    margin-top: 2em;
+  }
+}
