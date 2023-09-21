@@ -1,34 +1,38 @@
 "use client";
 import React, { useState } from "react";
 import { Form, Input, message, Select, Upload, DatePicker, Button } from "antd";
-import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 import { useQuery } from "@tanstack/react-query";
 import AuthService from "@/services/AuthService";
+import InputMask from "react-input-mask";
 
-const onChange = (date, dateString) => {
-  console.log("date", date);
-  console.log("dateString", dateString);
-};
-
-const StepSecond = ({ form, onFinish, onBack }) => {
-  const [country, setCountry] = useState([]);
-  const [citizenship, setCitizenship] = useState([]);
-  const [fieldOfActivity, setFieldOfActivity] = useState([]);
-
+const StepSecond = ({
+  form,
+  onFinish,
+  onBack,
+  setBirthDate,
+  setInn,
+  setCountry,
+  setPhone,
+  setCitizenShip,
+  setCity,
+  setActivity,
+  setCourse,
+  setSpeciality,
+  setStudies,
+}) => {
   const configs = useQuery({
     queryKey: ["configRegister"],
     queryFn: async () => {
       const { data } = await AuthService.config();
-      setCountry(data?.country);
-      setCitizenship(data?.citizenship);
-      setFieldOfActivity(data?.field_of_activity);
-      console.log({ data });
       return data;
     },
     staleTime: Infinity,
   });
 
-  console.log({ configs });
+  const onChange = (date, dateString) => {
+    console.log("date", date);
+    console.log("dateString", dateString);
+  };
 
   return (
     <Form
@@ -46,7 +50,7 @@ const StepSecond = ({ form, onFinish, onBack }) => {
             valuePropName="dateString"
           >
             <DatePicker
-              onChange={onChange}
+              onChange={(date) => setBirthDate(date)}
               style={{
                 width: "100%",
               }}
@@ -56,9 +60,10 @@ const StepSecond = ({ form, onFinish, onBack }) => {
             <Select
               placeholder="Выберите страну"
               allowClear
+              onChange={(name) => setCountry(name)}
               options={
-                country.length &&
-                country.map(({ id, value }) => {
+                configs?.data?.country.length &&
+                configs?.data?.country.map(({ id, value }) => {
                   return {
                     value: id,
                     label: value,
@@ -82,10 +87,11 @@ const StepSecond = ({ form, onFinish, onBack }) => {
               style={{
                 width: "100%",
               }}
+              onChange={(name) => setCitizenShip(name)}
               allowClear
               options={
-                citizenship.length &&
-                citizenship.map(({ id, value }) => {
+                configs?.data?.citizenship.length &&
+                configs?.data?.citizenship.map(({ id, value }) => {
                   return {
                     value: id,
                     label: value,
@@ -101,9 +107,10 @@ const StepSecond = ({ form, onFinish, onBack }) => {
                 width: "100%",
               }}
               allowClear
+              onChange={(name) => setActivity(name)}
               options={
-                fieldOfActivity.length &&
-                fieldOfActivity.map(({ id, value }) => {
+                configs?.data?.field_of_activity.length &&
+                configs?.data?.field_of_activity.map(({ id, value }) => {
                   return {
                     value: id,
                     label: value,
@@ -113,7 +120,10 @@ const StepSecond = ({ form, onFinish, onBack }) => {
             />
           </Form.Item>
           <Form.Item name="speciality" label="Специальность">
-            <Input placeholder="Введите специальность" />
+            <Input
+              placeholder="Введите специальность"
+              onChange={(e) => setSpeciality(e.target.value)}
+            />
           </Form.Item>
         </div>
         <div className="form-item">
@@ -122,23 +132,37 @@ const StepSecond = ({ form, onFinish, onBack }) => {
             label="ИИН"
             rules={[
               {
-                pattern: new RegExp(/^\d{1,12}$/),
+                required: true,
+                pattern: /^\d{12}$/,
+                message: "Поле обязательно к заполнению",
               },
             ]}
           >
-            <Input />
+            <InputMask
+              mask="999999999999"
+              maskChar="_"
+              onChange={(e) => setInn(e.target.value)}
+            >
+              {() => <Input placeholder="____________" />}
+            </InputMask>
           </Form.Item>
           <Form.Item name="phone" label="Номер телефона">
-            <Input />
+            <InputMask
+              mask="+7 (999) 999-99-99"
+              maskChar="_"
+              onChange={(e) => setPhone(e.target.value)}
+            >
+              {() => <Input placeholder="+7 (___) ___-__-__" />}
+            </InputMask>
           </Form.Item>
           <Form.Item name="city" label="Город проживания">
-            <Input />
+            <Input onChange={(e) => setCity(e.target.value)} />
           </Form.Item>
           <Form.Item name="course" label="Курс/класс">
-            <Input />
+            <Input onChange={(e) => setCourse(e.target.value)} />
           </Form.Item>
           <Form.Item name="studies" label="Учеба">
-            <Input />
+            <Input onChange={(e) => setStudies(e.target.value)} />
           </Form.Item>
         </div>
       </div>

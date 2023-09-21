@@ -36,12 +36,45 @@ const getBase64 = (img, callback) => {
 
 const SignUp = () => {
   const [form] = Form.useForm();
-  const valuesForm = Form.useWatch([], form);
   const [current, setCurrent] = useState(0);
   const [loadingUpload, setLoadingUpload] = useState(false);
   const [imageUrl, setImageUrl] = useState();
   const [dataForm, setDataForm] = useState({});
 
+  // Basic
+  const [name, setName] = useState("");
+  const [surname, setSurname] = useState("");
+  const [middlename, setMiddlename] = useState("");
+  const [gender, setGender] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [avatar, setAvatar] = useState("");
+
+  // Personal
+  const [birthDate, setBirthDate] = useState("");
+  const [iin, setInn] = useState("");
+  const [country, setCountry] = useState("");
+  const [phone, setPhone] = useState("");
+  const [citizenShip, setCitizenShip] = useState("");
+  const [city, setCity] = useState("");
+  const [activity, setActivity] = useState("");
+  const [course, setCourse] = useState("");
+  const [speciality, setSpeciality] = useState("");
+  const [studies, setStudies] = useState("");
+
+  console.log({ birthDate });
+
+  // Social
+  const [facebook, setFacebook] = useState("");
+  const [twit, setTwit] = useState("");
+  const [insta, setInsta] = useState("");
+  const [youTube, setYouTube] = useState("");
+  const [tikTok, setTikTok] = useState("");
+  const [discord, setDiscord] = useState("");
+  const [vk, setVk] = useState("");
+  const [linkedIn, setLinkedIn] = useState("");
+
+  // Additional
   const [relocate, setRelocate] = useState("");
   const [ability, setAbility] = useState("");
   const [instrument, setInstrument] = useState("");
@@ -98,15 +131,18 @@ const SignUp = () => {
       : dataForm?.birthDate?.$D;
   const newformatDate = `${formatDateYear}-${formatDateMonth}-${formatDateDay}`;
 
+  console.log({ dataForm });
+
   const { mutate: onSubmitForm } = useMutation({
     mutationFn: async () => {
       const { data } = await AuthService.registerStepFirst(
-        dataForm.name,
-        dataForm.surname,
-        dataForm.middlename,
-        dataForm.email,
-        dataForm.gender,
-        dataForm.password,
+        name,
+        surname,
+        middlename,
+        email,
+        gender,
+        password,
+        avatar,
       );
       await AuthService.registerStepSecond(
         data?.access,
@@ -167,6 +203,13 @@ const SignUp = () => {
                         imageUrl={imageUrl}
                         handleChangeAvatar={handleChangeAvatar}
                         onFinish={handleNextStep}
+                        setName={setName}
+                        setSurname={setSurname}
+                        setMiddlename={setMiddlename}
+                        setGender={setGender}
+                        setEmail={setEmail}
+                        setPassword={setPassword}
+                        setAvatar={setAvatar}
                       />
                     )}
                     {steps[current].content === "personal" && (
@@ -174,6 +217,16 @@ const SignUp = () => {
                         form={form}
                         onFinish={handleNextStep}
                         onBack={handlePrevStep}
+                        setBirthDate={setBirthDate}
+                        setInn={setInn}
+                        setCountry={setCountry}
+                        setPhone={setPhone}
+                        setCitizenShip={setCitizenShip}
+                        setCity={setCity}
+                        setActivity={setActivity}
+                        setCourse={setCourse}
+                        setSpeciality={setSpeciality}
+                        setStudies={setStudies}
                       />
                     )}
                     {steps[current].content === "social" && (
@@ -181,6 +234,14 @@ const SignUp = () => {
                         form={form}
                         onFinish={handleNextStep}
                         onBack={handlePrevStep}
+                        setFacebook={setFacebook}
+                        setTwit={setTwit}
+                        setInsta={setInsta}
+                        setYouTube={setYouTube}
+                        setTikTok={setTikTok}
+                        setDiscord={setDiscord}
+                        setVk={setVk}
+                        setLinkedIn={setLinkedIn}
                       />
                     )}
                     {steps[current].content === "additional" && (

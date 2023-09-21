@@ -24,6 +24,12 @@ const StepFirst = ({
   imageUrl,
   handleChangeAvatar,
   onFinish,
+  setName,
+  setSurname,
+  setMiddlename,
+  setGender,
+  setEmail,
+  setPassword,
 }) => {
   const uploadButton = (
     <div>
@@ -67,13 +73,13 @@ const StepFirst = ({
               },
             ]}
           >
-            <Input />
+            <Input onChange={(e) => setName(e.target.value)} />
           </Form.Item>
           <Form.Item name="surname" label="Фамилия">
-            <Input />
+            <Input onChange={(e) => setSurname(e.target.value)} />
           </Form.Item>
           <Form.Item name="middlename" label="Отчество">
-            <Input />
+            <Input onChange={(e) => setMiddlename(e.target.value)} />
           </Form.Item>
         </div>
         <div className="form-auto">
@@ -128,6 +134,7 @@ const StepFirst = ({
               label: "Женский",
             },
           ]}
+          onChange={(name) => setGender(name)}
         />
       </Form.Item>
 
@@ -145,7 +152,7 @@ const StepFirst = ({
           },
         ]}
       >
-        <Input />
+        <Input onChange={(e) => setEmail(e.target.value)} />
       </Form.Item>
       <Form.Item
         label="Пароль"
@@ -157,7 +164,7 @@ const StepFirst = ({
           },
         ]}
       >
-        <Input.Password />
+        <Input.Password onChange={(e) => setPassword(e.target.value)} />
       </Form.Item>
 
       <Form.Item
@@ -168,7 +175,7 @@ const StepFirst = ({
         rules={[
           {
             required: true,
-            message: "Пожалуйста, подтвердите свой пароль!",
+            message: "Пожалуйста, подтвердите свой пароль",
           },
           ({ getFieldValue }) => ({
             validator(_, value) {
@@ -176,7 +183,7 @@ const StepFirst = ({
                 return Promise.resolve();
               }
               return Promise.reject(
-                new Error("Новый пароль, который вы ввели, не соответствует!"),
+                new Error("Пароль, который вы ввели, не соответствует"),
               );
             },
           }),

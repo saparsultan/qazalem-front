@@ -114,18 +114,18 @@ const Header = (props) => {
             {/*<div className="logo__text">QAZALEM</div>*/}
           </Link>
           <nav className="header-nav nav">
-            <a href="#" className="nav__link">
+            <Link href="/about" className="nav__link">
               О портале
-            </a>
-            <a href="#" className="nav__link">
+            </Link>
+            <Link href="/about" className="nav__link">
               Проекты
-            </a>
-            <a href="#" className="nav__link">
+            </Link>
+            <Link href="/students" className="nav__link">
               Сообщество студентов
-            </a>
-            <a href="#" className="nav__link">
+            </Link>
+            <Link href="/news/world" className="nav__link">
               Поддержка кандасов
-            </a>
+            </Link>
           </nav>
           <div className="header-actions">
             <Link href="/sign-up" className="btn btn-reset btn-reg">
