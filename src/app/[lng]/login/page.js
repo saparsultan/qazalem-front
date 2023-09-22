@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, ConfigProvider, Form, Input } from "antd";
 import theme from "@/theme/themeConfig";
 import Link from "next/link";
@@ -12,6 +12,8 @@ import useAxiosPrivate from "@/hooks/useAxiosPrivate";
 const Login = (props) => {
   const { auth, setAuth } = useAuthContext();
   const [form] = Form.useForm();
+
+  const [errorMessage, setErrorMessage] = useState("");
 
   const axiosPrivate = useAxiosPrivate();
 
@@ -33,6 +35,7 @@ const Login = (props) => {
     },
     onError: (error) => {
       console.log("error-login", error);
+      setErrorMessage("unauthorized");
     },
   });
 
@@ -53,7 +56,7 @@ const Login = (props) => {
     },
   });
 
-  console.log({ auth });
+  console.log({ errorMessage });
 
   // const onSubmitAuth = async (values) => {
   //   const res = await axios.post(`${BASE_URL}login/`, {
@@ -75,7 +78,6 @@ const Login = (props) => {
                   form={form}
                   name="validateOnly"
                   layout="vertical"
-                  autoComplete="off"
                   onFinish={onSubmitAuth}
                 >
                   <Form.Item
@@ -90,9 +92,20 @@ const Login = (props) => {
                         required: true,
                         message: "Поле обязательно к заполнению",
                       },
+                      () => ({
+                        validator() {
+                          if (errorMessage === "unauthorized") {
+                            return Promise.reject(
+                              new Error("Неверный email или пароль"),
+                            );
+                          } else {
+                            return Promise.resolve();
+                          }
+                        },
+                      }),
                     ]}
                   >
-                    <Input />
+                    <Input placeholder="Введите ваш email" />
                   </Form.Item>
                   <Form.Item>
                     <Form.Item
@@ -106,7 +119,7 @@ const Login = (props) => {
                       ]}
                       style={{ marginBottom: "0px" }}
                     >
-                      <Input.Password />
+                      <Input.Password placeholder="Введите ваш пароль" />
                     </Form.Item>
                     <div style={{ position: "absolute", top: "0", right: "0" }}>
                       <Link href="/">Забыли пароль?</Link>
@@ -120,7 +133,7 @@ const Login = (props) => {
                     >
                       Войти
                     </Button>
-                    или <Link href="/">Зарегистрируйтесь</Link>
+                    или <Link href="/sign-up">Зарегистрируйтесь</Link>
                   </Form.Item>
                 </Form>
                 <button onClick={onSubmitRefresh}>refresh</button>

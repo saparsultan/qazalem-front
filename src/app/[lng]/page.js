@@ -15,8 +15,10 @@ import youtubeIcon from "@/assets/img/icons/youtube.svg";
 import BannerLink from "@/components/bannerLink";
 import WorldNews from "@/components/worldNews";
 import News from "@/components/news";
+import { useTranslation } from "@/i18n/client";
 
-const Home = () => {
+const Home = ({ params: { lng } }) => {
+  const { t } = useTranslation(lng, "client-page");
   const demo = [
     {
       title: "1",
@@ -35,6 +37,8 @@ const Home = () => {
   return (
     <div className="main">
       <SliderMain />
+      {/*<h1>{t("title")}</h1>*/}
+      <Link href={`/${lng}/second-page`}>{t("to-second-page")}</Link>
       <SliderInfo />
       <CompanyList />
       <section className="section embassy__container">

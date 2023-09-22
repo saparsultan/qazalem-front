@@ -1,10 +1,6 @@
-"use client";
-import React, { useState } from "react";
+import Image from "next/image";
 import { Button, Form, Input, message, Select, Upload } from "antd";
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
-import Image from "next/image";
-import { useQuery } from "@tanstack/react-query";
-import AuthService from "@/services/AuthService";
 
 const beforeUpload = async (file) => {
   const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
@@ -30,6 +26,7 @@ const StepFirst = ({
   setGender,
   setEmail,
   setPassword,
+  emailCheck,
 }) => {
   const uploadButton = (
     <div>
@@ -43,15 +40,6 @@ const StepFirst = ({
       </div>
     </div>
   );
-
-  const { data } = useQuery({
-    queryKey: ["emailExists"],
-    queryFn: async () => {
-      const res = await AuthService.emailExists("user@example.com");
-      console.log({ res });
-      return res.data;
-    },
-  });
 
   return (
     <Form
@@ -73,13 +61,22 @@ const StepFirst = ({
               },
             ]}
           >
-            <Input onChange={(e) => setName(e.target.value)} />
+            <Input
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Введите имя"
+            />
           </Form.Item>
           <Form.Item name="surname" label="Фамилия">
-            <Input onChange={(e) => setSurname(e.target.value)} />
+            <Input
+              onChange={(e) => setSurname(e.target.value)}
+              placeholder="Введите фамилию"
+            />
           </Form.Item>
           <Form.Item name="middlename" label="Отчество">
-            <Input onChange={(e) => setMiddlename(e.target.value)} />
+            <Input
+              onChange={(e) => setMiddlename(e.target.value)}
+              placeholder="Введите отчество"
+            />
           </Form.Item>
         </div>
         <div className="form-auto">
@@ -150,9 +147,22 @@ const StepFirst = ({
             required: true,
             message: "Поле обязательно к заполнению",
           },
+          () => ({
+            validator() {
+              if (emailCheck === false) {
+                return Promise.resolve();
+              } else {
+                return Promise.reject(new Error("Email уже существует"));
+              }
+            },
+          }),
         ]}
       >
-        <Input onChange={(e) => setEmail(e.target.value)} />
+        <Input
+          onChange={(e) => setEmail(e)}
+          autoComplete="off"
+          placeholder="Введите email"
+        />
       </Form.Item>
       <Form.Item
         label="Пароль"
@@ -164,7 +174,11 @@ const StepFirst = ({
           },
         ]}
       >
-        <Input.Password onChange={(e) => setPassword(e.target.value)} />
+        <Input.Password
+          onChange={(e) => setPassword(e.target.value)}
+          autoComplete="off"
+          placeholder="Введите пароль"
+        />
       </Form.Item>
 
       <Form.Item
@@ -189,7 +203,7 @@ const StepFirst = ({
           }),
         ]}
       >
-        <Input.Password />
+        <Input.Password placeholder="Подтвердите пароль" />
       </Form.Item>
       <div
         className="form-btns"

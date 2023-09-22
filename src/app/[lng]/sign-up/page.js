@@ -1,13 +1,13 @@
 "use client";
-import React, { useState, useEffect, useCallback } from "react";
-import { ConfigProvider, Button, message, Steps, Form } from "antd";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import React, { useState, useCallback } from "react";
+import { ConfigProvider, Modal, Steps, Form } from "antd";
+import { useMutation } from "@tanstack/react-query";
 import theme from "@/theme/themeConfig";
+import AuthService from "@/services/AuthService";
 import StepFirst from "@/components/signup/stepFirst";
 import StepSecond from "@/components/signup/stepSecond";
 import StepThird from "@/components/signup/stepThird";
 import StepFourth from "@/components/signup/stepFourth";
-import AuthService from "@/services/AuthService";
 
 const steps = [
   {
@@ -34,12 +34,26 @@ const getBase64 = (img, callback) => {
   reader.readAsDataURL(img);
 };
 
+const infoRegistration = () => {
+  Modal.info({
+    title: "This is a notification message",
+    content: (
+      <div>
+        <p>some messages...some messages...</p>
+        <p>some messages...some messages...</p>
+      </div>
+    ),
+    onOk() {},
+  });
+};
+
 const SignUp = () => {
   const [form] = Form.useForm();
   const [current, setCurrent] = useState(0);
   const [loadingUpload, setLoadingUpload] = useState(false);
   const [imageUrl, setImageUrl] = useState();
   const [dataForm, setDataForm] = useState({});
+  const [emailCheck, setEmailCheck] = useState(false);
 
   // Basic
   const [name, setName] = useState("");
@@ -48,21 +62,19 @@ const SignUp = () => {
   const [gender, setGender] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [avatar, setAvatar] = useState("");
+  const [avatar, setAvatar] = useState(null);
 
   // Personal
-  const [birthDate, setBirthDate] = useState("");
+  const [birthDate, setBirthDate] = useState(null);
   const [iin, setInn] = useState("");
-  const [country, setCountry] = useState("");
+  const [country, setCountry] = useState();
   const [phone, setPhone] = useState("");
   const [citizenShip, setCitizenShip] = useState("");
   const [city, setCity] = useState("");
-  const [activity, setActivity] = useState("");
-  const [course, setCourse] = useState("");
+  const [activity, setActivity] = useState();
+  const [course, setCourse] = useState();
   const [speciality, setSpeciality] = useState("");
   const [studies, setStudies] = useState("");
-
-  console.log({ birthDate });
 
   // Social
   const [facebook, setFacebook] = useState("");
@@ -80,6 +92,22 @@ const SignUp = () => {
   const [instrument, setInstrument] = useState("");
   const [benefit, setBenefit] = useState("");
   const [volunteer, setVolunteer] = useState("");
+
+  const handleChangeEmail = async (e) => {
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    const value = e.target.value;
+    setEmail(value);
+    if (emailRegex.test(value)) {
+      try {
+        await AuthService.emailExists(value);
+        setEmailCheck(true);
+      } catch (e) {
+        if (e.response.status === 404) {
+          setEmailCheck(false);
+        }
+      }
+    }
+  };
 
   const handleChangeAvatar = (info) => {
     if (info.file.status === "uploading") {
@@ -120,18 +148,15 @@ const SignUp = () => {
     [current],
   );
 
-  const formatDateYear = dataForm?.birthDate?.$y;
+  const formatDateYear = birthDate?.$y;
   const formatDateMonth =
-    dataForm?.birthDate?.$M + 1 < 10
-      ? `0${dataForm?.birthDate?.$M + 1}`
-      : dataForm?.birthDate?.$M + 1;
+    birthDate?.$M + 1 < 10 ? `0${birthDate?.$M + 1}` : birthDate?.$M + 1;
   const formatDateDay =
-    dataForm?.birthDate?.$D < 10
-      ? `0${dataForm?.birthDate?.$D}`
-      : dataForm?.birthDate?.$D;
-  const newformatDate = `${formatDateYear}-${formatDateMonth}-${formatDateDay}`;
-
-  console.log({ dataForm });
+    birthDate?.$D < 10 ? `0${birthDate?.$D}` : birthDate?.$D;
+  const newformatDate =
+    !birthDate || !birthDate === null
+      ? null
+      : `${formatDateYear}-${formatDateDay}-${formatDateMonth}`;
 
   const { mutate: onSubmitForm } = useMutation({
     mutationFn: async () => {
@@ -146,27 +171,27 @@ const SignUp = () => {
       );
       await AuthService.registerStepSecond(
         data?.access,
-        dataForm.iin,
-        dataForm.natonality,
-        dataForm.scopeActivity,
-        dataForm.country,
+        iin,
+        citizenShip,
+        activity,
+        country,
         newformatDate,
-        dataForm.city,
-        dataForm.phone,
-        dataForm.speciality,
-        dataForm.course,
-        dataForm.studies,
+        city,
+        phone,
+        speciality,
+        course,
+        studies,
       );
       await AuthService.registerStepThird(
         data?.access,
-        dataForm.facebook,
-        dataForm.instagram,
-        dataForm.tiktok,
-        dataForm.vk,
-        dataForm.twitter,
-        dataForm.youtube,
-        dataForm.discord,
-        dataForm.linkedin,
+        facebook,
+        insta,
+        tikTok,
+        vk,
+        twit,
+        youTube,
+        discord,
+        linkedIn,
       );
       await AuthService.registerStepFourth(
         data?.access,
@@ -191,6 +216,7 @@ const SignUp = () => {
         <div className="container">
           <div className="signup">
             <h2 className="title title-h2 signup__title">Регистрация</h2>
+            <button onClick={infoRegistration}>success</button>
             <div className="form-signup">
               <>
                 <Steps current={current} items={items} className="form-steps" />
@@ -207,9 +233,10 @@ const SignUp = () => {
                         setSurname={setSurname}
                         setMiddlename={setMiddlename}
                         setGender={setGender}
-                        setEmail={setEmail}
+                        setEmail={handleChangeEmail}
                         setPassword={setPassword}
                         setAvatar={setAvatar}
+                        emailCheck={emailCheck}
                       />
                     )}
                     {steps[current].content === "personal" && (

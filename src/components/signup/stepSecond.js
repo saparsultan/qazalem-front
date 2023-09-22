@@ -44,11 +44,7 @@ const StepSecond = ({
     >
       <div className="form-row">
         <div className="form-item">
-          <Form.Item
-            name="birthDate"
-            label="Дата рождения"
-            valuePropName="dateString"
-          >
+          <Form.Item name="birthDate" label="Дата рождения">
             <DatePicker
               onChange={(date) => setBirthDate(date)}
               style={{
@@ -158,11 +154,26 @@ const StepSecond = ({
           <Form.Item name="city" label="Город проживания">
             <Input onChange={(e) => setCity(e.target.value)} />
           </Form.Item>
-          <Form.Item name="course" label="Курс/класс">
-            <Input onChange={(e) => setCourse(e.target.value)} />
+          <Form.Item
+            name="course"
+            label="Курс/класс"
+            rules={[
+              {
+                pattern: /^\d+$/,
+                message: "Поле содержит только числовое значение",
+              },
+            ]}
+          >
+            <Input
+              onChange={(e) => setCourse(e.target.value)}
+              placeholder="Введите ваш курс/класс"
+            />
           </Form.Item>
           <Form.Item name="studies" label="Учеба">
-            <Input onChange={(e) => setStudies(e.target.value)} />
+            <Input
+              onChange={(e) => setStudies(e.target.value)}
+              placeholder="Введите учебное заведение"
+            />
           </Form.Item>
         </div>
       </div>

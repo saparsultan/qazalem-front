@@ -1,12 +1,17 @@
-"use client";
-import React, { useState } from "react";
 import { Button, Form, Input } from "antd";
-
-const onChange = (date, dateString) => {
-  console.log(date, dateString);
-};
-
-const StepThird = ({ form, onFinish, onBack }) => {
+const StepThird = ({
+  form,
+  onFinish,
+  onBack,
+  setFacebook,
+  setTwit,
+  setInsta,
+  setYouTube,
+  setTikTok,
+  setDiscord,
+  setVk,
+  setLinkedIn,
+}) => {
   return (
     <Form
       form={form}
@@ -18,30 +23,54 @@ const StepThird = ({ form, onFinish, onBack }) => {
       <div className="form-row">
         <div className="form-item">
           <Form.Item name="facebook" label="Facebook">
-            <Input />
+            <Input
+              placeholder="Укажите ссылку"
+              onChange={(e) => setFacebook(e.target.value)}
+            />
           </Form.Item>
           <Form.Item name="instagram" label="Instagram">
-            <Input />
+            <Input
+              placeholder="Укажите ссылку"
+              onChange={(e) => setInsta(e.target.value)}
+            />
           </Form.Item>
           <Form.Item name="tiktok" label="TikTok">
-            <Input />
+            <Input
+              placeholder="Укажите ссылку"
+              onChange={(e) => setTikTok(e.target.value)}
+            />
           </Form.Item>
           <Form.Item name="vk" label="VK">
-            <Input />
+            <Input
+              placeholder="Укажите ссылку"
+              onChange={(e) => setVk(e.target.value)}
+            />
           </Form.Item>
         </div>
         <div className="form-item">
           <Form.Item name="twitter" label="Twitter">
-            <Input />
+            <Input
+              placeholder="Укажите ссылку"
+              onChange={(e) => setTwit(e.target.value)}
+            />
           </Form.Item>
           <Form.Item name="youtube" label="YouTube">
-            <Input />
+            <Input
+              placeholder="Укажите ссылку"
+              onChange={(e) => setYouTube(e.target.value)}
+            />
           </Form.Item>
           <Form.Item name="discord" label="Discord">
-            <Input />
+            <Input
+              placeholder="Укажите ссылку"
+              onChange={(e) => setDiscord(e.target.value)}
+            />
           </Form.Item>
           <Form.Item name="linkedin" label="LinkedIn">
-            <Input />
+            <Input
+              placeholder="Укажите ссылку"
+              onChange={(e) => setLinkedIn(e.target.value)}
+            />
           </Form.Item>
         </div>
       </div>
