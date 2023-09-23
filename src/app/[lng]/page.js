@@ -15,10 +15,10 @@ import youtubeIcon from "@/assets/img/icons/youtube.svg";
 import BannerLink from "@/components/bannerLink";
 import WorldNews from "@/components/worldNews";
 import News from "@/components/news";
-import { useTranslation } from "@/i18n/client";
+import { useTranslation } from "@/app/i18n/client";
 
 const Home = ({ params: { lng } }) => {
-  const { t } = useTranslation(lng, "client-page");
+  const { t } = useTranslation(lng, "translation");
   const demo = [
     {
       title: "1",
@@ -33,6 +33,8 @@ const Home = ({ params: { lng } }) => {
       desc: "desc 3",
     },
   ];
+
+  console.log({ lng });
 
   return (
     <div className="main">
@@ -49,22 +51,22 @@ const Home = ({ params: { lng } }) => {
           </div>
         </div>
       </section>
-      <section className="section projects-home__container">
-        <div className="container">
-          <div className="projects-home">
-            <h2 className="title title-h2 projects-home__title">Проекты</h2>
-            <ProjectsHome />
-          </div>
-        </div>
-      </section>
-      <section className="section interview-home__container">
-        <div className="container">
-          <div className="interview-home">
-            <h2 className="title title-h2 interview-home__title">Интервью</h2>
-            <BlogList />
-          </div>
-        </div>
-      </section>
+      {/*<section className="section projects-home__container">*/}
+      {/*  <div className="container">*/}
+      {/*    <div className="projects-home">*/}
+      {/*      <h2 className="title title-h2 projects-home__title">Проекты</h2>*/}
+      {/*      <ProjectsHome />*/}
+      {/*    </div>*/}
+      {/*  </div>*/}
+      {/*</section>*/}
+      {/*<section className="section interview-home__container">*/}
+      {/*  <div className="container">*/}
+      {/*    <div className="interview-home">*/}
+      {/*      <h2 className="title title-h2 interview-home__title">Интервью</h2>*/}
+      {/*      <BlogList />*/}
+      {/*    </div>*/}
+      {/*  </div>*/}
+      {/*</section>*/}
       <BannerBlock />
       <section className="section helpful-home__container">
         <div className="container">

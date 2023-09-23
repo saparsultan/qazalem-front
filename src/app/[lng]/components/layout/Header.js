@@ -16,7 +16,7 @@ const Header = ({ lng }) => {
   return (
     <header
       className={
-        pathname === `/${lng}`
+        pathname === `/${lng}` || pathname === "/"
           ? "header__container header__container--home"
           : "header__container"
       }

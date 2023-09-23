@@ -4,11 +4,12 @@ import { dir } from "i18next";
 import StyledComponentsRegistry from "@/providers/AntdProvider";
 import TanstackProvider from "@/providers/TanstackProvider";
 import { AuthContextProvider } from "@/providers/AuthProvider";
-import Header from "@/components/header";
+// import Header from "@/app/[lng]/components/layout/Header";
+import Header from "@/components/Header";
 import Footer from "@/components/footer";
 import "@/app/globals.css";
 import "@/scss/main.scss";
-import { languages } from "@/i18n/settings";
+import { languages } from "@/app/i18n/settings";
 
 const inter = Raleway({ subsets: ["latin"] });
 
@@ -28,7 +29,7 @@ const RootLayout = ({ children, params: { lng } }) => {
         <TanstackProvider>
           <AuthContextProvider>
             <StyledComponentsRegistry>
-              <Header />
+              <Header lng={lng} />
               <main>{children}</main>
               <Footer />
             </StyledComponentsRegistry>
