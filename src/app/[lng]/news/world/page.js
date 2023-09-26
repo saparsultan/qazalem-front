@@ -4,7 +4,7 @@ import NewsService from "@/services/NewsService";
 import { ReactQueryHydrate } from "@/components/client/ReactQueryHydrate/ReactQueryHydrate";
 import NewsWorldClient from "@/components/client/Blogs/NewsWorld.client";
 
-const NewsWorld = async () => {
+const NewsWorld = async ({ params: { lng } }) => {
   const queryClient = getQueryClient();
   await queryClient.prefetchQuery(["blogNewsWorld"], async () => {
     const { data } = await NewsService.getNewsWorld();
@@ -13,7 +13,7 @@ const NewsWorld = async () => {
   const dehydratedState = dehydrate(queryClient);
   return (
     <ReactQueryHydrate state={dehydratedState}>
-      <NewsWorldClient />
+      <NewsWorldClient lng={lng} />
     </ReactQueryHydrate>
   );
 };

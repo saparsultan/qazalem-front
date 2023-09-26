@@ -1,70 +1,38 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Button, ConfigProvider, Form, Input } from "antd";
-import theme from "@/theme/themeConfig";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
+import { Button, ConfigProvider, Form, Input } from "antd";
 import AuthService from "@/services/AuthService";
 import { useAuthContext } from "@/providers/AuthProvider";
-import { BASE_URL } from "@/utils/constants";
 import useAxiosPrivate from "@/hooks/useAxiosPrivate";
+import theme from "@/theme/themeConfig";
 
 const Login = (props) => {
+  const axiosPrivate = useAxiosPrivate();
+  const router = useRouter();
   const { auth, setAuth } = useAuthContext();
   const [form] = Form.useForm();
-
   const [errorMessage, setErrorMessage] = useState("");
-
-  const axiosPrivate = useAxiosPrivate();
 
   const { mutate: onSubmitAuth } = useMutation({
     mutationFn: async (values) => {
       const { data } = await AuthService.login(values.email, values.password);
-      const userId = data?.user?.id;
-      const emailConfirm = data?.user?.email_confirmation;
       const accessToken = data?.access;
-      setAuth({ userId, accessToken, emailConfirm });
-      localStorage.setItem("notat", accessToken);
-      localStorage.setItem("user", data?.user);
-      console.log("values", data);
+      const refreshToken = data?.refresh;
+      setAuth(data?.user);
+      localStorage.setItem("token", accessToken);
+      localStorage.setItem("refresh", refreshToken);
     },
-    onSuccess: (res) => {
-      console.log("success");
-      // localStorage.setItem("token", res);
-      // console.log("values", res);
+    onSuccess: () => {
+      router.push("/profile", { scroll: false });
     },
     onError: (error) => {
       console.log("error-login", error);
       setErrorMessage("unauthorized");
     },
   });
-
-  const { mutate: onSubmitRefresh } = useMutation({
-    mutationFn: async (values) => {
-      const { data } = await axiosPrivate.get(
-        `${BASE_URL}user/profile/main/45`,
-      );
-      console.log("values", data);
-    },
-    onSuccess: (res) => {
-      console.log("success");
-      // localStorage.setItem("token", res);
-      // console.log("values", res);
-    },
-    onError: (error) => {
-      console.log("error-login", error);
-    },
-  });
-
-  console.log({ errorMessage });
-
-  // const onSubmitAuth = async (values) => {
-  //   const res = await axios.post(`${BASE_URL}login/`, {
-  //     email: values.email,
-  //     password: values.password,
-  //   });
-  //   console.log("res-axios", res);
-  // };
 
   return (
     <ConfigProvider theme={theme}>
@@ -136,7 +104,6 @@ const Login = (props) => {
                     или <Link href="/sign-up">Зарегистрируйтесь</Link>
                   </Form.Item>
                 </Form>
-                <button onClick={onSubmitRefresh}>refresh</button>
               </div>
             </div>
           </div>

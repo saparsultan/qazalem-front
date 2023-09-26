@@ -25,10 +25,10 @@ const SliderMain = () => {
       className="mySwiper main-slider"
     >
       <SwiperSlide className="main-slider__item">
-        <div className="main-slider__content">
+        <div className="main-slider__content container">
           <h2 className="main-slider__title">
-            Встреча казахов
-            <br /> в Монголии
+            Встреча
+            <br /> казахов в Монголии
           </h2>
           <div className="main-slider__desc">
             <p className="sm-bold">
@@ -42,17 +42,20 @@ const SliderMain = () => {
               представителей казахской диаспоры.
             </p>
           </div>
-          <Link href="/" className="btn btn-link ex-bold main-slider__link">
+          <Link
+            href="/"
+            className="btn btn-link btn-ligth bold main-slider__link"
+          >
             Подробнее
           </Link>
         </div>
-        <Image src={bgSlider} alt="sss" className="main-slider__img" />
+        <Image src={bgSlider} fill alt="sss" className="main-slider__img" />
       </SwiperSlide>
       <SwiperSlide className="main-slider__item">
-        <div className="main-slider__content">
+        <div className="main-slider__content container">
           <h2 className="main-slider__title">
-            Встреча казахов
-            <br /> в Монголии
+            Встреча
+            <br /> казахов в Монголии
           </h2>
           <div className="main-slider__desc">
             <p className="sm-bold">
@@ -66,17 +69,20 @@ const SliderMain = () => {
               представителей казахской диаспоры.
             </p>
           </div>
-          <Link href="/" className="btn btn-link ex-bold main-slider__link">
+          <Link
+            href="/"
+            className="btn btn-link btn-ligth bold main-slider__link"
+          >
             Подробнее
           </Link>
         </div>
-        <Image src={bgSlider} alt="sss" className="main-slider__img" />
+        <Image src={bgSlider} fill alt="sss" className="main-slider__img" />
       </SwiperSlide>
       <SwiperSlide className="main-slider__item">
-        <div className="main-slider__content">
+        <div className="main-slider__content container">
           <h2 className="main-slider__title">
-            Встреча казахов
-            <br /> в Монголии
+            Встреча
+            <br /> казахов в Монголии
           </h2>
           <div className="main-slider__desc">
             <p className="sm-bold">
@@ -90,11 +96,14 @@ const SliderMain = () => {
               представителей казахской диаспоры.
             </p>
           </div>
-          <Link href="/" className="btn btn-link ex-bold main-slider__link">
+          <Link
+            href="/"
+            className="btn btn-link btn-ligth bold main-slider__link"
+          >
             Подробнее
           </Link>
         </div>
-        <Image src={bgSlider} alt="sss" className="main-slider__img" />
+        <Image src={bgSlider} fill alt="sss" className="main-slider__img" />
       </SwiperSlide>
     </Swiper>
   );

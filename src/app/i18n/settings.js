@@ -1,5 +1,12 @@
-export const fallbackLng = "en";
-export const languages = [fallbackLng, "de"];
+export const fallbackLng = "kk";
+export const languages = [fallbackLng, "ru", "en", "zh"];
+
+export const languagesClient = [
+  { value: "kk", label: "Қазақша" },
+  { value: "ru", label: "Русский" },
+  { value: "en", label: "English" },
+  { value: "zh", label: "中文" },
+];
 export const defaultNS = "translation";
 
 export function getOptions(lng = fallbackLng, ns = defaultNS) {

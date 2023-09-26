@@ -18,7 +18,7 @@ const onSearch = (value) => {
 const filterOption = (input, option) =>
   (option?.label ?? "").toLowerCase().includes(input.toLowerCase());
 
-const NewsWorldClient = ({ lng }) => {
+const EventsClient = () => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const { data } = useQuery({
     queryKey: ["blogNewsWorld"],
@@ -34,7 +34,7 @@ const NewsWorldClient = ({ lng }) => {
       <div className="container">
         <div className="news-world">
           <h2 className="title title-left text-low title-h2 news-world__title">
-            Мировые новости
+            Анонс мероприятий
           </h2>
           <div className="publish">
             <div className="publish-filter publish-item">
@@ -49,7 +49,29 @@ const NewsWorldClient = ({ lng }) => {
               <RangePicker locale={locale} />
               <Select
                 showSearch
-                placeholder="Выбор категории"
+                placeholder="Страна проведения"
+                optionFilterProp="children"
+                onChange={onChange}
+                onSearch={onSearch}
+                filterOption={filterOption}
+                options={[
+                  {
+                    value: "jack",
+                    label: "Jack",
+                  },
+                  {
+                    value: "lucy",
+                    label: "Lucy",
+                  },
+                  {
+                    value: "tom",
+                    label: "Tom",
+                  },
+                ]}
+              />
+              <Select
+                showSearch
+                placeholder="Тип мероприятия"
                 optionFilterProp="children"
                 onChange={onChange}
                 onSearch={onSearch}
@@ -87,7 +109,6 @@ const NewsWorldClient = ({ lng }) => {
                       date={published_date}
                       title={title_news}
                       subcategory={subcategory}
-                      lng={lng}
                     />
                   ),
                 )}
@@ -99,4 +120,4 @@ const NewsWorldClient = ({ lng }) => {
   );
 };
 
-export default NewsWorldClient;
+export default EventsClient;

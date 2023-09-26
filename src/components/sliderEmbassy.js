@@ -28,9 +28,9 @@ const SliderEmbassy = ({ slidesPerView }) => {
             className="grid-slider__bg"
             src={embassy1}
             alt="embassy 1"
-            layout="fill"
-            objectFit="cover"
-            objectPosition="center"
+            fill
+            cover="true"
+            center="true"
           />
           <div className="grid-slider__content">
             <h4 className="title-h4 grid-slider__title">НЬЮ-ЙОРК</h4>
@@ -44,10 +44,10 @@ const SliderEmbassy = ({ slidesPerView }) => {
           <Image
             className="grid-slider__bg"
             src={embassy1}
-            alt="embassy 1"
-            layout="fill"
-            objectFit="cover"
-            objectPosition="center"
+            alt="embassy 2"
+            fill
+            cover="true"
+            center="true"
           />
           <div className="grid-slider__content">
             <h4 className="title-h4 grid-slider__title">НЬЮ-ЙОРК</h4>
@@ -61,10 +61,10 @@ const SliderEmbassy = ({ slidesPerView }) => {
           <Image
             className="grid-slider__bg"
             src={embassy1}
-            alt="embassy 1"
-            layout="fill"
-            objectFit="cover"
-            objectPosition="center"
+            alt="embassy 3"
+            fill
+            cover="true"
+            center="true"
           />
           <div className="grid-slider__content">
             <h4 className="title-h4 grid-slider__title">НЬЮ-ЙОРК</h4>
@@ -78,10 +78,10 @@ const SliderEmbassy = ({ slidesPerView }) => {
           <Image
             className="grid-slider__bg"
             src={embassy1}
-            alt="embassy 1"
-            layout="fill"
-            objectFit="cover"
-            objectPosition="center"
+            alt="embassy 4"
+            fill
+            cover="true"
+            center="true"
           />
           <div className="grid-slider__content">
             <h4 className="title-h4 grid-slider__title">НЬЮ-ЙОРК</h4>
@@ -95,10 +95,10 @@ const SliderEmbassy = ({ slidesPerView }) => {
           <Image
             className="grid-slider__bg"
             src={embassy1}
-            alt="embassy 1"
-            layout="fill"
-            objectFit="cover"
-            objectPosition="center"
+            alt="embassy 5"
+            fill
+            cover="true"
+            center="true"
           />
           <div className="grid-slider__content">
             <h4 className="title-h4 grid-slider__title">НЬЮ-ЙОРК</h4>
@@ -112,10 +112,10 @@ const SliderEmbassy = ({ slidesPerView }) => {
           <Image
             className="grid-slider__bg"
             src={embassy1}
-            alt="embassy 1"
-            layout="fill"
-            objectFit="cover"
-            objectPosition="center"
+            alt="embassy 6"
+            fill
+            cover="true"
+            center="true"
           />
           <div className="grid-slider__content">
             <h4 className="title-h4 grid-slider__title">НЬЮ-ЙОРК</h4>

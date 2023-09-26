@@ -1,6 +1,6 @@
 "use client";
 import SliderMain from "@/components/sliderMain";
-import SliderInfo from "@/components/sliderInfo";
+import SliderInfo from "@/components/client/home/sliderInfo";
 import CompanyList from "@/components/companyList";
 import SliderEmbassy from "@/components/sliderEmbassy";
 import ProjectsHome from "@/components/projectsHome";
@@ -39,8 +39,6 @@ const Home = ({ params: { lng } }) => {
   return (
     <div className="main">
       <SliderMain />
-      {/*<h1>{t("title")}</h1>*/}
-      <Link href={`/${lng}/second-page`}>{t("to-second-page")}</Link>
       <SliderInfo />
       <CompanyList />
       <section className="section embassy__container">

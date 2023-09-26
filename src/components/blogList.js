@@ -1,15 +1,21 @@
 import React from "react";
-import Image from "next/image";
-import interview1 from "@/assets/img/interview-1.jpg";
-import Link from "next/link";
 import BlogItem from "@/components/client/Blogs/BlogItem";
-const BlogList = (props) => {
+const BlogList = ({ data }) => {
   return (
     <div className="blog-list">
-      <BlogItem />
-      <BlogItem />
-      <BlogItem />
-      <BlogItem />
+      {data &&
+        data?.results.map(
+          ({ id, image_news, published_date, title_news, subcategory }) => (
+            <BlogItem
+              key={id}
+              id={id}
+              image={image_news}
+              date={published_date}
+              title={title_news}
+              subcategory={subcategory}
+            />
+          ),
+        )}
     </div>
   );
 };

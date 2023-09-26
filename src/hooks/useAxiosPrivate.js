@@ -5,13 +5,13 @@ import useRefreshToken from "@/hooks/useRefreshToken";
 
 const useAxiosPrivate = () => {
   const refresh = useRefreshToken();
-  const auth = localStorage.getItem("notat");
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
     const requestIntercept = $apiPrivate.interceptors.request.use(
       (config) => {
         if (!config.headers["Authorization"]) {
-          config.headers["Authorization"] = `Bearer ${auth}`;
+          config.headers["Authorization"] = `Bearer ${token}`;
         }
         return config;
       },
@@ -31,16 +31,13 @@ const useAxiosPrivate = () => {
         return Promise.reject(error);
       },
     );
-
     return () => {
       $apiPrivate.interceptors.request.eject(requestIntercept);
       $apiPrivate.interceptors.response.eject(responseIntercept);
     };
-  }, [auth, refresh]);
+  }, [token, refresh]);
 
   return $apiPrivate;
 };
 
 export default useAxiosPrivate;
-
-// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90e…jQ3fQ.y8kKtjUZqPdEOoQ4rlymP-iXIpvbjiqTw_EMel_biXo
