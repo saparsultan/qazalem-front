@@ -1,41 +1,96 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, DatePicker, Form, Input, Select } from "antd";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import AuthService from "@/services/AuthService";
+import UserService from "@/services/userService";
 
-const PersonalInfo = (props) => {
-  const [country, setCountry] = useState([]);
-  const [citizenship, setCitizenship] = useState([]);
-  const [fieldOfActivity, setFieldOfActivity] = useState([]);
+const PersonalInfo = () => {
+  const queryClient = useQueryClient();
+  const [form] = Form.useForm();
+  let userId;
+  if (typeof window !== "undefined") {
+    userId = localStorage.getItem("userId");
+  }
+
+  const [date, setDate] = useState("");
 
   const configs = useQuery({
     queryKey: ["configRegister"],
     queryFn: async () => {
       const { data } = await AuthService.config();
-      setCountry(data?.country);
-      setCitizenship(data?.citizenship);
-      setFieldOfActivity(data?.field_of_activity);
-      console.log({ data });
+      return data;
+    },
+  });
+
+  const { data } = useQuery({
+    queryKey: ["userPersonal"],
+    queryFn: async () => {
+      const { data } = await UserService.getUserPersonal(userId);
       return data;
     },
     staleTime: Infinity,
   });
 
+  console.log({ date });
+  console.log("date-local", new Date(data?.date_of_birth));
+
+  const dateLocal = new Date(data?.date_of_birth);
+
+  useEffect(() => {
+    form.setFieldsValue({
+      iin: data?.iin_p_d,
+      // birthDate: dateLocal,
+      country: data?.country,
+      city: data?.city,
+      natonality: data?.citizenship,
+      phone: data?.phone_number,
+      course: data?.course,
+      studies: data?.profession,
+    });
+  }, [data, form]);
+
+  const { mutate: onSubmitForm } = useMutation({
+    mutationFn: async (value) => {
+      const formData = {
+        iin_p_d: value?.iin,
+        citizenship: value?.natonality,
+        field_of_activity: value?.scopeActivity,
+        country: value?.country,
+        date_of_birth: value?.birthDate,
+        city: value?.city,
+        phone_number: value?.phone,
+        profession: value?.speciality,
+        course: value?.course,
+        education: value?.studies,
+      };
+      const { data } = await UserService.updatePersonal(userId, formData);
+      console.log("data data data", data);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(["userPersonal"]);
+      console.log("success");
+    },
+    onError: (error) => {
+      console.log({ error });
+    },
+  });
+
   return (
     <div className="profile-form">
-      <Form layout="vertical">
+      <Form layout="vertical" form={form} onFinish={onSubmitForm}>
         <div className="form-row">
           <div className="form-item">
             <Form.Item
               name="birthDate"
               label="Дата рождения"
-              valuePropName="dateString"
+              // valuePropName="dateString"
             >
               <DatePicker
                 style={{
                   width: "100%",
                 }}
+                onChange={(e) => setDate(e)}
               />
             </Form.Item>
             <Form.Item name="country" label="Страна проживания">
@@ -70,8 +125,8 @@ const PersonalInfo = (props) => {
                 }}
                 allowClear
                 options={
-                  citizenship.length &&
-                  citizenship.map(({ id, value }) => {
+                  configs?.data?.citizenship.length &&
+                  configs?.data?.citizenship.map(({ id, value }) => {
                     return {
                       value: id,
                       label: value,
@@ -88,8 +143,8 @@ const PersonalInfo = (props) => {
                 }}
                 allowClear
                 options={
-                  fieldOfActivity.length &&
-                  fieldOfActivity.map(({ id, value }) => {
+                  configs?.data?.field_of_activity.length &&
+                  configs?.data?.field_of_activity.map(({ id, value }) => {
                     return {
                       value: id,
                       label: value,

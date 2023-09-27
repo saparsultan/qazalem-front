@@ -22,6 +22,18 @@ export default class AuthService {
     );
   }
 
+  static async refresh(token) {
+    // console.log(apiInstance);
+    return $api.post(
+      "login/refresh/",
+      { refresh: token },
+      {
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true,
+      },
+    );
+  }
+
   static async registerStepFirst(
     firstname,
     lastname,

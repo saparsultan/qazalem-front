@@ -8,25 +8,31 @@ import AuthService from "@/services/AuthService";
 import { useAuthContext } from "@/providers/AuthProvider";
 import useAxiosPrivate from "@/hooks/useAxiosPrivate";
 import theme from "@/theme/themeConfig";
+import { LINK_URLS } from "@/utils/constants";
 
-const Login = (props) => {
+const Login = () => {
   const axiosPrivate = useAxiosPrivate();
   const router = useRouter();
   const { auth, setAuth } = useAuthContext();
   const [form] = Form.useForm();
   const [errorMessage, setErrorMessage] = useState("");
+  const locale = localStorage.getItem("i18nextLng");
 
   const { mutate: onSubmitAuth } = useMutation({
     mutationFn: async (values) => {
       const { data } = await AuthService.login(values.email, values.password);
       const accessToken = data?.access;
       const refreshToken = data?.refresh;
+      const userId = data?.user?.id;
       setAuth(data?.user);
       localStorage.setItem("token", accessToken);
       localStorage.setItem("refresh", refreshToken);
+      localStorage.setItem("userId", userId);
     },
     onSuccess: () => {
-      router.push("/profile", { scroll: false });
+      router.push(`/${locale}/${LINK_URLS.profile}/${LINK_URLS.main}`, {
+        scroll: false,
+      });
     },
     onError: (error) => {
       console.log("error-login", error);

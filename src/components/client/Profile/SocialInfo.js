@@ -1,11 +1,43 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { Button, Form, Input } from "antd";
+import { useQuery } from "@tanstack/react-query";
+import UserService from "@/services/userService";
 
 const SocialInfo = () => {
+  const [form] = Form.useForm();
+  const { data } = useQuery({
+    queryKey: ["userSocial"],
+    queryFn: async () => {
+      const { data } = await UserService.getUserSocial(10);
+      return data;
+    },
+    staleTime: Infinity,
+  });
+
+  console.log({ data });
+
+  useEffect(() => {
+    form.setFieldsValue({
+      facebook: data?.facebook,
+      instagram: data?.instagram,
+      tiktok: data?.tiktok,
+      vk: data?.vk,
+      twitter: data?.twitter,
+      youtube: data?.youtube,
+      discord: data?.discord,
+      linkedin: data?.linkedin,
+    });
+  }, [data, form]);
+
   return (
     <div className="profile-form">
-      <Form name="validateOnly" layout="vertical" autoComplete="off">
+      <Form
+        form={form}
+        name="validateOnly"
+        layout="vertical"
+        autoComplete="off"
+      >
         <div className="form-row">
           <div className="form-item">
             <Form.Item name="facebook" label="Facebook">

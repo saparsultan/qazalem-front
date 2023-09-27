@@ -1,11 +1,28 @@
+import getQueryClient from "@/utils/getQueryClient";
+import { dehydrate } from "@tanstack/react-query";
+import UserService from "@/services/userService";
+import { ReactQueryHydrate } from "@/components/client/ReactQueryHydrate/ReactQueryHydrate";
 import MainInfo from "@/components/client/Profile/MainInfo";
-const ProfileMain = () => {
+
+let userId;
+if (typeof window !== "undefined") {
+  userId = localStorage.getItem("userId");
+}
+const ProfileMain = async () => {
+  const queryClient = getQueryClient();
+  await queryClient.prefetchQuery(["userMain"], async () => {
+    const { data } = await UserService.getUserMain(userId);
+    return data;
+  });
+  const dehydratedState = dehydrate(queryClient);
   return (
     <>
       <h2 className="title-h2 title-left bold profile__title">
         Основная информация
       </h2>
-      <MainInfo />
+      <ReactQueryHydrate state={dehydratedState}>
+        <MainInfo userId={userId} />
+      </ReactQueryHydrate>
     </>
   );
 };

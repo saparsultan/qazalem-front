@@ -1,11 +1,39 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { Button, Form, Input, Radio } from "antd";
+import { useQuery } from "@tanstack/react-query";
+import UserService from "@/services/userService";
 
 const AdditionalInfo = () => {
+  const [form] = Form.useForm();
+  const { data } = useQuery({
+    queryKey: ["userAdditional"],
+    queryFn: async () => {
+      const { data } = await UserService.getUserAdditional(10);
+      return data;
+    },
+    staleTime: Infinity,
+  });
+  console.log({ data });
+
+  useEffect(() => {
+    form.setFieldsValue({
+      relocate: data?.move_to_kazakhstan,
+      ability: data?.abilities,
+      instrument: data?.instrument_play,
+      benefit: data?.benefit,
+      volunteer: data?.volunteer,
+    });
+  }, [data, form]);
+
   return (
     <div className="profile-form">
-      <Form name="validateOnly" layout="vertical" autoComplete="off">
+      <Form
+        form={form}
+        name="validateOnly"
+        layout="vertical"
+        autoComplete="off"
+      >
         <Form.Item name="relocate" label="Хотите ли вы переехать в Казахстан?">
           <Input />
         </Form.Item>

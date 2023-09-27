@@ -1,13 +1,62 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Form, Input, Select } from "antd";
 import Image from "next/image";
 import avatarImg from "@/assets/img/interview-1.jpg";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import UserService from "@/services/userService";
 
-const MainInfo = (props) => {
+let userId;
+if (typeof window !== "undefined") {
+  userId = localStorage.getItem("userId");
+}
+const MainInfo = () => {
+  const queryClient = useQueryClient();
+  const [form] = Form.useForm();
+  const [name, setName] = useState("");
+
+  const { data } = useQuery({
+    queryKey: ["userMain"],
+    queryFn: async () => {
+      const { data } = await UserService.getUserMain(userId);
+      return data;
+    },
+    staleTime: Infinity,
+  });
+
+  useEffect(() => {
+    form.setFieldsValue({
+      name: data?.firstname,
+      surname: data?.lastname,
+      middlename: data?.middlename,
+      email: data?.email,
+      gender: data?.gender,
+    });
+  }, [data]);
+
+  const { mutate: onSubmitForm } = useMutation({
+    mutationFn: async (value) => {
+      const formData = {
+        firstname: value?.firstname,
+        lastname: value?.surname,
+        middlename: value?.middlename,
+        gender: value?.gender,
+      };
+      const { data } = await UserService.updateMain(userId, formData);
+      console.log("data data data", data);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(["userMain"]);
+      console.log("success");
+    },
+    onError: (error) => {
+      console.log({ error });
+    },
+  });
+
   return (
     <div className="profile-form">
-      <Form layout="vertical">
+      <Form layout="vertical" form={form} onFinish={onSubmitForm}>
         <div className="form-row">
           <div className="form-item form-item--full">
             <Form.Item
@@ -20,7 +69,7 @@ const MainInfo = (props) => {
                 },
               ]}
             >
-              <Input />
+              <Input onChange={(e) => setName(e.target.value)} />
             </Form.Item>
             <Form.Item name="surname" label="Фамилия">
               <Input />
@@ -42,7 +91,7 @@ const MainInfo = (props) => {
                 },
               ]}
             >
-              <Input />
+              <Input disabled={true} style={{ color: "#000" }} />
             </Form.Item>
           </div>
           <div className="form-item">
