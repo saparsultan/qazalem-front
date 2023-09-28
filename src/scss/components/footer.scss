@@ -1,66 +1,101 @@
 .footer {
   display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 2.5em;
+  flex-direction: column;
+  gap: 4.375em;
   color: var(--light-color);
+
+  &-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 2.5em;
+  }
+
+  &-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 3.125em;
+    color: rgba(255, 255, 255, 0.7);
+    border-top: 1px solid rgba(255, 255, 255, .1);;
+  }
+
   &__container {
     margin-top: auto;
     background-color: var(--base-color);
-    padding: 4.375em 0 5.625em 0;
+    padding: 4.375em 0;
   }
+
   &__logo {
-    margin-bottom: 2.5em;
+    margin-bottom: 1.5em;
   }
+
   &-item {
     &__title {
       position: relative;
-      font-size: 1.25rem;
-      text-transform: uppercase;
-      margin-bottom: 1.6em;
-      padding-bottom: 0.9em;
+      font-size: 1.375rem;
+      font-weight: 500;
+      margin-bottom: 1.3636363636363635em;
+
       &--one {
         margin-bottom: 0.8em;
       }
-      &::before {
-        position: absolute;
-        content: '';
-        bottom: 0;
-        left: 0;
-        width: 10%;
-        height: 4px;
-        background-color: var(--primary-color);
-        border-top-right-radius: 50px;
-        border-bottom-left-radius: 50px;
-      }
     }
+
     &__list {
       display: grid;
       grid-template-columns: 1fr;
-      grid-gap: 1em;
+      grid-gap: 1.375em;
     }
+
     &__link {
       font-weight: 500;
-      color: rgba(255, 255, 255, 0.7);
+      line-height: 133%;
+      color: rgba(255, 255, 255, 0.8);
     }
+
     &__desc {
       width: 100%;
       max-width: 355px;
-      font-size: .875rem;
-      line-height: 170%;
-      color: #b9baba;
+      line-height: 133%;
+      color: rgba(255, 255, 255, 0.8);
+      margin-bottom: 1.75em;
     }
   }
-  &-social {
-    margin-top: 2em;
 
+  &-social {
     .social {
       &__item {
         border-color: var(--primary-color);
       }
-      &__link {
-        color: var(--primary-color);
-      }
     }
   }
+}
+
+.subscr {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 307px;
+  background-color: rgba(39, 44, 64, 0.50);
+  border-radius: 10px;
+  overflow: hidden;
+  &__input {
+    flex: 1 1;
+    width: 100%;
+    height: 100%;
+    padding: 1em;
+    font-size: .938rem;
+    color: var(--light-color);
+    background-color: transparent;
+    outline: none;
+    border: none;
+  }
+  &__btn {
+    width: 48px;
+    height: 48px;
+    color: var(--light-color);
+    background-color: var(--accent-color);
+  }
+  //max-width: 307px;
 }

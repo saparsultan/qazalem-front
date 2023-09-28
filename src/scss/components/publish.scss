@@ -2,6 +2,9 @@
   display: grid;
   grid-template-columns: 230px 1fr;
   gap: 1.875em;
+  &--two {
+    grid-template-columns: 300px 1fr;
+  }
   &-filter {
     display: flex;
     flex-direction: column;
@@ -12,10 +15,14 @@
       gap: 1em;
     }
   }
-  &-content {
+  &-search {
   }
   &-search {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 100%;
+    margin-bottom: 1.5em;
     &__item {
       width: 100%;
       padding: 1em!important;
@@ -38,5 +45,12 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-gap: 1.25em;
+    &-wrap {
+      display: flex;
+      flex-direction: column;
+    }
+    &--two {
+      grid-template-columns: repeat(2, 1fr);
+    }
   }
 }

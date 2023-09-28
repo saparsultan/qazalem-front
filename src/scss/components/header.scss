@@ -69,17 +69,14 @@
 .social {
   display: flex;
   align-items: center;
-  margin-left: -1.25em;
-  margin-right: -1.25em;
+  margin-left: -0.375em;
+  margin-right: -0.375em;
   &__item {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding-left: 1.25em;
-    padding-right: 1.25em;
-    &:not(:last-child) {
-      border-right: 1px solid var(--light-color);
-    }
+    padding-left: 0.375em;
+    padding-right: 0.375em;
   }
   &__link {
     display: flex;
@@ -87,16 +84,13 @@
     font-size: .75rem;
     font-weight: 500;
     color: var(--light-color);
+    box-shadow: 0 0 37.90232px 0 rgba(88, 214, 251, 0.40);
+    border-radius: 50px;
   }
   &__icon {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-right: 0.3333333333333333em;
-    svg {
-      width: 18px;
-      height: 18px;
-    }
   }
   &__text {
     line-height: 1.2;

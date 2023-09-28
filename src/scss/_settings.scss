@@ -114,6 +114,9 @@ a {
   &-small {
     max-width: 390px;
   }
+  &--banner {
+    max-width: 1300px;
+  }
 }
 
 .js-focus-visible :focus:not(.focus-visible) {
@@ -164,6 +167,10 @@ a {
     color: var(--base-color);
     background-color: var(--light-color);
   }
+  &-dark {
+    color: var(--light-color);
+    background-color: var(--base-color);
+  }
   &-accent {
     color: var(--light-color);
     background-color: var(--accent-color);
@@ -203,9 +210,8 @@ a {
 .title {
   &-h2 {
     font-size: 2.25rem;
-    font-weight: 800;
+    font-weight: 700;
     text-align: center;
-    text-transform: uppercase;
     margin-bottom: 1.2222222222222223em;
   }
   &-h3 {

@@ -3,11 +3,72 @@ import React from "react";
 import { Button, Form, Input, Select } from "antd";
 import Image from "next/image";
 import avatarImg from "@/assets/img/interview-1.jpg";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import AuthService from "@/services/AuthService";
+import NewsService from "@/services/NewsService";
+import UserService from "@/services/userService";
 
-const RegisterEvent = (props) => {
+const RegisterEvent = ({ lng }) => {
+  const [form] = Form.useForm();
+
+  const selectEvents = useQuery({
+    queryKey: ["selectEvents"],
+    queryFn: async () => {
+      const { data } = await UserService.getSelectEvents(lng);
+      return data;
+    },
+    staleTime: Infinity,
+  });
+
+  console.log({ selectEvents });
+
+  const { mutate: onSubmitForm } = useMutation({
+    mutationFn: async (values) => {
+      const formData = {
+        events:
+          values.eventType !== null &&
+          values.eventType !== undefined &&
+          values.eventType,
+        format_event:
+          values.eventFormat !== null &&
+          values.eventFormat !== undefined &&
+          values.eventFormat,
+        passport:
+          values.passport !== null &&
+          values.passport !== undefined &&
+          values.passport,
+        reviews:
+          values.comments !== null &&
+          values.comments !== undefined &&
+          values.comments,
+        organization:
+          values.organization !== null &&
+          values.organization !== undefined &&
+          values.organization,
+        job_title:
+          values.position !== null &&
+          values.position !== undefined &&
+          values.position,
+      };
+      const { data } = await UserService.registerEvents(formData);
+      console.log({ data });
+    },
+    onSuccess: (res) => {
+      console.log("success", res);
+    },
+    onError: (error) => {
+      console.log({ error });
+    },
+  });
+
   return (
     <div className="profile-form">
-      <Form layout="vertical">
+      <Form
+        form={form}
+        name="validateOnly"
+        layout="vertical"
+        onFinish={onSubmitForm}
+      >
         <div className="form-row">
           <div className="form-item form-item--full">
             <Form.Item
@@ -26,16 +87,15 @@ const RegisterEvent = (props) => {
                   width: "100%",
                 }}
                 allowClear
-                options={[
-                  {
-                    value: "MALE",
-                    label: "Мужской",
-                  },
-                  {
-                    value: "FEMALE",
-                    label: "Женский",
-                  },
-                ]}
+                options={
+                  selectEvents?.data?.length &&
+                  selectEvents.data.map(({ id, title_events }) => {
+                    return {
+                      value: id,
+                      label: title_events,
+                    };
+                  })
+                }
               />
             </Form.Item>
             <Form.Item
@@ -51,12 +111,12 @@ const RegisterEvent = (props) => {
                 allowClear
                 options={[
                   {
-                    value: "MALE",
-                    label: "Мужской",
+                    value: "ONLINE",
+                    label: "Онлайн",
                   },
                   {
-                    value: "FEMALE",
-                    label: "Женский",
+                    value: "OFFLINE",
+                    label: "Офлайн",
                   },
                 ]}
               />
@@ -108,12 +168,12 @@ const RegisterEvent = (props) => {
                 allowClear
                 options={[
                   {
-                    value: "MALE",
-                    label: "Мужской",
+                    value: "YES",
+                    label: "Да",
                   },
                   {
-                    value: "FEMALE",
-                    label: "Женский",
+                    value: "NO",
+                    label: "Нет",
                   },
                 ]}
               />

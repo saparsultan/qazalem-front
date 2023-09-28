@@ -25,4 +25,11 @@ export default class UserService {
   static updateAdditional(id, data) {
     return $apiPrivate.put(`user/profile/additional/${id}`, data);
   }
+  static registerEvents(data) {
+    return $apiPrivate.post("events/register_events", data);
+  }
+
+  static getSelectEvents(lang) {
+    return $apiPrivate.get(`events/select_events?lang=${lang}`);
+  }
 }

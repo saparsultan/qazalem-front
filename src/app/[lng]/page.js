@@ -16,6 +16,11 @@ import BannerLink from "@/components/bannerLink";
 import WorldNews from "@/components/worldNews";
 import News from "@/components/news";
 import { useTranslation } from "@/app/i18n/client";
+import YouTube from "react-youtube";
+import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
+import tabImg1 from "@/assets/img/tab-img1.jpg";
+import React from "react";
+import Partners from "@/components/client/home/Partners";
 
 const Home = ({ params: { lng } }) => {
   const { t } = useTranslation(lng, "translation");
@@ -40,7 +45,16 @@ const Home = ({ params: { lng } }) => {
     <div className="main">
       <SliderMain />
       <SliderInfo />
-      <CompanyList />
+      <section className="section company-list__container">
+        <div className="container">
+          <div className="company-list">
+            <h2 className="title title-h2 company-list__title">
+              Внести свой вклад <br /> в развитие Казахстана
+            </h2>
+            <CompanyList />
+          </div>
+        </div>
+      </section>
       <section className="section embassy__container">
         <div className="container">
           <div className="embassy">
@@ -65,12 +79,11 @@ const Home = ({ params: { lng } }) => {
       {/*    </div>*/}
       {/*  </div>*/}
       {/*</section>*/}
-      <BannerBlock />
       <section className="section helpful-home__container">
         <div className="container">
           <div className="helpful-home">
             <h2 className="title title-h2 helpful-home__title">
-              ПОЛЕЗНАЯ ИНФОРМАЦИЯ
+              Полезная информация
             </h2>
             <SliderEmbassy slidesPerView={5} />
           </div>
@@ -99,13 +112,18 @@ const Home = ({ params: { lng } }) => {
                   <div className="video-block"></div>
                 </div>
               </div>
-              <Link href="/" className="video-content__link">
+              <Link
+                href="https://www.youtube.com/channel/UCef62ITFdIiXn3oXc_0BCLg"
+                target="_blank"
+                className="video-content__link"
+              >
                 Все видео
               </Link>
             </div>
           </div>
         </div>
       </section>
+      {/*<YouTubePlayer videoId="K4HFp_CGlHI" />*/}
       <section className="section world-news-home__container">
         <div className="container">
           <div className="world-news-home">
@@ -129,14 +147,48 @@ const Home = ({ params: { lng } }) => {
         </div>
       </section>
       <section className="section partners__container">
-        <div className="container">
+        <div className="container container--banner">
           <div className="partners">
             <h2 className="title title-h2 partners__title">Наши партнеры</h2>
-            <SliderEmbassy slidesPerView={6} />
+            <Partners />
           </div>
         </div>
       </section>
+      <BannerBlock />
     </div>
   );
 };
 export default Home;
+
+export const YouTubePlayer = ({ videoId }) => {
+  // Set up event handlers
+  const onReady = (event) => {
+    // Access the player instance
+    const player = event.target;
+
+    // For example, you can automatically play the video
+    player.playVideo();
+  };
+  const opts = {
+    height: "390",
+    width: "640",
+    playerVars: {
+      // https://developers.google.com/youtube/player_parameters
+      autoplay: 1,
+    },
+  };
+
+  const onError = (error) => {
+    console.error("YouTube Player Error:", error);
+  };
+
+  return (
+    <YouTube
+      videoId={videoId}
+      opts={opts}
+      onReady={onReady}
+      onError={onError}
+      loading="dddd"
+    />
+  );
+};
