@@ -34,7 +34,7 @@ const Header = ({ lng }) => {
     staleTime: Infinity,
   });
 
-  const [isPending, startTransition] = useTransition();
+  // const [isPending, startTransition] = useTransition();
   function onSelectChange(e) {
     const regex = /\/([^/]+)\/(.*)/;
     if (pathname.match(regex)) {
