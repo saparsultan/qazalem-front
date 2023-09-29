@@ -239,9 +239,9 @@ const Header = ({ lng }) => {
                 bordered={false}
                 onChange={onSelectChange}
                 style={{
-                  width: 60,
+                  width: 62,
                 }}
-                // dropdownMatchSelectWidth={false}
+                popupMatchSelectWidth={false}
                 options={languagesClient
                   .filter((l) => lng !== l.value)
                   .map((l, index) => {

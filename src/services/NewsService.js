@@ -1,11 +1,35 @@
 import $api from "@/utils/http";
 
 export default class NewsService {
-  static getNewsOriginCountry() {
-    return $api.get("news/kazakhstan/filter/preview?lang=kk");
+  static getNewsOriginCountryCategory(lng) {
+    return $api.get(`news/kazakhstan/subcategory?lang=${lng}`);
   }
-  static getNewsWorld() {
-    return $api.get("news/world/filter/preview?lang=kk");
+  static getNewsOriginCountry({
+    lang,
+    subcategory,
+    published_date,
+    search,
+    limit,
+    offset,
+  }) {
+    return $api.get(
+      `news/kazakhstan/filter/preview?lang=${lang}&subcategory=${subcategory}&published_date=${published_date}&search=${search}&limit=${limit}&offset=${offset}`,
+    );
+  }
+  static getNewsWorldCategory(lng) {
+    return $api.get(`news/world/subcategory?lang=${lng}`);
+  }
+  static getNewsWorld({
+    lang,
+    subcategory,
+    published_date,
+    search,
+    limit,
+    offset,
+  }) {
+    return $api.get(
+      `news/world/filter/preview?lang=${lang}&subcategory=${subcategory}&published_date=${published_date}&search=${search}&limit=${limit}&offset=${offset}`,
+    );
   }
 
   static getOneNewsWorld(id, lang, signal) {

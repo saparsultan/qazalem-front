@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import SliderInfoItem from "@/components/client/home/sliderInfo/Item";
+import SliderInfoItem from "@/components/client/Home/SliderInfo/Item";
 import sliderInfo1 from "@/assets/img/slider-info1.jpg";
 import sliderInfo2 from "@/assets/img/slider-info2.jpg";
 import sliderInfo3 from "@/assets/img/slider-info3.jpg";

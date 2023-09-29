@@ -3,7 +3,7 @@ import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import ArrowLink from "@/components/arrowLink";
 import BlogList from "@/components/blogList";
 
-const WorldNews = (props) => (
+const NewsCurrentCountry = (props) => (
   <Tabs className="world-news-home__tabs-wrap">
     <div className="tab-list__tabs-wrap">
       <TabList className="tab-list__tabs">
@@ -27,4 +27,4 @@ const WorldNews = (props) => (
   </Tabs>
 );
 
-export default WorldNews;
+export default NewsCurrentCountry;

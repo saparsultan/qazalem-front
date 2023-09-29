@@ -4,7 +4,7 @@ export const LANGUAGE = {
   kk: "Қазақша",
   ru: "Русский",
   en: "English",
-  zh: "中文",
+  cn: "中文",
 };
 
 export const LINK_URLS = {
@@ -16,6 +16,8 @@ export const LINK_URLS = {
   additional: "additional",
   changePassword: "change-password",
   registerEvent: "register-event",
+  news: "news",
+  world: "world",
 };
 export const queryClientOptions = {
   defaultOptions: {

@@ -41,7 +41,7 @@ const Partners = (props) => {
               >
                 <Image
                   className="grid-slider__bg partners__img"
-                  src={`https://qazalem.ziz.kz${image}`}
+                  src={image}
                   alt={name}
                   fill
                   center="true"

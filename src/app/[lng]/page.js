@@ -1,6 +1,6 @@
 "use client";
 import SliderMain from "@/components/sliderMain";
-import SliderInfo from "@/components/client/home/sliderInfo";
+import SliderInfo from "@/components/client/Home/SliderInfo";
 import CompanyList from "@/components/companyList";
 import SliderEmbassy from "@/components/sliderEmbassy";
 import ProjectsHome from "@/components/projectsHome";
@@ -13,14 +13,15 @@ import Image from "next/image";
 import embassy1 from "@/assets/img/embassy1.jpeg";
 import youtubeIcon from "@/assets/img/icons/youtube.svg";
 import BannerLink from "@/components/bannerLink";
-import WorldNews from "@/components/worldNews";
+import WorldNews from "@/components/client/Home/WorldNews";
 import News from "@/components/news";
 import { useTranslation } from "@/app/i18n/client";
 import YouTube from "react-youtube";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import tabImg1 from "@/assets/img/tab-img1.jpg";
 import React from "react";
-import Partners from "@/components/client/home/Partners";
+import Partners from "@/components/client/Home/Partners";
+import OriginCountryNews from "@/components/client/Home/OriginCountryNews";
 
 const Home = ({ params: { lng } }) => {
   const { t } = useTranslation(lng, "translation");
@@ -48,6 +49,9 @@ const Home = ({ params: { lng } }) => {
       <section className="section company-list__container">
         <div className="container">
           <div className="company-list">
+            <div className="title-label">
+              <span>О нас</span>
+            </div>
             <h2 className="title title-h2 company-list__title">
               Внести свой вклад <br /> в развитие Казахстана
             </h2>
@@ -58,6 +62,9 @@ const Home = ({ params: { lng } }) => {
       <section className="section embassy__container">
         <div className="container">
           <div className="embassy">
+            <div className="title-label">
+              <span>О портале</span>
+            </div>
             <h2 className="title title-h2">Бронирование в консульствe</h2>
             <SliderEmbassy slidesPerView={4} />
           </div>
@@ -82,6 +89,9 @@ const Home = ({ params: { lng } }) => {
       <section className="section helpful-home__container">
         <div className="container">
           <div className="helpful-home">
+            <div className="title-label">
+              <span>FAQ</span>
+            </div>
             <h2 className="title title-h2 helpful-home__title">
               Полезная информация
             </h2>
@@ -93,6 +103,9 @@ const Home = ({ params: { lng } }) => {
       <section className="section video__container">
         <div className="container">
           <div className="video">
+            <div className="title-label">
+              <span>Наши материалы</span>
+            </div>
             <h2 className="title title-h2 video__title">
               QAZALEM{" "}
               <Image
@@ -127,11 +140,14 @@ const Home = ({ params: { lng } }) => {
       <section className="section world-news-home__container">
         <div className="container">
           <div className="world-news-home">
+            <div className="title-label">
+              <span>Пресс центр</span>
+            </div>
             <h2 className="title title-h2 world-news-home__title">
               Мировые события
             </h2>
             <div className="world-news-home__content">
-              <WorldNews />
+              <WorldNews lng={lng} />
             </div>
           </div>
         </div>
@@ -139,9 +155,14 @@ const Home = ({ params: { lng } }) => {
       <section className="section news-home__container">
         <div className="container">
           <div className="news-home">
-            <h2 className="title title-h2 news-home__title">Новости</h2>
+            <div className="title-label">
+              <span>Пресс центр</span>
+            </div>
+            <h2 className="title title-h2 news-home__title">
+              Новости из Казахстана
+            </h2>
             <div className="news-home__content">
-              <News />
+              <OriginCountryNews lng={lng} />
             </div>
           </div>
         </div>
@@ -149,6 +170,9 @@ const Home = ({ params: { lng } }) => {
       <section className="section partners__container">
         <div className="container container--banner">
           <div className="partners">
+            <div className="title-label">
+              <span>Нам доверяют</span>
+            </div>
             <h2 className="title title-h2 partners__title">Наши партнеры</h2>
             <Partners />
           </div>

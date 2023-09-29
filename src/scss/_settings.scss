@@ -24,6 +24,7 @@ body {
   font-variant-numeric: lining-nums proportional-nums!important;
   -webkit-text-size-adjust: 100%;
   font-size: 16px;
+  color: var(--base-color);
   background-color: var(--light-color);
 }
 
@@ -211,6 +212,7 @@ a {
   &-h2 {
     font-size: 2.25rem;
     font-weight: 700;
+    letter-spacing: 0.03547222222222222em;
     text-align: center;
     margin-bottom: 1.2222222222222223em;
   }
@@ -224,6 +226,36 @@ a {
   &-banner {
     font-size: 2.5rem;
     line-height: 125%;
+  }
+  &-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    span {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: 0.05320833333333333em;
+      padding-left: 1.0416666666666667em;
+      margin-left: auto;
+      margin-right: auto;
+      margin-bottom: 0.6666666666666666em;
+      &:after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        left: 0;
+        width: 0.6666666666666666em;
+        height: 0.1875em;
+        background-color: var(--accent-color);
+      }
+    }
   }
 }
 

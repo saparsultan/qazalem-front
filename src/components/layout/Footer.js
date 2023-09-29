@@ -114,7 +114,7 @@ const Footer = (props) => (
             © QazAlem, 2023. Все права защищены
           </div>
           <div className="dev footer-bottom__dev">
-            Разработан в{" "}
+            Разработан с ❤️ в&nbsp;
             <Link href="https://www.ziz.kz/" target="_blank">
               ZIZ Inc.
             </Link>

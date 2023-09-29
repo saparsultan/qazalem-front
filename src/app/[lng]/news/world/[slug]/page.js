@@ -3,9 +3,9 @@ import { useState } from "react";
 import Link from "next/link";
 import BlogContentPageClient from "@/components/client/Blogs/BlogContentPage.client";
 
-const NewsPage = () => {
+const NewsPage = ({ params: { lng } }) => {
   const [title, setTitle] = useState("");
-  console.log({ title });
+  console.log({ lng });
   return (
     <>
       <section className="section publdet__container">
@@ -15,7 +15,7 @@ const NewsPage = () => {
               {title}
             </h2>
             <div className="publdet-wrap">
-              <BlogContentPageClient setTitle={setTitle} />
+              <BlogContentPageClient setTitle={setTitle} lng={lng} />
               <aside className="publdet-aside">
                 <h3 className="title title-h3 mdm publdet-aside__title">
                   Последние новости

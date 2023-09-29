@@ -1,6 +1,6 @@
 import React from "react";
 import BlogItem from "@/components/client/Blogs/BlogItem";
-const BlogList = ({ data }) => {
+const BlogList = ({ data, link }) => {
   return (
     <div className="blog-list">
       {data &&
@@ -13,6 +13,7 @@ const BlogList = ({ data }) => {
               date={published_date}
               title={title_news}
               subcategory={subcategory}
+              link={link}
             />
           ),
         )}

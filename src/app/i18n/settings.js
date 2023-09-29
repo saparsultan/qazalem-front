@@ -1,11 +1,11 @@
 export const fallbackLng = "kk";
-export const languages = [fallbackLng, "ru", "en", "zh"];
+export const languages = [fallbackLng, "ru", "en", "cn"];
 
 export const languagesClient = [
   { value: "kk", label: "Қазақша" },
   { value: "ru", label: "Русский" },
   { value: "en", label: "English" },
-  { value: "zh", label: "中文" },
+  { value: "cn", label: "中文" },
 ];
 export const defaultNS = "translation";
 

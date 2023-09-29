@@ -20,8 +20,9 @@ import NewsService from "@/services/NewsService";
 import { useParams } from "next/navigation";
 import * as dayjs from "dayjs";
 import kk from "dayjs/locale/kk";
+import Image from "next/image";
 
-const BlogContentPageClient = ({ setTitle }) => {
+const BlogContentPageClient = ({ setTitle, lng }) => {
   const router = useRouter();
   const { slug } = useParams();
   const shareUrl = "https://www.pakkamarwadi.tk/";
@@ -32,7 +33,7 @@ const BlogContentPageClient = ({ setTitle }) => {
   const { data } = useQuery({
     queryKey: ["oneNewsWorld"],
     queryFn: async ({ signal }) => {
-      const { data } = await NewsService.getOneNewsWorld(slug, "kk", signal);
+      const { data } = await NewsService.getOneNewsWorld(slug, lng, signal);
       setTitle(data.title_news);
       return data;
     },
@@ -148,7 +149,22 @@ const BlogContentPageClient = ({ setTitle }) => {
           </div>
         </div>
         <div className="publdet-content">
-          <div dangerouslySetInnerHTML={{ __html: data?.body_text }} />
+          <div className="publdet-content__preview">
+            <Image
+              className="publdet-content__preview"
+              src={data?.image_news}
+              alt={data?.title_news}
+              sizes="(max-width: 768px) 100vw"
+              width={100}
+              height={100}
+              style={{ objectFit: "contain" }}
+              placeholder="empty"
+            />
+          </div>
+          <div
+            dangerouslySetInnerHTML={{ __html: data?.body_text }}
+            class="inner-html"
+          />
         </div>
       </div>
       <Modal
