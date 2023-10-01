@@ -18,6 +18,7 @@ export const LINK_URLS = {
   registerEvent: "register-event",
   news: "news",
   world: "world",
+  events: "events",
 };
 export const queryClientOptions = {
   defaultOptions: {

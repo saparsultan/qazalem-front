@@ -1,24 +1,13 @@
+"use client";
 import Image from "next/image";
-import { Button, Form, Input, message, Select, Upload } from "antd";
-import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
-
-const beforeUpload = async (file) => {
-  const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
-  if (!isJpgOrPng) {
-    await message.error("Вы можете загрузить только файл JPG/PNG!");
-  }
-  const isLt2M = file.size / 1024 / 1024 < 2;
-  if (!isLt2M) {
-    await message.error("Изображение должно быть меньше 2 МБ!");
-  }
-  return isJpgOrPng && isLt2M;
-};
+import { Button, Form, Input, Select } from "antd";
+import ImageUploading from "react-images-uploading";
+import UploadImageIcon from "@/components/UploadImageIcon";
+import { useState } from "react";
 
 const StepFirst = ({
   form,
-  loadingUpload,
-  imageUrl,
-  handleChangeAvatar,
+  onChangeAvatar,
   onFinish,
   setName,
   setSurname,
@@ -27,20 +16,8 @@ const StepFirst = ({
   setEmail,
   setPassword,
   emailCheck,
+  avatar,
 }) => {
-  const uploadButton = (
-    <div>
-      {loadingUpload ? <LoadingOutlined /> : <PlusOutlined />}
-      <div
-        style={{
-          marginTop: 8,
-        }}
-      >
-        Загрузить
-      </div>
-    </div>
-  );
-
   return (
     <Form
       form={form}
@@ -81,27 +58,34 @@ const StepFirst = ({
         </div>
         <div className="form-auto">
           <Form.Item label="Фотография">
-            <Upload
-              action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-              name="avatar"
-              listType="picture-card"
-              className="avatar-uploader form-avatar"
-              showUploadList={false}
-              beforeUpload={beforeUpload}
-              onChange={handleChangeAvatar}
+            <ImageUploading
+              value={avatar}
+              onChange={onChangeAvatar}
+              dataURLKey="data_url"
             >
-              {imageUrl ? (
-                <Image
-                  src={imageUrl}
-                  alt="avatar"
-                  style={{
-                    width: "230px",
-                  }}
-                />
-              ) : (
-                uploadButton
+              {({ imageList, onImageUpload, isDragging, dragProps }) => (
+                <div
+                  className="upload__image-wrapper"
+                  style={isDragging ? { border: "1px solid red" } : undefined}
+                  onClick={onImageUpload}
+                  {...dragProps}
+                >
+                  {imageList.length ? (
+                    <div className="upload__image-item">
+                      <Image
+                        className="upload__image-src"
+                        src={imageList[0]["data_url"]}
+                        alt=""
+                        width={100}
+                        height={100}
+                      />
+                    </div>
+                  ) : (
+                    <UploadImageIcon />
+                  )}
+                </div>
               )}
-            </Upload>
+            </ImageUploading>
           </Form.Item>
         </div>
       </div>
@@ -171,6 +155,12 @@ const StepFirst = ({
           {
             required: true,
             message: "Поле обязательно к заполнению",
+          },
+          {
+            pattern:
+              /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/,
+            message:
+              "Пароль не менее 8 символов, включающий хотя бы одну цифру, заглавную и строчную букву",
           },
         ]}
       >

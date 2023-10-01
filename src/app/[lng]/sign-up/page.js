@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useCallback } from "react";
-import { ConfigProvider, Modal, Steps, Form } from "antd";
+import { ConfigProvider, Modal, Steps, Form, App } from "antd";
 import { useMutation } from "@tanstack/react-query";
 import theme from "@/theme/themeConfig";
 import AuthService from "@/services/AuthService";
@@ -34,20 +34,8 @@ const getBase64 = (img, callback) => {
   reader.readAsDataURL(img);
 };
 
-const infoRegistration = () => {
-  Modal.info({
-    title: "This is a notification message",
-    content: (
-      <div>
-        <p>some messages...some messages...</p>
-        <p>some messages...some messages...</p>
-      </div>
-    ),
-    onOk() {},
-  });
-};
-
 const SignUp = () => {
+  const { message } = App.useApp();
   const [form] = Form.useForm();
   const [current, setCurrent] = useState(0);
   const [loadingUpload, setLoadingUpload] = useState(false);
@@ -63,6 +51,7 @@ const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [avatar, setAvatar] = useState(null);
+  const [avatarForm, setAvatarForm] = useState(null);
 
   // Personal
   const [birthDate, setBirthDate] = useState(null);
@@ -93,6 +82,18 @@ const SignUp = () => {
   const [benefit, setBenefit] = useState("");
   const [volunteer, setVolunteer] = useState("");
 
+  const beforeUpload = async (file) => {
+    const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
+    if (!isJpgOrPng) {
+      await message.error("Вы можете загрузить только файл JPG/PNG!");
+    }
+    const isLt2M = file.size / 1024 / 1024 < 2;
+    if (!isLt2M) {
+      await message.error("Изображение должно быть меньше 2 МБ!");
+    }
+    return isJpgOrPng && isLt2M;
+  };
+
   const handleChangeEmail = async (e) => {
     const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     const value = e.target.value;
@@ -109,19 +110,20 @@ const SignUp = () => {
     }
   };
 
-  const handleChangeAvatar = (info) => {
-    if (info.file.status === "uploading") {
-      setLoadingUpload(true);
-      return;
-    }
-    if (info.file.status === "done") {
-      getBase64(info.file.originFileObj, (url) => {
-        setLoadingUpload(false);
-        console.log({ url });
-        setImageUrl(url);
+  const onChangeAvatar = (imageList) => {
+    if (imageList && imageList.length) {
+      beforeUpload(imageList[0]?.file).then((res) => {
+        if (res === true) {
+          setAvatar(imageList);
+          const formData = new FormData();
+          formData.append("image", imageList[0].file);
+          setAvatarForm(formData.get("image"));
+        }
       });
     }
   };
+
+  console.log({ avatar });
 
   const items = steps.map((item) => ({
     key: item.title,
@@ -167,7 +169,7 @@ const SignUp = () => {
         email,
         gender,
         password,
-        avatar,
+        avatarForm,
       );
       await AuthService.registerStepSecond(
         data?.access,
@@ -216,7 +218,6 @@ const SignUp = () => {
         <div className="container">
           <div className="signup">
             <h2 className="title title-h2 signup__title">Регистрация</h2>
-            <button onClick={infoRegistration}>success</button>
             <div className="form-signup">
               <>
                 <Steps current={current} items={items} className="form-steps" />
@@ -225,9 +226,7 @@ const SignUp = () => {
                     {steps[current].content === "basic" && (
                       <StepFirst
                         form={form}
-                        loadingUpload={loadingUpload}
-                        imageUrl={imageUrl}
-                        handleChangeAvatar={handleChangeAvatar}
+                        onChangeAvatar={onChangeAvatar}
                         onFinish={handleNextStep}
                         setName={setName}
                         setSurname={setSurname}
@@ -235,7 +234,7 @@ const SignUp = () => {
                         setGender={setGender}
                         setEmail={handleChangeEmail}
                         setPassword={setPassword}
-                        setAvatar={setAvatar}
+                        avatar={avatar}
                         emailCheck={emailCheck}
                       />
                     )}

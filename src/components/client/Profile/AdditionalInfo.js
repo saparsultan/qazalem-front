@@ -1,15 +1,21 @@
 "use client";
 import React, { useEffect } from "react";
 import { Button, Form, Input, Radio } from "antd";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import UserService from "@/services/userService";
 
+let userId;
+if (typeof window !== "undefined") {
+  userId = localStorage.getItem("userId");
+}
+
 const AdditionalInfo = () => {
+  const queryClient = useQueryClient();
   const [form] = Form.useForm();
   const { data } = useQuery({
     queryKey: ["userAdditional"],
     queryFn: async () => {
-      const { data } = await UserService.getUserAdditional(10);
+      const { data } = await UserService.getUserAdditional(userId);
       return data;
     },
     staleTime: Infinity,
@@ -26,13 +32,34 @@ const AdditionalInfo = () => {
     });
   }, [data, form]);
 
+  const { mutate: onSubmitForm } = useMutation({
+    mutationFn: async (value) => {
+      const formData = {
+        move_to_kazakhstan: value?.relocate,
+        abilities: value?.ability,
+        instrument_play: value?.instrument,
+        benefit: value?.benefit,
+        volunteer: value?.volunteer,
+      };
+      const { data } = await UserService.updateAdditional(userId, formData);
+      console.log("data data data", data);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(["userAdditional"]);
+      console.log("success");
+    },
+    onError: (error) => {
+      console.log({ error });
+    },
+  });
+
   return (
     <div className="profile-form">
       <Form
         form={form}
+        onFinish={onSubmitForm}
         name="validateOnly"
         layout="vertical"
-        autoComplete="off"
       >
         <Form.Item name="relocate" label="Хотите ли вы переехать в Казахстан?">
           <Input />

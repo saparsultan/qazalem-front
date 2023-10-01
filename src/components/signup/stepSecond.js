@@ -26,7 +26,7 @@ const StepSecond = ({
       const { data } = await AuthService.config();
       return data;
     },
-    staleTime: Infinity,
+    // staleTime: Infinity,
   });
 
   const onChange = (date, dateString) => {

@@ -5,6 +5,9 @@ import Image from "next/image";
 import avatarImg from "@/assets/img/interview-1.jpg";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import UserService from "@/services/userService";
+import UploadImageIcon, {
+  UploadImageEmpty,
+} from "@/components/UploadImageIcon";
 
 let userId;
 if (typeof window !== "undefined") {
@@ -14,6 +17,7 @@ const MainInfo = () => {
   const queryClient = useQueryClient();
   const [form] = Form.useForm();
   const [name, setName] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
 
   const { data } = useQuery({
     queryKey: ["userMain"],
@@ -34,15 +38,27 @@ const MainInfo = () => {
     });
   }, [data]);
 
+  function getImageFileObject(imageFile) {
+    const formData = new FormData();
+    formData.append("image", imageUrl);
+    setImageUrl(imageFile.file);
+    console.log("{ imageFile }", formData);
+  }
+
   const { mutate: onSubmitForm } = useMutation({
     mutationFn: async (value) => {
-      const formData = {
+      const formData = new FormData();
+      formData.append("image", imageUrl);
+
+      const formDataObj = {
         firstname: value?.firstname,
         lastname: value?.surname,
         middlename: value?.middlename,
         gender: value?.gender,
+        image: formData.get("image"),
       };
-      const { data } = await UserService.updateMain(userId, formData);
+
+      const { data } = await UserService.updateMain(userId, formDataObj);
       console.log("data data data", data);
     },
     onSuccess: () => {
@@ -53,6 +69,10 @@ const MainInfo = () => {
       console.log({ error });
     },
   });
+
+  function runAfterImageDelete(file) {
+    console.log({ file });
+  }
 
   return (
     <div className="profile-form">

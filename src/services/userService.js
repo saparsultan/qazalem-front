@@ -14,7 +14,9 @@ export default class UserService {
     return $apiPrivate.get(`user/profile/additional/${id}`);
   }
   static updateMain(id, data) {
-    return $apiPrivate.put(`user/profile/main/${id}`, data);
+    return $apiPrivate.put(`user/profile/main/${id}`, data, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
   }
   static updatePersonal(id, data) {
     return $apiPrivate.put(`user/profile/personal/${id}`, data);

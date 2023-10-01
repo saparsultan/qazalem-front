@@ -43,15 +43,21 @@ export default class AuthService {
     password,
     image,
   ) {
-    return $api.post("register/step/main/", {
-      firstname,
-      lastname,
-      middlename,
-      email,
-      gender,
-      password,
-      image,
-    });
+    return $api.post(
+      "register/step/main/",
+      {
+        firstname,
+        lastname,
+        middlename,
+        email,
+        gender,
+        password,
+        image,
+      },
+      {
+        headers: { "Content-Type": "multipart/form-data" },
+      },
+    );
   }
   static async registerStepSecond(
     token,

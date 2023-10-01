@@ -1,5 +1,5 @@
 "use client";
-import SliderMain from "@/components/sliderMain";
+import SliderMain from "@/components/client/Home/SliderMain";
 import SliderInfo from "@/components/client/Home/SliderInfo";
 import CompanyList from "@/components/companyList";
 import SliderEmbassy from "@/components/sliderEmbassy";
@@ -44,7 +44,7 @@ const Home = ({ params: { lng } }) => {
 
   return (
     <div className="main">
-      <SliderMain />
+      <SliderMain lng={lng} />
       <SliderInfo />
       <section className="section company-list__container">
         <div className="container">

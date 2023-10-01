@@ -5,13 +5,13 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import AuthService from "@/services/AuthService";
 import UserService from "@/services/userService";
 
+let userId;
+if (typeof window !== "undefined") {
+  userId = localStorage.getItem("userId");
+}
 const PersonalInfo = () => {
   const queryClient = useQueryClient();
   const [form] = Form.useForm();
-  let userId;
-  if (typeof window !== "undefined") {
-    userId = localStorage.getItem("userId");
-  }
 
   const [date, setDate] = useState("");
 
@@ -52,8 +52,10 @@ const PersonalInfo = () => {
 
   const { mutate: onSubmitForm } = useMutation({
     mutationFn: async (value) => {
+      const valueInn = value?.iin && value?.iin === "" ? null : value?.iin;
+
       const formData = {
-        iin_p_d: value?.iin,
+        iin_p_d: valueInn,
         citizenship: value?.natonality,
         field_of_activity: value?.scopeActivity,
         country: value?.country,
@@ -75,6 +77,9 @@ const PersonalInfo = () => {
       console.log({ error });
     },
   });
+
+  console.log({ data });
+  console.log({ userId });
 
   return (
     <div className="profile-form">
@@ -161,11 +166,12 @@ const PersonalInfo = () => {
             <Form.Item
               name="iin"
               label="ИИН"
-              rules={[
-                {
-                  pattern: new RegExp(/^\d{1,12}$/),
-                },
-              ]}
+              // rules={[
+              //   {
+              //     pattern: new RegExp(/^\d{1,12}$/),
+              //     message:
+              //   },
+              // ]}
             >
               <Input />
             </Form.Item>
