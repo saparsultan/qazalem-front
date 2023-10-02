@@ -30,7 +30,6 @@ export default class UserService {
   static registerEvents(data) {
     return $apiPrivate.post("events/register_events", data);
   }
-
   static getSelectEvents(lang) {
     return $apiPrivate.get(`events/select_events?lang=${lang}`);
   }

@@ -2,9 +2,15 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
 import { LINK_URLS } from "@/utils/constants";
-import imageAvatar from "@/assets/img/interview-1.jpg";
+import UserService from "@/services/userService";
+import defaultAvatar from "@/assets/img/default.png";
 
+let userId;
+if (typeof window !== "undefined") {
+  userId = localStorage.getItem("userId");
+}
 const SideBar = ({ lng }) => {
   const pathname = usePathname();
   const profileMain = `/${lng}/${LINK_URLS.profile}/${LINK_URLS.main}`;
@@ -13,9 +19,19 @@ const SideBar = ({ lng }) => {
   const profileAdditional = `/${lng}/${LINK_URLS.profile}/${LINK_URLS.additional}`;
   const profileChangePassword = `/${lng}/${LINK_URLS.profile}/${LINK_URLS.changePassword}`;
   const profileRegisterEvent = `/${lng}/${LINK_URLS.profile}/${LINK_URLS.registerEvent}`;
-
   const activeLink = "profile-sidebar-list__link active";
   const defaultLink = "profile-sidebar-list__link";
+
+  const { data } = useQuery({
+    queryKey: ["userMain"],
+    queryFn: async () => {
+      const { data } = await UserService.getUserMain(userId);
+      return data;
+    },
+    staleTime: Infinity,
+  });
+
+  console.log("userMain", data);
 
   return (
     <>
@@ -37,10 +53,20 @@ const SideBar = ({ lng }) => {
             </svg>
           </div>
           <div className="profile-sidebar-header__avatar">
-            <Image src={imageAvatar} alt="avatar" />
+            <Image
+              quality={75}
+              src={data && data?.image ? data?.image : defaultAvatar}
+              alt="Avatar"
+              sizes="(max-width: 768px) 100vw"
+              width={100}
+              height={100}
+              loading="lazy"
+              blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJYAAACWCAQAAACWCLlpAAAA30lEQVR42u3QQREAAAgDINc/9Kzg24MIpB2OIkuWLFmyZMmSJUuWLFmyZMmSJUuWLFmyZMmSJUuWLFmyZMmSJUuWLFmyZMmSJUuWLFmyZMmSJUuWLFmyZMmSJUuWLFmyZMmSJUuWLFmyZMmSJUuWLFmyZMmSJUuWLFmyZMmSJUuWLFmyZMmSJUuWLFmyZMmSJUuWLFmyZMmSJUuWLFmyZMmSJUuWLFmyZMmSJUuWLFmyZMmSJUuWLFmyZMmSJUuWLFmyZMmSJUuWLFmyZMmSJUuWLFmyZMmSJUuWLFmyflp0Dyt64z+CCAAAAABJRU5ErkJggg=="
+              placeholder="blur"
+            />
           </div>
           <div className="profile-sidebar-header__fio">
-            Арманов Максат Канатович
+            {data && `${data.lastname} ${data.firstname} ${data.middlename}`}
           </div>
         </div>
       </div>

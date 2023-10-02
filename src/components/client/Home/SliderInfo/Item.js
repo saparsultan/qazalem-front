@@ -4,6 +4,7 @@ import Link from "next/link";
 import cx from "classnames";
 const SliderInfoItem = ({
   id,
+  title,
   image,
   alt,
   link,
@@ -26,7 +27,7 @@ const SliderInfoItem = ({
         alt={alt}
       />
       <div className="slider-info__content">
-        <div className="slider-info__desc ex-bold">О КАЗАХСТАНЕ</div>
+        <div className="slider-info__desc bold">{title}</div>
         <Link
           href={link}
           className="btn btn-accent btn-link btn-ligth sm-bold slider-info__link"

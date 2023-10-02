@@ -1,13 +1,12 @@
-// Import Swiper React components
+"use client";
+import Image from "next/image";
+import Link from "next/link";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation } from "swiper/modules";
-import Image from "next/image";
-
 import embassy1 from "@/assets/img/embassy1.jpeg";
-import Link from "next/link";
 
 // Import Swiper styles
 

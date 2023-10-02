@@ -1,8 +1,12 @@
 {
   "aboutPortal": "Портал туралы",
+  "events": "Хабарландырулар",
   "projects": "Жобалар",
-  "studentCommunity": "Студенттік қоғамдастық",
+  "news": "Жаңалықтар",
+  "interview": "Сұхбаттар",
   "bloodRelativeSupport": "Қандастарды қолдау",
   "registration" : "Тіркеу",
-  "login" : "Кіру"
+  "login" : "Кіру",
+  "logout" : "Шығу",
+  "profile": "Профилім"
 }

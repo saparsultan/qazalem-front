@@ -1,13 +1,8 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import * as dayjs from "dayjs";
 import LinesEllipsis from "react-lines-ellipsis";
-import kk from "dayjs/locale/kk";
-import ru from "dayjs/locale/ru";
-import en from "dayjs/locale/en";
-import zh from "dayjs/locale/zh";
+import { RedableFormat } from "@/utils/dayjs";
 const BlogItem = ({
   id,
   image,
@@ -17,13 +12,8 @@ const BlogItem = ({
   title,
   subcategory,
   link,
+  lng,
 }) => {
-  const pathname = usePathname();
-  const dateSrc = dayjs(new Date(date)).locale(kk).format("D MMMM, YYYY");
-  const startDateSrc = dayjs(new Date(event_date)).locale(kk).format("D MMMM");
-  const endDateSrc = dayjs(new Date(event_date_end))
-    .locale(kk)
-    .format("D MMMM");
   return (
     <div className="blog-item">
       <div
@@ -41,9 +31,20 @@ const BlogItem = ({
         />
       </div>
       <div className="blog-item__content">
-        <div className="blog-item__tag">
-          {subcategory ? subcategory?.name : `${startDateSrc} ― ${endDateSrc}`}
-        </div>
+        {subcategory && (
+          <div className="blog-item__tag">
+            {subcategory && subcategory?.name}
+          </div>
+        )}
+        {event_date && event_date && (
+          <div className="blog-item__tag">
+            {`${(
+              <RedableFormat date={event_date} lng={lng} format="D MMMM" />
+            )} ― ${(
+              <RedableFormat date={event_date_end} lng={lng} format="D MMMM" />
+            )}`}
+          </div>
+        )}
         <Link href={`${link}/${id}`} className="blog-item__text bold">
           <LinesEllipsis
             text={title}
@@ -53,7 +54,11 @@ const BlogItem = ({
             basedOn="letters"
           />
         </Link>
-        {date && <div className="blog-item__date">{dateSrc}</div>}
+        {date && (
+          <div className="blog-item__date">
+            <RedableFormat date={date} lng={lng} format="D MMMM, YYYY" />
+          </div>
+        )}
       </div>
     </div>
   );

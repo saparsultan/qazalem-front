@@ -39,8 +39,8 @@
       text-transform: lowercase;
       margin-bottom: 0.8em;
       padding: 0.3333333333333333em 0.9333333333333333em;
-      color: #12264f;
-      background-color: #c7e2ff;
+      color: var(--accent-color);
+      background-color: rgba(36, 106, 249, .15);
       border-radius: 6px;
     }
     &__text {

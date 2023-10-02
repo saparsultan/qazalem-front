@@ -89,10 +89,10 @@ const RegisterEvent = ({ lng }) => {
                 allowClear
                 options={
                   selectEvents?.data?.length &&
-                  selectEvents.data.map(({ id, title_events }) => {
+                  selectEvents.data.map(({ id, title }) => {
                     return {
                       value: id,
-                      label: title_events,
+                      label: title,
                     };
                   })
                 }

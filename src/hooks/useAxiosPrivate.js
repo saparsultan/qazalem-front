@@ -5,7 +5,10 @@ import useRefreshToken from "@/hooks/useRefreshToken";
 
 const useAxiosPrivate = () => {
   const refresh = useRefreshToken();
-  const token = localStorage.getItem("token");
+  let token;
+  if (typeof window !== "undefined") {
+    token = localStorage.getItem("token");
+  }
 
   useEffect(() => {
     const requestIntercept = $apiPrivate.interceptors.request.use(

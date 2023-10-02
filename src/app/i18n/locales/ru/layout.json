@@ -1,8 +1,12 @@
 {
   "aboutPortal": "О портале",
+  "events": "Aнонсы",
   "projects": "Проекты",
-  "studentCommunity": "Сообщество студентов",
+  "news": "Новости",
+  "interview": "Интервью",
   "bloodRelativeSupport": "Поддержка кандасов",
   "registration" : "Регистрация",
-  "login" : "Войти"
+  "login" : "Войти",
+  "logout" : "Выйти",
+  "profile": "Мой профиль"
 }

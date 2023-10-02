@@ -2,6 +2,14 @@
   display: grid;
   grid-template-columns: 230px 1fr;
   gap: 1.875em;
+  &__title {
+    line-height: 140%;
+    margin-bottom: 0.6666666666666666em;
+  }
+  &__desc {
+    line-height: 133%;
+    margin-bottom: 1.5em;
+  }
   &--two {
     grid-template-columns: 300px 1fr;
   }
@@ -48,6 +56,36 @@
     &-wrap {
       display: flex;
       flex-direction: column;
+    }
+    &--one {
+      grid-template-columns: 1fr;
+      border: 1px solid #d9d9d9;
+      border-radius: 12px;
+      .ant-collapse {
+        border: none;
+        border-radius: 0;
+        .ant-collapse-item {
+          border-radius: 0!important;
+          .inner-html {
+            ul, ol {
+              margin-left: 40px;
+              padding-bottom: 0.75rem;
+            }
+          }
+        }
+        .ant-collapse-header-text {
+          font-weight: 500;
+          color: var(--primary-color);
+        }
+        .anticon {
+          svg {
+            fill: var(--primary-color);
+          }
+        }
+        &:not(:last-child) {
+          margin-bottom: -1px;
+        }
+      }
     }
     &--two {
       grid-template-columns: repeat(2, 1fr);

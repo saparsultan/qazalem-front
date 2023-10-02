@@ -1,8 +1,12 @@
 {
   "aboutPortal": "About the portal",
+  "events": "Announcements",
   "projects": "Projects",
-  "studentCommunity": "Student community",
+  "news": "News",
+  "interview": "Interview",
   "bloodRelativeSupport": "Candas support",
   "registration" : "Sign-up",
-  "login" : "Login"
+  "login" : "Login",
+  "profile": "My profile",
+  "logout" : "Log out"
 }

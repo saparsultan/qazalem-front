@@ -1,28 +1,41 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Button, Form, Input, Select } from "antd";
 import Image from "next/image";
-import avatarImg from "@/assets/img/interview-1.jpg";
+import { App, Button, Form, Input, Select } from "antd";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import ImageUploading from "react-images-uploading";
 import UserService from "@/services/userService";
-import UploadImageIcon, {
-  UploadImageEmpty,
-} from "@/components/UploadImageIcon";
+import defaultAvatar from "@/assets/img/default.png";
+import { useTranslation } from "@/app/i18n/client";
 
-let userId;
-if (typeof window !== "undefined") {
-  userId = localStorage.getItem("userId");
-}
-const MainInfo = () => {
-  const queryClient = useQueryClient();
+const MainInfo = ({ userId, lng }) => {
+  const { t: tForm } = useTranslation(lng, "form");
+  const { t: tHome } = useTranslation(lng, "home");
+
+  const { message } = App.useApp();
   const [form] = Form.useForm();
-  const [name, setName] = useState("");
+  const queryClient = useQueryClient();
   const [imageUrl, setImageUrl] = useState("");
+  const [avatar, setAvatar] = useState(null);
+  const [avatarForm, setAvatarForm] = useState(null);
+
+  const beforeUpload = async (file) => {
+    const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
+    if (!isJpgOrPng) {
+      await message.error("Вы можете загрузить только файл JPG/PNG!");
+    }
+    const isLt2M = file.size / 1024 / 1024 < 2;
+    if (!isLt2M) {
+      await message.error("Изображение должно быть меньше 2 МБ!");
+    }
+    return isJpgOrPng && isLt2M;
+  };
 
   const { data } = useQuery({
     queryKey: ["userMain"],
     queryFn: async () => {
       const { data } = await UserService.getUserMain(userId);
+      setAvatar(data?.image);
       return data;
     },
     staleTime: Infinity,
@@ -47,15 +60,12 @@ const MainInfo = () => {
 
   const { mutate: onSubmitForm } = useMutation({
     mutationFn: async (value) => {
-      const formData = new FormData();
-      formData.append("image", imageUrl);
-
       const formDataObj = {
-        firstname: value?.firstname,
+        firstname: value?.name,
         lastname: value?.surname,
         middlename: value?.middlename,
         gender: value?.gender,
-        image: formData.get("image"),
+        image: avatarForm,
       };
 
       const { data } = await UserService.updateMain(userId, formDataObj);
@@ -74,6 +84,21 @@ const MainInfo = () => {
     console.log({ file });
   }
 
+  const onChangeAvatar = (imageList) => {
+    if (imageList && imageList.length) {
+      beforeUpload(imageList[0]?.file).then((res) => {
+        if (res === true) {
+          setAvatar(imageList);
+          const formData = new FormData();
+          formData.append("image", imageList[0].file);
+          setAvatarForm(formData.get("image"));
+        }
+      });
+    }
+  };
+
+  console.log({ avatar });
+
   return (
     <div className="profile-form">
       <Form layout="vertical" form={form} onFinish={onSubmitForm}>
@@ -81,7 +106,7 @@ const MainInfo = () => {
           <div className="form-item form-item--full">
             <Form.Item
               name="name"
-              label="Имя"
+              label={`${tForm("name")}`}
               rules={[
                 {
                   required: true,
@@ -89,12 +114,12 @@ const MainInfo = () => {
                 },
               ]}
             >
-              <Input onChange={(e) => setName(e.target.value)} />
-            </Form.Item>
-            <Form.Item name="surname" label="Фамилия">
               <Input />
             </Form.Item>
-            <Form.Item name="middlename" label="Отчество">
+            <Form.Item name="surname" label={`${tForm("lastname")}`}>
+              <Input />
+            </Form.Item>
+            <Form.Item name="middlename" label={`${tForm("middlename")}`}>
               <Input />
             </Form.Item>
             <Form.Item
@@ -117,13 +142,60 @@ const MainInfo = () => {
           <div className="form-item">
             <div className="profile-item">
               <div className="profile-item__img">
-                <Image src={avatarImg} alt="avatarImg" />
-                <div className="profile-item__edit">Изменить фото</div>
+                <ImageUploading
+                  value={avatar}
+                  onChange={onChangeAvatar}
+                  dataURLKey="data_url"
+                >
+                  {({ imageList, onImageUpload, isDragging, dragProps }) => (
+                    <>
+                      <div
+                        className="upload__image-wrapper upload__image-wrapper--profile"
+                        style={
+                          isDragging ? { border: "1px solid red" } : undefined
+                        }
+                      >
+                        {imageList.length ? (
+                          <div className="upload__image-item">
+                            <Image
+                              className="upload__image-src"
+                              quality={75}
+                              sizes="(max-width: 768px) 100vw"
+                              src={imageList[0]["data_url"]}
+                              alt="Avatar"
+                              width={100}
+                              height={100}
+                            />
+                          </div>
+                        ) : (
+                          <div className="upload__image-item">
+                            <Image
+                              className="upload__image-src"
+                              quality={75}
+                              sizes="(max-width: 768px) 100vw"
+                              src={data?.image ? data?.image : defaultAvatar}
+                              alt="Avatar"
+                              width={100}
+                              height={100}
+                            />
+                          </div>
+                        )}
+                      </div>
+                      <div
+                        className="profile-item__edit"
+                        onClick={onImageUpload}
+                        {...dragProps}
+                      >
+                        {`${tForm("editPhoto")}`}
+                      </div>
+                    </>
+                  )}
+                </ImageUploading>
               </div>
             </div>
             <Form.Item
               name="gender"
-              label="Пол"
+              label={`${tForm("gender")}`}
               rules={[
                 {
                   required: true,
@@ -158,7 +230,7 @@ const MainInfo = () => {
           }}
           htmlType="submit"
         >
-          Сохранить
+          {tForm("save")}
         </Button>
       </Form>
     </div>

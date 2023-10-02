@@ -1,3 +1,4 @@
+import axios from "axios";
 import $api from "@/utils/http";
 
 export default class HomeService {
@@ -7,6 +8,12 @@ export default class HomeService {
   static getSocial(limit) {
     return $api.get(`social_site?limit=${limit}`);
   }
+  static async getYoutubeVideos(part, channelId, maxResults, order, key) {
+    return await axios.get(
+      `https://www.googleapis.com/youtube/v3/search?part=${part}&channelId=${channelId}&maxResults=${maxResults}&order=${order}&key=${key}`,
+    );
+  }
+
   static getPartners() {
     return $api.get("partners");
   }

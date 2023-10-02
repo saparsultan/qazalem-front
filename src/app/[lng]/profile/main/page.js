@@ -8,7 +8,7 @@ let userId;
 if (typeof window !== "undefined") {
   userId = localStorage.getItem("userId");
 }
-const ProfileMain = async () => {
+const ProfileMain = async ({ params: { lng } }) => {
   const queryClient = getQueryClient();
   await queryClient.prefetchQuery(["userMain"], async () => {
     const { data } = await UserService.getUserMain(userId);
@@ -21,7 +21,7 @@ const ProfileMain = async () => {
         Основная информация
       </h2>
       <ReactQueryHydrate state={dehydratedState}>
-        <MainInfo userId={userId} />
+        <MainInfo userId={userId} lng={lng} />
       </ReactQueryHydrate>
     </>
   );

@@ -1,33 +1,35 @@
 "use client";
-import { useState } from "react";
-import Link from "next/link";
+import { useParams } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
+import NewsService from "@/services/NewsService";
 import BlogContentPageClient from "@/components/client/Blogs/BlogContentPage.client";
+import EventAside from "@/components/client/Blogs/EventAside";
 
-const EventPage = () => {
-  const [title, setTitle] = useState("");
-  console.log({ title });
+const EventPage = ({ params: { lng } }) => {
+  const { slug } = useParams();
+  const { data } = useQuery({
+    queryKey: ["oneEvents"],
+    queryFn: async ({ signal }) => {
+      const { data } = await NewsService.getOneEvents(slug, lng, signal);
+      return data;
+    },
+  });
+  console.log({ data });
+
   return (
     <>
       <section className="section publdet__container">
         <div className="container">
           <div className="publdet">
             <h2 className="title title-left title-h2 text-low bold publdet__title">
-              {title}
+              {data?.title}
             </h2>
             <div className="publdet-wrap">
-              <BlogContentPageClient setTitle={setTitle} />
-              <aside className="publdet-aside">
-                <ul className="list-reset event-date-list">
-                  <li className="event-date-list__item">
-                    <small>Дата начала</small>
-                    <div className="event-date-list__text">03 июля 2023</div>
-                  </li>
-                  <li className="event-date-list__item">
-                    <small>Дата окончания</small>
-                    <div className="event-date-list__text">01 ноября 2023</div>
-                  </li>
-                </ul>
-              </aside>
+              <BlogContentPageClient data={data} lng={lng} noArticleWidget />
+              <EventAside
+                startDate={data?.event_date}
+                endDate={data?.event_date_end}
+              />
             </div>
           </div>
         </div>

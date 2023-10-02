@@ -45,6 +45,10 @@ a {
   text-decoration: none;
 }
 
+iframe {
+  border: none!important;
+}
+
 .site-container {
   overflow: hidden; // если используете на сайте position: sticky - уберите эту настройку
 }
@@ -120,6 +124,11 @@ a {
   }
 }
 
+.under-header {
+  margin-top: 125px;
+  margin-bottom: 2.5em;
+}
+
 .js-focus-visible :focus:not(.focus-visible) {
   outline: none;
 }
@@ -159,10 +168,17 @@ a {
   }
   &-login {
     //color: #195a87;
+    width: 40px;
+    height: 40px;
+    padding: 0;
     color: inherit;
     background-color: transparent;
     border-color: inherit;
     border-radius: 12px;
+    svg {
+      width: 24px;
+      height: 24px;
+    }
   }
   &-ligth {
     color: var(--base-color);
@@ -206,6 +222,10 @@ a {
 }
 .ex-bold {
   font-weight: 800!important;
+}
+
+.nogap {
+  grid-gap: 0!important;
 }
 
 .title {
@@ -275,12 +295,6 @@ a {
   }
 }
 
-.swiper-nav-btns {
- button {
-   background-color: #000;
- }
-}
-
 .upload {
   &-image {
     &__icon {
@@ -314,6 +328,14 @@ a {
   }
 }
 
+.help {
+  &-link {
+    color: var(--light-color);
+    background-color: #ff4d4d;
+    border-color: #ff4d4d!important;
+  }
+}
+
 .upload {
   &__image {
     &-item {
@@ -340,10 +362,124 @@ a {
       border-radius: 12px;
       cursor: pointer;
       transition: border-color .2s ease;
+      &--profile {
+        width: 185px;
+        height: 185px;
+        border-radius: 50%;
+        border-style: solid;
+        border-color: var(--accent-color);
+        cursor: default;
+      }
       &:hover {
         border-color: var(--accent-color);
       }
     }
+  }
+}
+
+.swiper-nav-btns {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-left: -6.25em;
+  margin-right: -6.25em;
+  &__wrapper {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    width: 100%;
+    z-index: 999;
+  }
+  button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--light-color);
+  }
+  &__btn {
+    padding:  0.75em;
+    border-radius: 50px;
+    background-color: rgba(255, 255, 255, 0.10);
+    svg {
+      width: 28px;
+      height: 28px;
+    }
+  }
+}
+
+.loader {
+  position: relative;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100vh;
+  background-color: var(--light-color);
+  &-icon {
+    display: block;
+    width: 6.25em;
+    height: 6.25em;
+    &__ring {
+      animation: ring 2s ease-out infinite;
+    }
+    &__ball {
+      animation: ring 2s ease-out infinite;
+      animation-name: ball;
+    }
+  }
+}
+
+/* Dark theme  */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: hsl(var(--hue),10%,10%);
+    --fg: hsl(var(--hue),10%,90%);
+  }
+}
+
+/* Animation */
+@keyframes ring {
+  from {
+    stroke-dasharray: 0 257 0 0 1 0 0 258;
+  }
+  25% {
+    stroke-dasharray: 0 0 0 0 257 0 258 0;
+  }
+  50%, to {
+    stroke-dasharray: 0 0 0 0 0 515 0 0;
+  }
+}
+@keyframes ball {
+  from, 50% {
+    animation-timing-function: ease-in;
+    stroke-dashoffset: 1;
+  }
+  64% {
+    animation-timing-function: ease-in;
+    stroke-dashoffset: -109;
+  }
+  78% {
+    animation-timing-function: ease-in;
+    stroke-dashoffset: -145;
+  }
+  92% {
+    animation-timing-function: ease-in;
+    stroke-dashoffset: -157;
+  }
+  57%, 71%, 85%, 99%, to {
+    animation-timing-function: ease-out;
+    stroke-dashoffset: -163;
+  }
+}
+
+.grid {
+  display: grid;
+  &-3 {
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 

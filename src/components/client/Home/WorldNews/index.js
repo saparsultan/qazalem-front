@@ -1,11 +1,13 @@
+"use client";
 import React, { useState } from "react";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import ArrowLink from "@/components/arrowLink";
-import BlogList from "@/components/blogList";
+import BlogList from "@/components/layout/BlogList";
 import NewsService from "@/services/NewsService";
 import Link from "next/link";
 import { LINK_URLS } from "@/utils/constants";
+import { Skeleton } from "antd";
 
 const NewsWorldHome = ({ lng }) => {
   const [category, setCategory] = useState("");
@@ -21,7 +23,7 @@ const NewsWorldHome = ({ lng }) => {
     staleTime: Infinity,
   });
 
-  const { data } = useInfiniteQuery({
+  const { data, isLoading, isSuccess } = useInfiniteQuery({
     queryKey: ["blogNewsWorld", category, lng],
     queryFn: async ({ limit = 4 }) => {
       const getData = {
@@ -62,13 +64,43 @@ const NewsWorldHome = ({ lng }) => {
         </Link>
       </div>
       <TabPanel key="default">
-        <BlogList data={data?.pages[0]} link={link} />
+        {!isLoading && isSuccess && data?.pages[0]?.results.length > 0 ? (
+          <BlogList
+            data={data?.pages[0]}
+            isLoading={isLoading}
+            isSuccess={isSuccess}
+            link={link}
+          />
+        ) : (
+          <div className="blog-list">
+            {Array(4)
+              .fill(0)
+              .map((_, index) => (
+                <div key={index} className="skeleton-blogCard">
+                  <Skeleton.Image
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                    }}
+                    active={true}
+                    className="skeleton-blogCard__img"
+                  />
+                  <Skeleton className="skeleton-blogCard__text" active />
+                </div>
+              ))}
+          </div>
+        )}
       </TabPanel>
       {newsWorldCategory?.data?.length &&
         newsWorldCategory.data.map(({ id }) => {
           return (
             <TabPanel key={id}>
-              <BlogList data={data?.pages[0]} link={link} />
+              <BlogList
+                data={data?.pages[0]}
+                isLoading={isLoading}
+                isSuccess={isSuccess}
+                link={link}
+              />
             </TabPanel>
           );
         })}

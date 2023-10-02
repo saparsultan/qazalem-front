@@ -1,56 +1,30 @@
-"use client";
+import Image from "next/image";
+import { useTranslation } from "@/app/i18n";
 import SliderMain from "@/components/client/Home/SliderMain";
 import SliderInfo from "@/components/client/Home/SliderInfo";
-import CompanyList from "@/components/companyList";
+import CompanyList from "@/components/client/Home/CompanyList";
 import SliderEmbassy from "@/components/sliderEmbassy";
-import ProjectsHome from "@/components/projectsHome";
-import BlogList from "@/components/blogList";
 import BannerBlock from "@/components/bannerBlock";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation } from "swiper/modules";
-import Link from "next/link";
-import Image from "next/image";
-import embassy1 from "@/assets/img/embassy1.jpeg";
-import youtubeIcon from "@/assets/img/icons/youtube.svg";
 import BannerLink from "@/components/bannerLink";
 import WorldNews from "@/components/client/Home/WorldNews";
-import News from "@/components/news";
-import { useTranslation } from "@/app/i18n/client";
-import YouTube from "react-youtube";
-import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
-import tabImg1 from "@/assets/img/tab-img1.jpg";
-import React from "react";
 import Partners from "@/components/client/Home/Partners";
 import OriginCountryNews from "@/components/client/Home/OriginCountryNews";
+import InterviewHome from "@/components/client/Home/Interview";
+import Youtube from "@/components/client/Home/Youtube";
+import youtubeIcon from "@/assets/img/icons/youtube.svg";
+import MapGeo from "@/components/client/Home/MapGeo";
 
-const Home = ({ params: { lng } }) => {
-  const { t } = useTranslation(lng, "translation");
-  const demo = [
-    {
-      title: "1",
-      desc: "desc 1",
-    },
-    {
-      title: "2",
-      desc: "desc 2",
-    },
-    {
-      title: "3",
-      desc: "desc 3",
-    },
-  ];
-
-  console.log({ lng });
-
+const Home = async ({ params: { lng } }) => {
+  const { t } = await useTranslation(lng, "home");
   return (
     <div className="main">
       <SliderMain lng={lng} />
-      <SliderInfo />
+      <SliderInfo lng={lng} />
       <section className="section company-list__container">
         <div className="container">
           <div className="company-list">
             <div className="title-label">
-              <span>О нас</span>
+              <span>{t("about")}</span>
             </div>
             <h2 className="title title-h2 company-list__title">
               Внести свой вклад <br /> в развитие Казахстана
@@ -86,6 +60,33 @@ const Home = ({ params: { lng } }) => {
       {/*    </div>*/}
       {/*  </div>*/}
       {/*</section>*/}
+
+      <section className="section interview__container">
+        <div className="container">
+          <div className="interview">
+            <div className="title-label">
+              <span>Пресс центр</span>
+            </div>
+            <h2 className="title title-h2 interview__title">Интервью</h2>
+            <InterviewHome lng={lng} />
+          </div>
+        </div>
+      </section>
+
+      <section className="section map-geo__container">
+        <div className="container">
+          <div className="map-geo">
+            <div className="title-label">
+              <span>Внешняя политика</span>
+            </div>
+            <h2 className="title title-h2 map-geo__title">
+              Организации соотечественников за рубежом
+            </h2>
+            <MapGeo lng={lng} />
+          </div>
+        </div>
+      </section>
+
       <section className="section helpful-home__container">
         <div className="container">
           <div className="helpful-home">
@@ -115,28 +116,10 @@ const Home = ({ params: { lng } }) => {
               />{" "}
               CHANNEL
             </h2>
-            <div className="video-content">
-              <div className="video-content__list">
-                <div className="video-content__item video-content__item--one">
-                  <div className="video-block"></div>
-                </div>
-                <div className="video-content__item video-content__item--two">
-                  <div className="video-block"></div>
-                  <div className="video-block"></div>
-                </div>
-              </div>
-              <Link
-                href="https://www.youtube.com/channel/UCef62ITFdIiXn3oXc_0BCLg"
-                target="_blank"
-                className="video-content__link"
-              >
-                Все видео
-              </Link>
-            </div>
+            <Youtube />
           </div>
         </div>
       </section>
-      {/*<YouTubePlayer videoId="K4HFp_CGlHI" />*/}
       <section className="section world-news-home__container">
         <div className="container">
           <div className="world-news-home">
@@ -183,36 +166,3 @@ const Home = ({ params: { lng } }) => {
   );
 };
 export default Home;
-
-export const YouTubePlayer = ({ videoId }) => {
-  // Set up event handlers
-  const onReady = (event) => {
-    // Access the player instance
-    const player = event.target;
-
-    // For example, you can automatically play the video
-    player.playVideo();
-  };
-  const opts = {
-    height: "390",
-    width: "640",
-    playerVars: {
-      // https://developers.google.com/youtube/player_parameters
-      autoplay: 1,
-    },
-  };
-
-  const onError = (error) => {
-    console.error("YouTube Player Error:", error);
-  };
-
-  return (
-    <YouTube
-      videoId={videoId}
-      opts={opts}
-      onReady={onReady}
-      onError={onError}
-      loading="dddd"
-    />
-  );
-};

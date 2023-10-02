@@ -23,6 +23,7 @@ import weekOfYear from "dayjs/plugin/weekOfYear";
 import weekYear from "dayjs/plugin/weekYear";
 import NewsService from "@/services/NewsService";
 import BlogItem from "@/components/client/Blogs/BlogItem";
+import { LINK_URLS } from "@/utils/constants";
 const { RangePicker } = DatePicker;
 const { Search } = Input;
 
@@ -48,6 +49,8 @@ const EventsClient = ({ lng }) => {
   const [startEndDate, setStartEndDate] = useState([]);
   const [country, setCountry] = useState("");
   const [eventType, setEventType] = useState("");
+
+  const link = `/${lng}/${LINK_URLS.events}`;
 
   const searchQuery =
     searchParams.get("search") && searchParams.get("search") !== null
@@ -289,7 +292,7 @@ const EventsClient = ({ lng }) => {
                       event_date_end,
                       image,
                       slug,
-                      title_events,
+                      title,
                     }) => (
                       <BlogItem
                         key={id}
@@ -298,8 +301,9 @@ const EventsClient = ({ lng }) => {
                         event_date_end={event_date_end}
                         image={image}
                         slug={slug}
-                        title={title_events}
+                        title={title}
                         lng={lng}
+                        link={link}
                       />
                     ),
                   )}
