@@ -17,6 +17,11 @@
     padding-bottom: 1.25em;
     box-shadow: 0 0 24px rgba(0, 0, 0, 0.06);
 
+    @include small-desktop {
+      padding-top: 0.75em;
+      padding-bottom: 0.75em;
+    }
+
     &--home {
       color: var(--light-color);
       box-shadow: none;
@@ -24,7 +29,8 @@
       .auth {
         &-block {
           &__login {
-            color: var(--light-color);
+            color: var(--base-color);
+            background-color: var(--light-color);
             border: 1px solid var(--light-color);
           }
         }
@@ -42,9 +48,18 @@
     }
   }
 
+  &-logo {
+    @include small-desktop {
+      margin-right: auto;
+    }
+  }
+
   &-nav {
     margin-left: 1.875em;
     margin-right: auto;
+    @include tablet {
+      display: none;
+    }
   }
 
   &-top {
@@ -85,6 +100,10 @@
     justify-content: center;
     padding-left: 0.375em;
     padding-right: 0.375em;
+    @include mobile {
+      padding-left: 0.25em;
+      padding-right: 0.25em;
+    }
   }
 
   &__link {
@@ -117,17 +136,30 @@
       transform: translateY(-50%);
       right: 0;
       z-index: 1;
-      width: 100%;
+      width: fit-content;
+      @include small-tablet {
+        top: auto;
+        bottom: 40px;
+        left: 50%;
+        transform: translateX(-50%);
+      }
     }
 
     .social {
       flex-direction: column;
       margin-left: auto;
+      @include small-tablet {
+        flex-direction: row;
+      }
 
       &__icon {
         svg {
           width: 50px;
           height: 50px;
+          @include mobile {
+            width: 40px;
+            height: 40px;
+          }
         }
       }
 
@@ -189,9 +221,9 @@
   align-items: center;
 
   &__text {
-    font-size: 1.75rem;
+    font-size: 1.5rem;
     font-weight: 700;
-    color: var(--light-color);
+    color: var(--base-color);
   }
 }
 
@@ -200,5 +232,19 @@
     font-weight: 600;
     color: currentColor;
     padding: 0 0.9375em;
+  }
+}
+
+.burger {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  margin-right: 0.9375em;
+  @include tablet {
+    display: flex;
+  }
+  svg {
+    width: 32px;
+    height: 32px;
   }
 }

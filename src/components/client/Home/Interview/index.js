@@ -4,9 +4,10 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import BlogList from "@/components/layout/BlogList";
 import NewsService from "@/services/NewsService";
 import { LINK_URLS } from "@/utils/constants";
+import MoreLink from "@/components/layout/MoreLink";
 
 const InterviewHome = ({ lng }) => {
-  const link = `/${lng}/${LINK_URLS.news}/${LINK_URLS.world}`;
+  const link = `/${lng}/${LINK_URLS.interview}`;
 
   const { data, isLoading, isSuccess } = useInfiniteQuery({
     queryKey: ["blogInterview", lng],
@@ -27,12 +28,20 @@ const InterviewHome = ({ lng }) => {
   console.log({ data });
 
   return (
-    <BlogList
-      data={data?.pages[0]}
-      isLoading={isLoading}
-      isSuccess={isSuccess}
-      link={link}
-    />
+    <>
+      <BlogList
+        data={data?.pages[0]}
+        isLoading={isLoading}
+        isSuccess={isSuccess}
+        link={link}
+      />
+      <MoreLink
+        link="https://www.gov.kz/memleket/entities/qazalem/activities/30461"
+        target
+      >
+        Все интервью
+      </MoreLink>
+    </>
   );
 };
 

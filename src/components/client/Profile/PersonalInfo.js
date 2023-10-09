@@ -4,6 +4,19 @@ import { Button, DatePicker, Form, Input, Select } from "antd";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import AuthService from "@/services/AuthService";
 import UserService from "@/services/userService";
+import * as dayjs from "dayjs";
+import customParseFormat from "dayjs/plugin/customParseFormat";
+import advancedFormat from "dayjs/plugin/advancedFormat";
+import weekday from "dayjs/plugin/weekday";
+import localeData from "dayjs/plugin/localeData";
+import weekOfYear from "dayjs/plugin/weekOfYear";
+import weekYear from "dayjs/plugin/weekYear";
+dayjs.extend(customParseFormat);
+dayjs.extend(advancedFormat);
+dayjs.extend(weekday);
+dayjs.extend(localeData);
+dayjs.extend(weekOfYear);
+dayjs.extend(weekYear);
 
 let userId;
 if (typeof window !== "undefined") {
@@ -32,15 +45,15 @@ const PersonalInfo = () => {
     staleTime: Infinity,
   });
 
-  console.log({ date });
+  console.log("data data ", data);
   console.log("date-local", new Date(data?.date_of_birth));
 
-  const dateLocal = new Date(data?.date_of_birth);
+  const dateLocal = dayjs(new Date(data?.date_of_birth));
 
   useEffect(() => {
     form.setFieldsValue({
       iin: data?.iin_p_d,
-      // birthDate: dateLocal,
+      birthDate: dateLocal,
       country: data?.country,
       city: data?.city,
       natonality: data?.citizenship,

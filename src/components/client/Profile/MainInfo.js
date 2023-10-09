@@ -8,10 +8,13 @@ import UserService from "@/services/userService";
 import defaultAvatar from "@/assets/img/default.png";
 import { useTranslation } from "@/app/i18n/client";
 
-const MainInfo = ({ userId, lng }) => {
+let userId;
+if (typeof window !== "undefined") {
+  userId = localStorage.getItem("userId");
+}
+const MainInfo = ({ lng }) => {
   const { t: tForm } = useTranslation(lng, "form");
   const { t: tHome } = useTranslation(lng, "home");
-
   const { message } = App.useApp();
   const [form] = Form.useForm();
   const queryClient = useQueryClient();
@@ -38,7 +41,6 @@ const MainInfo = ({ userId, lng }) => {
       setAvatar(data?.image);
       return data;
     },
-    staleTime: Infinity,
   });
 
   useEffect(() => {
@@ -49,7 +51,7 @@ const MainInfo = ({ userId, lng }) => {
       email: data?.email,
       gender: data?.gender,
     });
-  }, [data]);
+  }, [data, form]);
 
   function getImageFileObject(imageFile) {
     const formData = new FormData();
@@ -79,10 +81,6 @@ const MainInfo = ({ userId, lng }) => {
       console.log({ error });
     },
   });
-
-  function runAfterImageDelete(file) {
-    console.log({ file });
-  }
 
   const onChangeAvatar = (imageList) => {
     if (imageList && imageList.length) {
@@ -155,26 +153,26 @@ const MainInfo = ({ userId, lng }) => {
                           isDragging ? { border: "1px solid red" } : undefined
                         }
                       >
-                        {imageList.length ? (
-                          <div className="upload__image-item">
+                        {!data?.image && imageList && imageList.length > 0 ? (
+                          <div className="upload__image-item ss">
                             <Image
                               className="upload__image-src"
                               quality={75}
                               sizes="(max-width: 768px) 100vw"
-                              src={imageList[0]["data_url"]}
-                              alt="Avatar"
+                              src={imageList[0] && imageList[0]["data_url"]}
+                              alt="Local Avatar"
                               width={100}
                               height={100}
                             />
                           </div>
                         ) : (
-                          <div className="upload__image-item">
+                          <div className="upload__image-item gg">
                             <Image
                               className="upload__image-src"
                               quality={75}
                               sizes="(max-width: 768px) 100vw"
                               src={data?.image ? data?.image : defaultAvatar}
-                              alt="Avatar"
+                              alt="User Avatar"
                               width={100}
                               height={100}
                             />

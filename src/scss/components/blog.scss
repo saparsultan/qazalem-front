@@ -3,6 +3,15 @@
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-gap: 1.25em;
+    @include tablet {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    @include small-tablet {
+      grid-gap: 0.875em;
+    }
+    @include mobile {
+      grid-template-columns: 1fr;
+    }
   }
   &-item {
     display: flex;
@@ -19,6 +28,15 @@
       overflow: hidden;
       &--big {
         height: 200px;
+        @include tablet {
+          height: 300px;
+        }
+        @include small-mobile {
+          height: 200px;
+        }
+        @include min-mobile {
+          height: 140px;
+        }
       }
       img {
         width: 100%;
@@ -27,6 +45,9 @@
     }
     &__content {
       padding: 1.25em;
+      @include mobile {
+        padding: 0.9375em;
+      }
     }
     &__tag {
       display: flex;
@@ -42,15 +63,25 @@
       color: var(--accent-color);
       background-color: rgba(36, 106, 249, .15);
       border-radius: 6px;
+      @include mobile {
+        font-size: .75rem;
+        font-weight: 700;
+      }
     }
     &__text {
       font-size: 1.125rem;
+      @include mobile {
+        font-size: 1rem;
+      }
     }
     &__date {
       font-size: .875rem;
       line-height: 170%;
       margin-top: 1.7142857142857142em;
       margin-bottom: 0.14285714285714285em;
+      @include mobile {
+        margin-top: 1em;
+      }
     }
     //&__link {
     //  line-height: 172%;

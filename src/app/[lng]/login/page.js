@@ -1,22 +1,21 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
 import { Button, ConfigProvider, Form, Input } from "antd";
-import AuthService from "@/services/AuthService";
 import { useAuthContext } from "@/providers/AuthProvider";
-import useAxiosPrivate from "@/hooks/useAxiosPrivate";
 import theme from "@/theme/themeConfig";
 import { LINK_URLS } from "@/utils/constants";
+import AuthService from "@/services/AuthService";
+import { useTranslation } from "@/app/i18n/client";
 
-const Login = () => {
-  const axiosPrivate = useAxiosPrivate();
+const Login = ({ params: { lng } }) => {
+  const { t } = useTranslation(lng, "auth");
   const router = useRouter();
-  const { auth, setAuth } = useAuthContext();
+  const { setAuth } = useAuthContext();
   const [form] = Form.useForm();
   const [errorMessage, setErrorMessage] = useState("");
-  const locale = localStorage.getItem("i18nextLng");
 
   const { mutate: onSubmitAuth } = useMutation({
     mutationFn: async (values) => {
@@ -30,7 +29,7 @@ const Login = () => {
       localStorage.setItem("userId", userId);
     },
     onSuccess: () => {
-      router.push(`/${locale}/${LINK_URLS.profile}/${LINK_URLS.main}`, {
+      router.push(`/${lng}/${LINK_URLS.profile}/${LINK_URLS.main}`, {
         scroll: false,
       });
     },
@@ -45,7 +44,9 @@ const Login = () => {
       <section className="section login__container">
         <div className="container">
           <div className="login">
-            <h2 className="title title-h2 login__title">Авторизация</h2>
+            <h2 className="title title-h2 login__title">
+              {t("authorization")}
+            </h2>
             <div className="form-login">
               <div className="container container-small">
                 <Form
@@ -96,7 +97,9 @@ const Login = () => {
                       <Input.Password placeholder="Введите ваш пароль" />
                     </Form.Item>
                     <div style={{ position: "absolute", top: "0", right: "0" }}>
-                      <Link href="/">Забыли пароль?</Link>
+                      <Link href={`/${lng}/${LINK_URLS.login}`}>
+                        Забыли пароль?
+                      </Link>
                     </div>
                   </Form.Item>
                   <Form.Item>
@@ -107,7 +110,10 @@ const Login = () => {
                     >
                       Войти
                     </Button>
-                    или <Link href="/sign-up">Зарегистрируйтесь</Link>
+                    или{" "}
+                    <Link href={`/${lng}/${LINK_URLS.signUp}`}>
+                      Зарегистрируйтесь
+                    </Link>
                   </Form.Item>
                 </Form>
               </div>

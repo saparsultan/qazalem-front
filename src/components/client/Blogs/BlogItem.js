@@ -38,11 +38,9 @@ const BlogItem = ({
         )}
         {event_date && event_date && (
           <div className="blog-item__tag">
-            {`${(
-              <RedableFormat date={event_date} lng={lng} format="D MMMM" />
-            )} ― ${(
-              <RedableFormat date={event_date_end} lng={lng} format="D MMMM" />
-            )}`}
+            <RedableFormat date={event_date} lng={lng} format="D MMMM" />
+            &nbsp;―&nbsp;
+            <RedableFormat date={event_date_end} lng={lng} format="D MMMM" />
           </div>
         )}
         <Link href={`${link}/${id}`} className="blog-item__text bold">

@@ -1,15 +1,57 @@
 "use client";
 import React, { useState } from "react";
 import InputMask from "react-input-mask";
-import { Button, ConfigProvider, Form, Input, Radio, Select } from "antd";
+import { App, Button, ConfigProvider, Form, Input, Radio, Select } from "antd";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import theme from "@/theme/themeConfig";
+import InformationService from "@/services/InformationService";
 
-const HelpPage = () => {
+const HelpPage = ({ params: { lng } }) => {
+  const { message } = App.useApp();
   const [form] = Form.useForm();
-  const [mode, setMode] = useState("top");
   const [valueRadio, setValueRadio] = useState(0);
+
+  const sosCountry = useQuery({
+    queryKey: ["sosCountry"],
+    queryFn: async () => {
+      const { data } = await InformationService.getSOSCountry(lng);
+      return data;
+    },
+    staleTime: Infinity,
+  });
+
+  const { mutate: onSubmitForm } = useMutation({
+    mutationFn: async (values) => {
+      const data = {
+        county: values?.consulCountry,
+        country_of_stay: values?.hostCountry,
+        where_are_you: values?.yourLocation,
+        tel_or_email: valueRadio === 0 ? values?.phone : values?.email,
+        description:
+          values?.situation !== undefined && values?.situation !== null
+            ? values?.situation
+            : "",
+      };
+      await InformationService.SOSRegister(data);
+    },
+    onSuccess: async () => {
+      await message.success("Форма успешно отправлена!");
+      await form.setFieldsValue({
+        consulCountry: null,
+        hostCountry: "",
+        yourLocation: "",
+        phone: "",
+        email: "",
+        situation: "",
+      });
+    },
+    onError: async (error) => {
+      console.log("Error help form", error);
+      await message.error("Произошла ошибка при отправке");
+    },
+  });
+
   const onChange4 = ({ target: { value } }) => {
-    console.log("radio4 checked", value);
     setValueRadio(value);
   };
 
@@ -24,8 +66,6 @@ const HelpPage = () => {
     },
   ];
 
-  console.log({ valueRadio });
-
   return (
     <ConfigProvider theme={theme}>
       <section className="section under-header help__container">
@@ -38,10 +78,10 @@ const HelpPage = () => {
                   form={form}
                   name="validateOnly"
                   layout="vertical"
-                  // onFinish={onSubmitAuth}
+                  onFinish={onSubmitForm}
                 >
                   <Form.Item
-                    name="gender"
+                    name="consulCountry"
                     label="Cвязаться с консульством"
                     rules={[
                       {
@@ -56,16 +96,16 @@ const HelpPage = () => {
                         width: "100%",
                       }}
                       allowClear
-                      options={[
-                        {
-                          value: "MALE",
-                          label: "Австралия",
-                        },
-                        {
-                          value: "FEMALE",
-                          label: "Австрия",
-                        },
-                      ]}
+                      options={
+                        !sosCountry.isLoading &&
+                        sosCountry.isSuccess &&
+                        sosCountry?.data.map(({ id, name }) => {
+                          return {
+                            value: id,
+                            label: name,
+                          };
+                        })
+                      }
                     />
                   </Form.Item>
                   <Form.Item

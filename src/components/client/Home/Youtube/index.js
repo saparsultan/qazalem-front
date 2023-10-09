@@ -1,10 +1,9 @@
 "use client";
-import React from "react";
-import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
 import HomeService from "@/services/HomeServices";
 import { GOOGlE_API_KEY, YOTUBE_CHANNEL_ID } from "@/utils/constants";
 import YouTubePlayer from "@/components/client/Home/Youtube/YoutubePlayer";
+import MoreLink from "@/components/layout/MoreLink";
 
 const Youtube = () => {
   const { data } = useQuery({
@@ -47,13 +46,12 @@ const Youtube = () => {
             );
           })}
       </div>
-      <Link
-        href="https://www.youtube.com/channel/UCef62ITFdIiXn3oXc_0BCLg"
-        target="_blank"
-        className="video-content__link"
+      <MoreLink
+        link="https://www.youtube.com/channel/UCef62ITFdIiXn3oXc_0BCLg"
+        target
       >
         Все видео
-      </Link>
+      </MoreLink>
     </div>
   );
 };

@@ -1,15 +1,13 @@
 "use client";
-import React from "react";
-import { Button, Form, Input, Select } from "antd";
-import Image from "next/image";
-import avatarImg from "@/assets/img/interview-1.jpg";
+import { App, Button, Form, Input, Select } from "antd";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import AuthService from "@/services/AuthService";
-import NewsService from "@/services/NewsService";
 import UserService from "@/services/userService";
+import { useTranslation } from "@/app/i18n/client";
 
 const RegisterEvent = ({ lng }) => {
+  const { message } = App.useApp();
   const [form] = Form.useForm();
+  const { t } = useTranslation(lng, "message");
 
   const selectEvents = useQuery({
     queryKey: ["selectEvents"],
@@ -20,8 +18,6 @@ const RegisterEvent = ({ lng }) => {
     staleTime: Infinity,
   });
 
-  console.log({ selectEvents });
-
   const { mutate: onSubmitForm } = useMutation({
     mutationFn: async (values) => {
       const formData = {
@@ -30,17 +26,17 @@ const RegisterEvent = ({ lng }) => {
           values.eventType !== undefined &&
           values.eventType,
         format_event:
-          values.eventFormat !== null &&
-          values.eventFormat !== undefined &&
-          values.eventFormat,
+          values.eventFormat !== null && values.eventFormat !== undefined
+            ? values.eventFormat
+            : "",
         passport:
           values.passport !== null &&
           values.passport !== undefined &&
           values.passport,
         reviews:
-          values.comments !== null &&
-          values.comments !== undefined &&
-          values.comments,
+          values.comments !== null && values.comments !== undefined
+            ? values.comments
+            : "",
         organization:
           values.organization !== null &&
           values.organization !== undefined &&
@@ -50,14 +46,18 @@ const RegisterEvent = ({ lng }) => {
           values.position !== undefined &&
           values.position,
       };
-      const { data } = await UserService.registerEvents(formData);
-      console.log({ data });
+      await UserService.registerEvents(formData);
     },
-    onSuccess: (res) => {
-      console.log("success", res);
+    onSuccess: async () => {
+      await message.success(t("registerSuccessEvent"));
     },
-    onError: (error) => {
-      console.log({ error });
+    onError: async (error) => {
+      console.log("Error register event form", error);
+      if (error.response.status === 409) {
+        await message.error(error?.response?.data?.events);
+      } else {
+        await message.error(t("registerError"));
+      }
     },
   });
 

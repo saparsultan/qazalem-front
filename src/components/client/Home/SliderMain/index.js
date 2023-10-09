@@ -18,7 +18,7 @@ const SliderMain = ({ lng }) => {
   const { data } = useQuery({
     queryKey: ["sliderMainList"],
     queryFn: async () => {
-      const { data } = await HomeService.getSliderMain(lng, 3);
+      const { data } = await HomeService.getSliderMain(lng, 5);
       return data;
     },
   });
@@ -26,7 +26,7 @@ const SliderMain = ({ lng }) => {
   const socilalList = useQuery({
     queryKey: ["socialList"],
     queryFn: async () => {
-      const { data } = await HomeService.getSocial(3);
+      const { data } = await HomeService.getSocial(null);
       return data;
     },
     // staleTime: Infinity,
@@ -71,24 +71,27 @@ const SliderMain = ({ lng }) => {
                       {t("learnMore")}
                     </Link>
                   </div>
+                  <div className="social-home__wrapper">
+                    <div className="container">
+                      <div className="social-home">
+                        <Social data={socilalList} />
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <Image
-                  src={image}
-                  fill
-                  alt="sss"
-                  className="main-slider__img"
-                />
+                <div className="main-slider__img-wrap">
+                  <div className="main-slider__img-opacity"></div>
+                  <Image
+                    src={image}
+                    fill
+                    alt="sss"
+                    className="main-slider__img"
+                  />
+                </div>
               </SwiperSlide>
             );
           })}
         <CustomSwiperNavs />
-        <div className="social-home__wrapper">
-          <div className="container">
-            <div className="social-home">
-              <Social data={socilalList} />
-            </div>
-          </div>
-        </div>
         {/*<div className="main-slider__more-wrapper">*/}
         {/*  <div className="container main-slider__more-container">*/}
         {/*    <Link*/}

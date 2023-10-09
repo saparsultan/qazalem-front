@@ -25,17 +25,6 @@ dayjs.extend(localeData);
 dayjs.extend(weekOfYear);
 dayjs.extend(weekYear);
 
-const onChange = (value) => {
-  console.log(`selected ${value}`);
-};
-const onSearch = (value) => {
-  console.log("search:", value);
-};
-
-// Filter `option.label` match the user type `input`
-const filterOption = (input, option) =>
-  (option?.label ?? "").toLowerCase().includes(input.toLowerCase());
-
 const InterviewClient = ({ lng }) => {
   const pathname = usePathname();
   const router = useRouter();
@@ -77,7 +66,8 @@ const InterviewClient = ({ lng }) => {
     queryKey: ["blogInterview", searchQuery, publishDateQuery, lng],
     queryFn: async ({ pageParam = 0 }) => {
       const datesArray = publishDateQuery.split(" ");
-      const firstDate = datesArray ? datesArray[0] : "";
+      const firstDate =
+        datesArray && datesArray.length > 1 ? datesArray[0] : "";
       const secondDate =
         datesArray && datesArray.length > 1 ? datesArray[1] : "";
       const getData = {

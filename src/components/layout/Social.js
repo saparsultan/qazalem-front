@@ -3,8 +3,8 @@ import Link from "next/link";
 const Social = ({ data }) => {
   return (
     <ul className="social list-reset">
-      {data?.data?.length &&
-        data?.data.map(({ id, name, url }) => {
+      {data?.data?.results?.length &&
+        data?.data?.results.map(({ id, name, url }) => {
           return (
             <li key={id} className="social__item">
               <Link

@@ -7,7 +7,7 @@ import NewsOriginCountryClient from "@/components/client/Blogs/NewsOriginCountry
 const NewsOriginCountry = async ({ params: { lng } }) => {
   const queryClient = getQueryClient();
   await queryClient.prefetchQuery(["blogNewsOriginCountry"], async () => {
-    const { data } = await NewsService.getNewsOriginCountry();
+    const { data } = await NewsService.getNewsOriginCountry({ lang: lng });
     return data;
   });
   const dehydratedState = dehydrate(queryClient);

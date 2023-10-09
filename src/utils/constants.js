@@ -29,6 +29,7 @@ export const LINK_URLS = {
   aboutKazakhstan: "about-kazakhstan",
   regions: "regions",
   services: "services",
+  usefulInformation: "useful-information",
 };
 
 export const MAP_GEO = {

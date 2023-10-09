@@ -5,6 +5,7 @@ import sliderInfo1 from "@/assets/img/slider-info1.jpg";
 import sliderInfo2 from "@/assets/img/slider-info2.jpg";
 import sliderInfo3 from "@/assets/img/slider-info3.jpg";
 import sliderInfo4 from "@/assets/img/slider-info4.jpg";
+import banner from "@/assets/img/banner.jpg";
 import { LINK_URLS } from "@/utils/constants";
 
 const SliderInfo = ({ lng }) => {
@@ -22,7 +23,7 @@ const SliderInfo = ({ lng }) => {
             title="О Казахстане"
             image={sliderInfo1}
             alt="Slider info 1"
-            link={`/${lng}/${LINK_URLS.aboutKazakhstan}`}
+            link="https://www.gov.kz/memleket/entities/qazalem/activities/directions"
             sliderInfoActive={sliderInfoActive}
             handleOnHover={handleOnHover}
           />
@@ -31,7 +32,7 @@ const SliderInfo = ({ lng }) => {
             title="Регионы"
             image={sliderInfo2}
             alt="Slider info 2"
-            link={`/${lng}/${LINK_URLS.regions}`}
+            link="https://www.gov.kz/memleket/entities/qazalem/activities/directions"
             sliderInfoActive={sliderInfoActive}
             handleOnHover={handleOnHover}
           />
@@ -46,9 +47,10 @@ const SliderInfo = ({ lng }) => {
           />
           <SliderInfoItem
             id={3}
-            image={sliderInfo4}
+            title="Meta Alem"
+            image={banner}
             alt="Slider info 4"
-            link={`/${lng}/${LINK_URLS.faq}`}
+            link="https://alem.amadao.network/"
             sliderInfoActive={sliderInfoActive}
             handleOnHover={handleOnHover}
           />

@@ -1,0 +1,4 @@
+{
+  "registerSuccessEvent": "You have successfully registered for the event",
+  "registerError": "There was an error while registering"
+}

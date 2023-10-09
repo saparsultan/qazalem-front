@@ -165,14 +165,19 @@ const EventsClient = ({ lng }) => {
   };
 
   const onChangeDate = (value) => {
-    const startDateSrc = dayjs(new Date(value[0]))
-      .locale(kk)
-      .format("YYYY-MM-DD");
-    const endDateSrc = dayjs(new Date(value[1]))
-      .locale(kk)
-      .format("YYYY-MM-DD");
-    setStartDate(startDateSrc);
-    setEndDate(endDateSrc);
+    if (value) {
+      const startDateSrc = dayjs(new Date(value[0]))
+        .locale(kk)
+        .format("YYYY-MM-DD");
+      const endDateSrc = dayjs(new Date(value[1]))
+        .locale(kk)
+        .format("YYYY-MM-DD");
+      setStartDate(startDateSrc);
+      setEndDate(endDateSrc);
+    } else if (value === null || value === undefined) {
+      setStartDate("");
+      setEndDate("");
+    }
     setStartEndDate(value);
   };
 
@@ -199,7 +204,7 @@ const EventsClient = ({ lng }) => {
     );
   };
 
-  console.log({ data });
+  console.log("EVENTS", data);
 
   return (
     <section className="section section--publish news-world__container">

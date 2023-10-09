@@ -21,7 +21,7 @@ const ProfileMain = async ({ params: { lng } }) => {
         Основная информация
       </h2>
       <ReactQueryHydrate state={dehydratedState}>
-        <MainInfo userId={userId} lng={lng} />
+        <MainInfo lng={lng} />
       </ReactQueryHydrate>
     </>
   );

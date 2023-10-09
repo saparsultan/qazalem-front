@@ -3,7 +3,7 @@ import { useTranslation } from "@/app/i18n";
 import SliderMain from "@/components/client/Home/SliderMain";
 import SliderInfo from "@/components/client/Home/SliderInfo";
 import Services from "@/components/client/Home/Services";
-import SliderEmbassy from "@/components/sliderEmbassy";
+import Booking from "@/components/client/Home/Booking";
 import BannerBlock from "@/components/bannerBlock";
 import BannerLink from "@/components/bannerLink";
 import WorldNews from "@/components/client/Home/WorldNews";
@@ -13,6 +13,7 @@ import InterviewHome from "@/components/client/Home/Interview";
 import Youtube from "@/components/client/Home/Youtube";
 import MapGeo from "@/components/client/Home/MapGeo";
 import youtubeIcon from "@/assets/img/icons/youtube.svg";
+import HelpfulInformation from "@/components/client/Home/HelpfulInformation";
 
 const Home = async ({ params: { lng } }) => {
   const { t } = await useTranslation(lng, "home");
@@ -40,7 +41,7 @@ const Home = async ({ params: { lng } }) => {
               <span>О портале</span>
             </div>
             <h2 className="title title-h2">Бронирование в консульствe</h2>
-            <SliderEmbassy slidesPerView={4} />
+            <Booking slidesPerView={1} />
           </div>
         </div>
       </section>
@@ -96,7 +97,7 @@ const Home = async ({ params: { lng } }) => {
             <h2 className="title title-h2 helpful-home__title">
               Полезная информация
             </h2>
-            <SliderEmbassy slidesPerView={5} />
+            <HelpfulInformation slidesPerView={2} lng={lng} />
           </div>
         </div>
       </section>
@@ -142,7 +143,7 @@ const Home = async ({ params: { lng } }) => {
               <span>Пресс центр</span>
             </div>
             <h2 className="title title-h2 news-home__title">
-              Новости из Казахстана
+              Новости Казахстана
             </h2>
             <div className="news-home__content">
               <OriginCountryNews lng={lng} />
