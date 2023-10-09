@@ -2,7 +2,7 @@ import Image from "next/image";
 import { useTranslation } from "@/app/i18n";
 import SliderMain from "@/components/client/Home/SliderMain";
 import SliderInfo from "@/components/client/Home/SliderInfo";
-import CompanyList from "@/components/client/Home/CompanyList";
+import Services from "@/components/client/Home/Services";
 import SliderEmbassy from "@/components/sliderEmbassy";
 import BannerBlock from "@/components/bannerBlock";
 import BannerLink from "@/components/bannerLink";
@@ -11,8 +11,8 @@ import Partners from "@/components/client/Home/Partners";
 import OriginCountryNews from "@/components/client/Home/OriginCountryNews";
 import InterviewHome from "@/components/client/Home/Interview";
 import Youtube from "@/components/client/Home/Youtube";
-import youtubeIcon from "@/assets/img/icons/youtube.svg";
 import MapGeo from "@/components/client/Home/MapGeo";
+import youtubeIcon from "@/assets/img/icons/youtube.svg";
 
 const Home = async ({ params: { lng } }) => {
   const { t } = await useTranslation(lng, "home");
@@ -27,9 +27,9 @@ const Home = async ({ params: { lng } }) => {
               <span>{t("about")}</span>
             </div>
             <h2 className="title title-h2 company-list__title">
-              Внести свой вклад <br /> в развитие Казахстана
+              <div dangerouslySetInnerHTML={{ __html: t("servicesHome") }} />
             </h2>
-            <CompanyList />
+            <Services lng={lng} />
           </div>
         </div>
       </section>
