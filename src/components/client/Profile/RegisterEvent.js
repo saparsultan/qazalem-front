@@ -1,7 +1,7 @@
 "use client";
 import { App, Button, Form, Input, Select } from "antd";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import UserService from "@/services/userService";
+import UserService from "@/services/UserService";
 import { useTranslation } from "@/app/i18n/client";
 
 const RegisterEvent = ({ lng }) => {

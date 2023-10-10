@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Button, DatePicker, Form, Input, Select } from "antd";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import AuthService from "@/services/AuthService";
-import UserService from "@/services/userService";
+import UserService from "@/services/UserService";
 import * as dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import advancedFormat from "dayjs/plugin/advancedFormat";

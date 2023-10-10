@@ -2,7 +2,7 @@
 import React, { useEffect } from "react";
 import { Button, Form, Input } from "antd";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import UserService from "@/services/userService";
+import UserService from "@/services/UserService";
 
 let userId;
 if (typeof window !== "undefined") {

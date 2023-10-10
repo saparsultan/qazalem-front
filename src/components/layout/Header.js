@@ -11,7 +11,7 @@ import { useTranslation } from "@/app/i18n/client";
 import { languagesClient } from "@/app/i18n/settings";
 import { LINK_URLS } from "@/utils/constants";
 import { useAuthContext } from "@/providers/AuthProvider";
-import UserService from "@/services/userService";
+import UserService from "@/services/UserService";
 import logoIcon from "@/assets/img/logo.png";
 import logoPrimaryIcon from "@/assets/img/logo-primary.png";
 
@@ -75,6 +75,34 @@ const Header = ({ lng }) => {
       router.push(`/${e}`);
     }
     setShowLang(!showLang);
+  };
+
+  const handlePushLogin = async () => {
+    setShowProfile(!showProfile);
+    if (isSuccess) {
+      await router.push(`/${lng}/${LINK_URLS.profile}/${LINK_URLS.main}`);
+    } else {
+      router.push(`/${lng}/${LINK_URLS.login}`, {
+        scroll: false,
+      });
+    }
+    await router.refresh();
+  };
+
+  const handlePushAuth = async () => {
+    setShowProfile(!showProfile);
+    if (isSuccess) {
+      localStorage.removeItem("token");
+      localStorage.removeItem("refresh");
+      router.push(`/${lng}`, {
+        scroll: false,
+      });
+    } else {
+      router.push(`/${lng}/${LINK_URLS.signUp}`, {
+        scroll: false,
+      });
+    }
+    await router.refresh();
   };
 
   console.log({ isSuccess });
@@ -168,8 +196,8 @@ const Header = ({ lng }) => {
                   className="btn-reset auth-block__login"
                   onClick={() => setShowProfile(!showProfile)}
                 >
-                  {isSuccess ? (
-                    <span>{data?.firstname.charAt(0).toUpperCase()}</span>
+                  {data && isSuccess ? (
+                    <span>{data?.firstname?.charAt(0).toUpperCase()}</span>
                   ) : (
                     <svg
                       width="23"
@@ -191,12 +219,8 @@ const Header = ({ lng }) => {
                       login: isSuccess,
                     })}
                   >
-                    <Link
-                      href={
-                        isSuccess
-                          ? `/${lng}/${LINK_URLS.profile}/${LINK_URLS.main}`
-                          : `/${lng}/${LINK_URLS.login}`
-                      }
+                    <div
+                      onClick={handlePushLogin}
                       className="auth-block__link auth-block__link--first"
                     >
                       {isSuccess && (
@@ -214,9 +238,9 @@ const Header = ({ lng }) => {
                         </svg>
                       )}
                       <span>{isSuccess ? t("profile") : t("login")}</span>
-                    </Link>
-                    <Link
-                      href={`/${lng}/${LINK_URLS.signUp}`}
+                    </div>
+                    <div
+                      onClick={handlePushAuth}
                       className="auth-block__link auth-block__link--second"
                     >
                       {isSuccess && (
@@ -254,7 +278,7 @@ const Header = ({ lng }) => {
                         </svg>
                       )}
                       <span>{isSuccess ? t("logout") : t("registration")}</span>
-                    </Link>
+                    </div>
                   </div>
                 )}
               </div>

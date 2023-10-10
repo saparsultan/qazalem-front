@@ -1,6 +1,6 @@
 import { dehydrate } from "@tanstack/react-query";
 import getQueryClient from "@/utils/getQueryClient";
-import UserService from "@/services/userService";
+import UserService from "@/services/UserService";
 import { ReactQueryHydrate } from "@/components/client/ReactQueryHydrate/ReactQueryHydrate";
 import PersonalInfo from "@/components/client/Profile/PersonalInfo";
 

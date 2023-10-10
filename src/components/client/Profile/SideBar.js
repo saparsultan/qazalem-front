@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { LINK_URLS } from "@/utils/constants";
-import UserService from "@/services/userService";
+import UserService from "@/services/UserService";
 import defaultAvatar from "@/assets/img/default.png";
 
 let userId;
@@ -28,7 +28,6 @@ const SideBar = ({ lng }) => {
       const { data } = await UserService.getUserMain(userId);
       return data;
     },
-    staleTime: Infinity,
   });
 
   console.log("userMain", data);

@@ -4,7 +4,7 @@ import Image from "next/image";
 import { App, Button, Form, Input, Select } from "antd";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import ImageUploading from "react-images-uploading";
-import UserService from "@/services/userService";
+import UserService from "@/services/UserService";
 import defaultAvatar from "@/assets/img/default.png";
 import { useTranslation } from "@/app/i18n/client";
 
@@ -34,7 +34,7 @@ const MainInfo = ({ lng }) => {
     return isJpgOrPng && isLt2M;
   };
 
-  const { data } = useQuery({
+  const { data, isSuccess } = useQuery({
     queryKey: ["userMain"],
     queryFn: async () => {
       const { data } = await UserService.getUserMain(userId);
@@ -51,7 +51,7 @@ const MainInfo = ({ lng }) => {
       email: data?.email,
       gender: data?.gender,
     });
-  }, [data, form]);
+  }, [data, isSuccess, form]);
 
   function getImageFileObject(imageFile) {
     const formData = new FormData();

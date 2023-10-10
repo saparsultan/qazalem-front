@@ -20,7 +20,11 @@ const BannerBlock = (props) => {
             Перейди в виртуальный офис <br /> Фонда Отандастар
           </h3>
           <div className="banner__desc">Можете пройти на наше мероприятие</div>
-          <Link href="/" className="btn btn-link btn-dark">
+          <Link
+            href="https://alem.amadao.network/"
+            target="_blank"
+            className="btn btn-link btn-dark"
+          >
             Перейти в виртуальное пространство
           </Link>
         </div>
