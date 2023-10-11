@@ -324,29 +324,41 @@ const Header = ({ lng }) => {
             </div>
             <ul className="list-reset mobile-menu-content__list mobile-nav">
               <li className="mobile-nav__item">
-                <a href="" className="mobile-nav__link">
-                  Портал туралы
-                </a>
+                <Link href={`/${lng}/about`} className="mobile-nav__link">
+                  {t("aboutPortal")}
+                </Link>
               </li>
               <li className="mobile-nav__item">
-                <a href="" className="mobile-nav__link">
-                  Хабарландырулар
-                </a>
+                <Link
+                  href={`/${lng}/${LINK_URLS.events}`}
+                  className="mobile-nav__link"
+                >
+                  {t("events")}
+                </Link>
               </li>
               <li className="mobile-nav__item">
-                <a href="" className="mobile-nav__link">
-                  Жаңалықтар
-                </a>
+                <Link
+                  href={`/${lng}/${LINK_URLS.news}`}
+                  className="mobile-nav__link"
+                >
+                  {t("news")}
+                </Link>
               </li>
               <li className="mobile-nav__item">
-                <a href="" className="mobile-nav__link">
-                  Сұхбаттар
-                </a>
+                <Link
+                  href={`/${lng}/${LINK_URLS.interview}`}
+                  className="mobile-nav__link"
+                >
+                  {t("interview")}
+                </Link>
               </li>
               <li className="mobile-nav__item">
-                <a href="" className="mobile-nav__link">
-                  Қандастарды қолдау
-                </a>
+                <Link
+                  href={`/${lng}/${LINK_URLS.faq}`}
+                  className="mobile-nav__link"
+                >
+                  {t("bloodRelativeSupport")}
+                </Link>
               </li>
             </ul>
           </div>
