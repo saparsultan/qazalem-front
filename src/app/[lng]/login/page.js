@@ -9,35 +9,68 @@ import theme from "@/theme/themeConfig";
 import { LINK_URLS } from "@/utils/constants";
 import AuthService from "@/services/AuthService";
 import { useTranslation } from "@/app/i18n/client";
+import { signIn } from "next-auth/react";
 
-const Login = ({ params: { lng } }) => {
+const Login = ({ props, params: { lng } }) => {
   const { t } = useTranslation(lng, "auth");
   const router = useRouter();
   const { setAuth } = useAuthContext();
   const [form] = Form.useForm();
   const [errorMessage, setErrorMessage] = useState("");
 
-  const { mutate: onSubmitAuth } = useMutation({
-    mutationFn: async (values) => {
-      const { data } = await AuthService.login(values.email, values.password);
-      const accessToken = data?.access;
-      const refreshToken = data?.refresh;
-      const userId = data?.user?.id;
-      setAuth(data?.user);
-      localStorage.setItem("token", accessToken);
-      localStorage.setItem("refresh", refreshToken);
-      localStorage.setItem("userId", userId);
-    },
-    onSuccess: () => {
-      router.push(`/${lng}/${LINK_URLS.profile}/${LINK_URLS.main}`, {
-        scroll: false,
-      });
-    },
-    onError: (error) => {
-      console.log("error-login", error);
-      setErrorMessage("unauthorized");
-    },
-  });
+  // const { mutate: onSubmitAuth } = useMutation({
+  //   mutationFn: async (values) => {
+  //     const { data } = await AuthService.login(values.email, values.password);
+  //     const accessToken = data?.access;
+  //     const refreshToken = data?.refresh;
+  //     const userId = data?.user?.id;
+  //     setAuth(data?.user);
+  //     localStorage.setItem("token", accessToken);
+  //     localStorage.setItem("refresh", refreshToken);
+  //     localStorage.setItem("userId", userId);
+  //   },
+  //   onSuccess: () => {
+  //     router.push(`/${lng}/${LINK_URLS.profile}/${LINK_URLS.main}`, {
+  //       scroll: false,
+  //     });
+  //   },
+  //   onError: (error) => {
+  //     console.log("error-login", error);
+  //     setErrorMessage("unauthorized");
+  //   },
+  // });
+
+  // const onSubmitAuth = async (values) => {
+  //   const res = await signIn("credentials", {
+  //     username: "sultansyzdyc@gmail.com",
+  //     password: "@Aa123456ved",
+  //     redirect: true,
+  //     callbackUrl: "/",
+  //   });
+  //   // router.push(props.callbackUrl ?? "http://localhost:3000");
+  //
+  //   console.log("res res res", res);
+  //
+  //   if (!res?.error) {
+  //     router.push(props.callbackUrl ?? "http://localhost:3000");
+  //   }
+  // };
+
+  const onSubmitAuth = async (values) => {
+    signIn("credentials", {
+      email: values.email,
+      password: values.password,
+      redirect: false,
+      callbackUrl: "/",
+    }).then((res) => {
+      if (res?.error) {
+        console.log("error message", res?.error);
+        // setError('email', {message: "Something went wrong.", type: "error"})
+      } else {
+        router.push("/");
+      }
+    });
+  };
 
   return (
     <ConfigProvider theme={theme}>

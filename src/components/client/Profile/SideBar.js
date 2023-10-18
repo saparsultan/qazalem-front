@@ -6,6 +6,8 @@ import { useQuery } from "@tanstack/react-query";
 import { LINK_URLS } from "@/utils/constants";
 import UserService from "@/services/UserService";
 import defaultAvatar from "@/assets/img/default.png";
+import useAxiosPrivate from "@/hooks/useAxiosPrivate";
+import { useSession } from "next-auth/react";
 
 let userId;
 if (typeof window !== "undefined") {
@@ -21,11 +23,14 @@ const SideBar = ({ lng }) => {
   const profileRegisterEvent = `/${lng}/${LINK_URLS.profile}/${LINK_URLS.registerEvent}`;
   const activeLink = "profile-sidebar-list__link active";
   const defaultLink = "profile-sidebar-list__link";
+  const axiosPrivate = useAxiosPrivate();
+  const { data: session, status } = useSession();
 
   const { data } = useQuery({
     queryKey: ["userMain"],
     queryFn: async () => {
-      const { data } = await UserService.getUserMain(userId);
+      const { data } = await axiosPrivate.get(`user/profile/main/9`);
+      // const { data } = await UserService.getUserMain(userId);
       return data;
     },
   });

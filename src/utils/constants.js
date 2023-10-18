@@ -11,6 +11,7 @@ export const LANGUAGE = {
 
 export const LINK_URLS = {
   home: "/",
+  about: "about",
   login: "login",
   signUp: "sign-up",
   profile: "profile",

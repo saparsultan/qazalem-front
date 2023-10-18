@@ -1,6 +1,6 @@
 import React from "react";
 
-const About = () => {
+const AboutUs = () => {
   return (
     <section className="section section--publish about__container">
       <div className="container">
@@ -12,4 +12,4 @@ const About = () => {
   );
 };
 
-export default About;
+export default AboutUs;

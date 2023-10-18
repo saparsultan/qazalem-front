@@ -1,9 +1,13 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 import { Button, DatePicker, Form, Input, Select } from "antd";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import AuthService from "@/services/AuthService";
-import UserService from "@/services/UserService";
+import {
+  useInfiniteQuery,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 import * as dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import advancedFormat from "dayjs/plugin/advancedFormat";
@@ -11,18 +15,19 @@ import weekday from "dayjs/plugin/weekday";
 import localeData from "dayjs/plugin/localeData";
 import weekOfYear from "dayjs/plugin/weekOfYear";
 import weekYear from "dayjs/plugin/weekYear";
+import { useTranslation } from "@/app/i18n/client";
+import AuthService from "@/services/AuthService";
+import UserService from "@/services/UserService";
+import InputMask from "react-input-mask";
 dayjs.extend(customParseFormat);
 dayjs.extend(advancedFormat);
 dayjs.extend(weekday);
 dayjs.extend(localeData);
 dayjs.extend(weekOfYear);
 dayjs.extend(weekYear);
-
-let userId;
-if (typeof window !== "undefined") {
-  userId = localStorage.getItem("userId");
-}
-const PersonalInfo = () => {
+const PersonalInfo = ({ lng }) => {
+  const { t: tForm } = useTranslation(lng, "form");
+  const { data: session, status } = useSession();
   const queryClient = useQueryClient();
   const [form] = Form.useForm();
 
@@ -36,54 +41,62 @@ const PersonalInfo = () => {
     },
   });
 
-  const { data } = useQuery({
-    queryKey: ["userPersonal"],
+  const { data, isSuccess } = useInfiniteQuery({
+    queryKey: ["userPersonal", session?.user?.id, session?.accessToken],
     queryFn: async () => {
-      const { data } = await UserService.getUserPersonal(userId);
+      const sessionId =
+        session && session?.user && session?.user?.id ? session?.user?.id : "";
+      const { data } = await UserService.getUserPersonal(
+        sessionId,
+        session?.accessToken,
+      );
       return data;
     },
-    staleTime: Infinity,
   });
 
   console.log("data data ", data);
-  console.log("date-local", new Date(data?.date_of_birth));
+  console.log("date-local", new Date(data?.pages[0]?.date_of_birth));
 
-  const dateLocal = dayjs(new Date(data?.date_of_birth));
+  const dateLocal = dayjs(new Date(data?.pages[0]?.date_of_birth));
 
   useEffect(() => {
     form.setFieldsValue({
-      iin: data?.iin_p_d,
+      iin: data?.pages[0]?.iin_p_d,
       birthDate: dateLocal,
-      country: data?.country,
-      city: data?.city,
-      natonality: data?.citizenship,
-      phone: data?.phone_number,
-      course: data?.course,
-      studies: data?.profession,
+      country: data?.pages[0]?.country,
+      city: data?.pages[0]?.city,
+      natonality: data?.pages[0]?.citizenship,
+      phone: data?.pages[0]?.phone_number,
+      course: data?.pages[0]?.course,
+      studies: data?.pages[0]?.profession,
     });
   }, [data, form]);
 
   const { mutate: onSubmitForm } = useMutation({
     mutationFn: async (value) => {
-      const valueInn = value?.iin && value?.iin === "" ? null : value?.iin;
-
+      const startDateSrc = date
+        ? dayjs(new Date(date)).format("YYYY-MM-DD")
+        : null;
       const formData = {
-        iin_p_d: valueInn,
+        iin_p_d: value?.iin,
         citizenship: value?.natonality,
         field_of_activity: value?.scopeActivity,
         country: value?.country,
-        date_of_birth: value?.birthDate,
+        date_of_birth: startDateSrc,
         city: value?.city,
         phone_number: value?.phone,
         profession: value?.speciality,
         course: value?.course,
         education: value?.studies,
       };
-      const { data } = await UserService.updatePersonal(userId, formData);
-      console.log("data data data", data);
+      const { data } = await UserService.updatePersonal(
+        session?.user?.id,
+        session?.accessToken,
+        formData,
+      );
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries(["userPersonal"]);
+    onSuccess: async () => {
+      await queryClient.invalidateQueries(["userPersonal"]);
       console.log("success");
     },
     onError: (error) => {
@@ -92,28 +105,24 @@ const PersonalInfo = () => {
   });
 
   console.log({ data });
-  console.log({ userId });
 
   return (
     <div className="profile-form">
       <Form layout="vertical" form={form} onFinish={onSubmitForm}>
         <div className="form-row">
           <div className="form-item">
-            <Form.Item
-              name="birthDate"
-              label="Дата рождения"
-              // valuePropName="dateString"
-            >
+            <Form.Item name="birthDate" label={tForm("labelBirth")}>
               <DatePicker
                 style={{
                   width: "100%",
                 }}
+                value={date}
                 onChange={(e) => setDate(e)}
               />
             </Form.Item>
-            <Form.Item name="country" label="Страна проживания">
+            <Form.Item name="country" label={tForm("labelCountry")}>
               <Select
-                placeholder="Выберите страну"
+                placeholder={tForm("placeholderSelectCountry")}
                 allowClear
                 options={
                   configs?.data?.country.length &&
@@ -128,16 +137,16 @@ const PersonalInfo = () => {
             </Form.Item>
             <Form.Item
               name="natonality"
-              label="Гражданство"
+              label={tForm("labelCitizenship")}
               rules={[
                 {
                   required: true,
-                  message: "Поле обязательно для выбора",
+                  message: tForm("required"),
                 },
               ]}
             >
               <Select
-                placeholder="Выберите вид гражданства"
+                placeholder={tForm("placeholderSelectCitizenship")}
                 style={{
                   width: "100%",
                 }}
@@ -153,9 +162,9 @@ const PersonalInfo = () => {
                 }
               />
             </Form.Item>
-            <Form.Item name="scopeActivity" label="Область деятельности">
+            <Form.Item name="scopeActivity" label={tForm("labelFieldActivity")}>
               <Select
-                placeholder="Выберите область"
+                placeholder={tForm("placeholderSelectArea")}
                 style={{
                   width: "100%",
                 }}
@@ -171,34 +180,35 @@ const PersonalInfo = () => {
                 }
               />
             </Form.Item>
-            <Form.Item name="speciality" label="Специальность">
-              <Input placeholder="Введите специальность" />
+            <Form.Item name="speciality" label={tForm("labelSpeciality")}>
+              <Input placeholder={tForm("placeholderSpecialty")} />
             </Form.Item>
           </div>
           <div className="form-item">
             <Form.Item
               name="iin"
-              label="ИИН"
-              // rules={[
-              //   {
-              //     pattern: new RegExp(/^\d{1,12}$/),
-              //     message:
-              //   },
-              // ]}
+              label={tForm("labelIin")}
+              rules={[
+                {
+                  required: true,
+                  pattern: /^\d{12}$/,
+                  message: tForm("requiredIin"),
+                },
+              ]}
             >
-              <Input />
+              <Input placeholder="____________" />
             </Form.Item>
-            <Form.Item name="phone" label="Номер телефона">
-              <Input />
+            <Form.Item name="phone" label={tForm("labelPhone")}>
+              <Input placeholder="+7 (___) ___-__-__" />
             </Form.Item>
-            <Form.Item name="city" label="Город проживания">
-              <Input />
+            <Form.Item name="city" label={tForm("labelCity")}>
+              <Input placeholder={tForm("placeholderCityResidence")} />
             </Form.Item>
-            <Form.Item name="course" label="Курс/класс">
-              <Input />
+            <Form.Item name="course" label={tForm("labelCourse")}>
+              <Input placeholder={tForm("placeholderCourse")} />
             </Form.Item>
-            <Form.Item name="studies" label="Учеба">
-              <Input />
+            <Form.Item name="studies" label={tForm("labelStudies")}>
+              <Input placeholder={tForm("placeholderStudios")} />
             </Form.Item>
           </div>
         </div>
@@ -209,7 +219,7 @@ const PersonalInfo = () => {
           }}
           htmlType="submit"
         >
-          Сохранить
+          {tForm("save")}
         </Button>
       </Form>
     </div>
