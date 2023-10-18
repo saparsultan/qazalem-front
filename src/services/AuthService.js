@@ -1,4 +1,3 @@
-"use client";
 import $api, { $apiPrivate } from "@/utils/http";
 import { BASE_URL } from "@/utils/constants";
 

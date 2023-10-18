@@ -5,8 +5,10 @@ import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.scss";
 import tabImg1 from "@/assets/img/tab-img1.jpg";
 import { LINK_URLS } from "@/utils/constants";
+import { useTranslation } from "@/app/i18n/client";
 
 const ServicesHome = ({ lng }) => {
+  const { t } = useTranslation(lng, "home");
   return (
     <div className="company-list__content">
       <Tabs className="company-list__tabs-wrap">
@@ -42,7 +44,7 @@ const ServicesHome = ({ lng }) => {
                 href={`/${lng}/${LINK_URLS.services}`}
                 className="btn btn-link btn-accent company-list-content__link"
               >
-                Подробнее
+                {t("learnMore")}
               </Link>
             </div>
             <div className="company-list-content__item company-list-content__item--img">
@@ -77,7 +79,7 @@ const ServicesHome = ({ lng }) => {
                 href={`/${lng}/${LINK_URLS.services}`}
                 className="btn btn-link btn-accent company-list-content__link"
               >
-                Подробнее
+                {t("learnMore")}
               </Link>
             </div>
             <div className="company-list-content__item company-list-content__item--img">
@@ -105,7 +107,7 @@ const ServicesHome = ({ lng }) => {
                 href={`/${lng}/${LINK_URLS.services}`}
                 className="btn btn-link btn-accent company-list-content__link"
               >
-                Подробнее
+                {t("learnMore")}
               </Link>
             </div>
             <div className="company-list-content__item company-list-content__item--img">
@@ -138,7 +140,7 @@ const ServicesHome = ({ lng }) => {
                 href={`/${lng}/${LINK_URLS.services}`}
                 className="btn btn-link btn-accent company-list-content__link"
               >
-                Подробнее
+                {t("learnMore")}
               </Link>
             </div>
             <div className="company-list-content__item company-list-content__item--img">
@@ -174,7 +176,7 @@ const ServicesHome = ({ lng }) => {
                 href={`/${lng}/${LINK_URLS.services}`}
                 className="btn btn-link btn-accent company-list-content__link"
               >
-                Подробнее
+                {t("learnMore")}
               </Link>
             </div>
             <div className="company-list-content__item company-list-content__item--img">
@@ -204,7 +206,7 @@ const ServicesHome = ({ lng }) => {
                 href={`/${lng}/${LINK_URLS.services}`}
                 className="btn btn-link btn-accent company-list-content__link"
               >
-                Подробнее
+                {t("learnMore")}
               </Link>
             </div>
             <div className="company-list-content__item company-list-content__item--img">
@@ -235,7 +237,7 @@ const ServicesHome = ({ lng }) => {
                 href={`/${lng}/${LINK_URLS.services}`}
                 className="btn btn-link btn-accent company-list-content__link"
               >
-                Подробнее
+                {t("learnMore")}
               </Link>
             </div>
             <div className="company-list-content__item company-list-content__item--img">

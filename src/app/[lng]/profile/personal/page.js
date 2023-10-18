@@ -1,30 +1,14 @@
-import { dehydrate } from "@tanstack/react-query";
-import getQueryClient from "@/utils/getQueryClient";
-import UserService from "@/services/UserService";
-import { ReactQueryHydrate } from "@/components/client/ReactQueryHydrate/ReactQueryHydrate";
+import { useTranslation } from "@/app/i18n";
 import PersonalInfo from "@/components/client/Profile/PersonalInfo";
 
-let userId;
-if (typeof window !== "undefined") {
-  userId = localStorage.getItem("userId");
-}
-const ProfilePersonal = async () => {
-  const queryClient = getQueryClient();
-  await queryClient.prefetchQuery(["userPersonal"], async () => {
-    const { data } = await UserService.getUserPersonal(userId);
-    return data;
-  });
-  const dehydratedState = dehydrate(queryClient);
+export default async function ProfilePersonal({ params: { lng } }) {
+  const { t } = await useTranslation(lng, "default");
   return (
     <>
       <h2 className="title-h2 title-left bold profile__title">
-        Персональные данные
+        {t("titlePersonalData")}
       </h2>
-      <ReactQueryHydrate state={dehydratedState}>
-        <PersonalInfo userId={userId} />
-      </ReactQueryHydrate>
+      <PersonalInfo lng={lng} />
     </>
   );
-};
-
-export default ProfilePersonal;
+}

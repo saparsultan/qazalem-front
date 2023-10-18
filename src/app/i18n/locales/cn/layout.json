@@ -1,12 +1,21 @@
 {
   "aboutPortal": "關於門戶",
   "events": "公告",
-  "projects": "Projects",
+  "projects": "專案",
   "news": "訊息",
   "interview": "面試",
   "bloodRelativeSupport": "加拿大支持",
-  "registration" : "Sign-up",
-  "login" : "Login",
+  "registration" : "報名",
+  "login" : "登入",
   "logout" : "出去",
-  "profile": "我的履歷"
+  "profile": "我的履歷",
+  "allRightsReserved": "版權所有",
+  "notification": "通知",
+  "portalDesc": "居住在哈薩克共和國境外的哈薩克斯坦人的門戶網站",
+  "menu": "選單",
+  "document": "文件",
+  "help": "幫助",
+  "privacyPolicy": "隱私權政策",
+  "apiConnection": "API連接",
+  "callCenter": "呼叫中心"
 }

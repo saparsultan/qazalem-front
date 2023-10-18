@@ -65,7 +65,7 @@ const SliderMain = ({ lng }) => {
                       {t("help")}
                     </Link>
                     <Link
-                      href={`/${lng}/${LINK_URLS.events}/${events}`}
+                      href={`/${lng}/${LINK_URLS.events}/${events?.id}`}
                       className="btn btn-link btn-ligth bold main-slider__link"
                     >
                       {t("learnMore")}

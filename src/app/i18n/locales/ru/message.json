@@ -1,4 +1,8 @@
 {
   "registerSuccessEvent": "Вы успешно зарегистрировались на мероприятие",
-  "registerError": "Произошла ошибка при регистрации"
+  "registerError": "Произошла ошибка при регистрации",
+  "updateProfileSuccess": "Профиль успешно обновлен",
+  "updateProfileError": "Произошла ошибка при обновлении",
+  "success": "Успешно",
+  "error": "Ошибка"
 }

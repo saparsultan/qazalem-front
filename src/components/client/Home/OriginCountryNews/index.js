@@ -9,8 +9,10 @@ import Link from "next/link";
 import { LINK_URLS } from "@/utils/constants";
 import { Skeleton } from "antd";
 import MoreLink from "@/components/layout/MoreLink";
+import { useTranslation } from "@/app/i18n/client";
 
 const NewsOriginCountryHome = ({ lng }) => {
+  const { t } = useTranslation(lng, "home");
   const [category, setCategory] = useState("");
 
   const link = `/${lng}/${LINK_URLS.news}`;
@@ -49,7 +51,7 @@ const NewsOriginCountryHome = ({ lng }) => {
         <div className="tab-list__tabs-wrap">
           <TabList className="tab-list__tabs">
             <Tab className="tab-list__tab" onClick={() => setCategory("")}>
-              Все
+              {t("all")}
             </Tab>
             {newsOriginCountryCategory?.data?.length &&
               newsOriginCountryCategory.data.map(({ id, name }) => {

@@ -33,7 +33,7 @@ const AboutCountryPage = ({ params: { lng } }) => {
 
       console.log({ parsedHtml });
     }
-  }, [isSuccess]);
+  }, [data, isSuccess]);
 
   return (
     <section className="section section--publish about-country-page__container">

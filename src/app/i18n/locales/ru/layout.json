@@ -8,5 +8,14 @@
   "registration" : "Регистрация",
   "login" : "Войти",
   "logout" : "Выйти",
-  "profile": "Мой профиль"
+  "profile": "Мой профиль",
+  "allRightsReserved": "Все права защищены",
+  "notification": "Уведомление",
+  "portalDesc": "Портал для казахстанцев, проживающих за пределами Республики Казахстан",
+  "menu": "Меню",
+  "document": "Документы",
+  "help": "Помощь",
+  "privacyPolicy": "Политика конфедиенциальности",
+  "apiConnection": "API подключение",
+  "callCenter": "Call-центры"
 }

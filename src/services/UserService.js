@@ -1,11 +1,19 @@
-import { $apiPrivate } from "@/utils/http";
+import $api, { $apiPrivate } from "@/utils/http";
 
 export default class UserService {
-  static getUserMain(id) {
-    return $apiPrivate.get(`user/profile/main/${id}`);
+  static getUserMain(id, token) {
+    return $api.get(`user/profile/main/${id}`, {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    });
   }
-  static getUserPersonal(id) {
-    return $apiPrivate.get(`user/profile/personal/${id}`);
+  static getUserPersonal(id, token) {
+    return $api.get(`user/profile/personal/${id}`, {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    });
   }
   static getUserSocial(id) {
     return $apiPrivate.get(`user/profile/social/${id}`);
@@ -13,19 +21,37 @@ export default class UserService {
   static getUserAdditional(id) {
     return $apiPrivate.get(`user/profile/additional/${id}`);
   }
-  static updateMain(id, data) {
-    return $apiPrivate.put(`user/profile/main/${id}`, data, {
-      headers: { "Content-Type": "multipart/form-data" },
+  static updateMain(id, token, data) {
+    return $api.put(`user/profile/main/${id}`, data, {
+      headers: {
+        Authorization: "Bearer " + token,
+        "Content-Type": "multipart/form-data",
+      },
     });
   }
-  static updatePersonal(id, data) {
-    return $apiPrivate.put(`user/profile/personal/${id}`, data);
+  static updatePersonal(id, token, data) {
+    return $api.put(`user/profile/personal/${id}`, data, {
+      headers: {
+        Authorization: "Bearer " + token,
+        "Content-Type": "multipart/form-data",
+      },
+    });
   }
-  static updateSocial(id, data) {
-    return $apiPrivate.put(`user/profile/social/${id}`, data);
+  static updateSocial(id, token, data) {
+    return $apiPrivate.put(`user/profile/social/${id}`, data, {
+      headers: {
+        Authorization: "Bearer " + token,
+        "Content-Type": "multipart/form-data",
+      },
+    });
   }
-  static updateAdditional(id, data) {
-    return $apiPrivate.put(`user/profile/additional/${id}`, data);
+  static updateAdditional(id, token, data) {
+    return $apiPrivate.put(`user/profile/additional/${id}`, data, {
+      headers: {
+        Authorization: "Bearer " + token,
+        "Content-Type": "multipart/form-data",
+      },
+    });
   }
   static registerEvents(data) {
     return $apiPrivate.post("events/register_events", data);

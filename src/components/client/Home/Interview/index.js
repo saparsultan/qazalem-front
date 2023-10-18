@@ -5,8 +5,10 @@ import BlogList from "@/components/layout/BlogList";
 import NewsService from "@/services/NewsService";
 import { LINK_URLS } from "@/utils/constants";
 import MoreLink from "@/components/layout/MoreLink";
+import { useTranslation } from "@/app/i18n/client";
 
 const InterviewHome = ({ lng }) => {
+  const { t } = useTranslation(lng, "home");
   const link = `/${lng}/${LINK_URLS.interview}`;
 
   const { data, isLoading, isSuccess } = useInfiniteQuery({
@@ -39,7 +41,7 @@ const InterviewHome = ({ lng }) => {
         link="https://www.gov.kz/memleket/entities/qazalem/activities/30461"
         target
       >
-        Все интервью
+        {t("allInterview")}
       </MoreLink>
     </>
   );

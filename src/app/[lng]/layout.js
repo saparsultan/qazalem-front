@@ -1,9 +1,10 @@
 import React from "react";
 import { Raleway } from "next/font/google";
 import { dir } from "i18next";
-import StyledComponentsRegistry from "@/providers/AntdProvider";
 import TanstackProvider from "@/providers/TanstackProvider";
+import NextAuthProvider from "@/providers/NextAuthProvider";
 import { AuthContextProvider } from "@/providers/AuthProvider";
+import StyledComponentsRegistry from "@/providers/AntdProvider";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { languages } from "@/app/i18n/settings";
@@ -24,21 +25,23 @@ export const metadata = {
     "Портал Qazalem-уникальный интернет-сервис, который объединяет соотечественников, проживающих за пределами Казахстана",
 };
 
-const RootLayout = ({ children, params: { lng } }) => {
+const RootLayout = async ({ children, params: { lng } }) => {
   return (
     <html lang={lng} dir={dir(lng)}>
       <body className={inter.className}>
-        <TanstackProvider>
-          <AuthContextProvider>
-            <StyledComponentsRegistry>
-              <ConfigProvider theme={theme}>
-                <Header lng={lng} />
-                <main>{children}</main>
-                <Footer />
-              </ConfigProvider>
-            </StyledComponentsRegistry>
-          </AuthContextProvider>
-        </TanstackProvider>
+        <NextAuthProvider>
+          <TanstackProvider>
+            <AuthContextProvider>
+              <StyledComponentsRegistry>
+                <ConfigProvider theme={theme}>
+                  <Header lng={lng} />
+                  <main>{children}</main>
+                  <Footer lng={lng} />
+                </ConfigProvider>
+              </StyledComponentsRegistry>
+            </AuthContextProvider>
+          </TanstackProvider>
+        </NextAuthProvider>
       </body>
     </html>
   );

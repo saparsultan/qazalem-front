@@ -8,5 +8,14 @@
   "registration" : "Тіркеу",
   "login" : "Кіру",
   "logout" : "Шығу",
-  "profile": "Профилім"
+  "profile": "Профилім",
+  "allRightsReserved": "Барлық құқықтар сақталған",
+  "notification": "Хабарландыру",
+  "portalDesc": "Қазақстан Республикасынан тыс жерде тұратын қазақстандықтарға арналған портал",
+  "menu": "Мәзір",
+  "document": "Құжаттар",
+  "help": "Көмек",
+  "privacyPolicy": "Құпиялылық саясаты",
+  "apiConnection": "API қосылымы",
+  "callCenter": "Call-орталықтар"
 }

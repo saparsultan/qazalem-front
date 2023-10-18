@@ -1,7 +1,8 @@
 // export const BASE_URL = "http://192.168.1.235:8000/api/v1/";
 export const BASE_URL = "https://qazalem.ziz.kz/api/v1/";
-export const YOTUBE_CHANNEL_ID = "UCef62ITFdIiXn3oXc_0BCLg";
+export const YOUTUBE_CHANNEL_ID = "UCef62ITFdIiXn3oXc_0BCLg";
 export const GOOGlE_API_KEY = "AIzaSyB6ZUos11000PDzfqJ0dRWnWclueCBMNzQ";
+export const ALEM_META = "https://alem.amadao.network/";
 export const LANGUAGE = {
   kk: "Қазақша",
   ru: "Русский",
@@ -11,6 +12,7 @@ export const LANGUAGE = {
 
 export const LINK_URLS = {
   home: "/",
+  about: "about",
   login: "login",
   signUp: "sign-up",
   profile: "profile",

@@ -4,18 +4,18 @@ import SliderMain from "@/components/client/Home/SliderMain";
 import SliderInfo from "@/components/client/Home/SliderInfo";
 import Services from "@/components/client/Home/Services";
 import Booking from "@/components/client/Home/Booking";
-import BannerBlock from "@/components/bannerBlock";
-import BannerLink from "@/components/bannerLink";
+import BannerBlock from "@/components/server/bannerBlock";
+import BannerLink from "@/components/server/bannerLink";
 import WorldNews from "@/components/client/Home/WorldNews";
 import Partners from "@/components/client/Home/Partners";
 import OriginCountryNews from "@/components/client/Home/OriginCountryNews";
 import InterviewHome from "@/components/client/Home/Interview";
 import Youtube from "@/components/client/Home/Youtube";
 import MapGeo from "@/components/client/Home/MapGeo";
-import youtubeIcon from "@/assets/img/icons/youtube.svg";
 import HelpfulInformation from "@/components/client/Home/HelpfulInformation";
+import youtubeIcon from "@/assets/img/icons/youtube.svg";
 
-const Home = async ({ params: { lng } }) => {
+export default async function Home({ params: { lng } }) {
   const { t } = await useTranslation(lng, "home");
   return (
     <div className="main">
@@ -25,7 +25,7 @@ const Home = async ({ params: { lng } }) => {
         <div className="container">
           <div className="company-list">
             <div className="title-label">
-              <span>{t("about")}</span>
+              <span>{t("services")}</span>
             </div>
             <h2 className="title title-h2 company-list__title">
               <div dangerouslySetInnerHTML={{ __html: t("servicesHome") }} />
@@ -38,10 +38,10 @@ const Home = async ({ params: { lng } }) => {
         <div className="container">
           <div className="embassy">
             <div className="title-label">
-              <span>О портале</span>
+              <span>{t("booking")}</span>
             </div>
-            <h2 className="title title-h2">Бронирование в консульствe</h2>
-            <Booking slidesPerView={1} />
+            <h2 className="title title-h2">{t("bookingConsul")}</h2>
+            <Booking slidesPerView={1} lng={lng} />
           </div>
         </div>
       </section>
@@ -66,9 +66,11 @@ const Home = async ({ params: { lng } }) => {
         <div className="container">
           <div className="interview">
             <div className="title-label">
-              <span>Пресс центр</span>
+              <span>{t("pressCenter")}</span>
             </div>
-            <h2 className="title title-h2 interview__title">Интервью</h2>
+            <h2 className="title title-h2 interview__title">
+              {t("interview")}
+            </h2>
             <InterviewHome lng={lng} />
           </div>
         </div>
@@ -78,11 +80,9 @@ const Home = async ({ params: { lng } }) => {
         <div className="container">
           <div className="map-geo">
             <div className="title-label">
-              <span>Внешняя политика</span>
+              <span>{t("foreignPolitics")}</span>
             </div>
-            <h2 className="title title-h2 map-geo__title">
-              Организации соотечественников за рубежом
-            </h2>
+            <h2 className="title title-h2 map-geo__title">{t("compatriot")}</h2>
             <MapGeo lng={lng} />
           </div>
         </div>
@@ -95,18 +95,18 @@ const Home = async ({ params: { lng } }) => {
               <span>FAQ</span>
             </div>
             <h2 className="title title-h2 helpful-home__title">
-              Полезная информация
+              {t("helpfulInformation")}
             </h2>
             <HelpfulInformation slidesPerView={2} lng={lng} />
           </div>
         </div>
       </section>
-      <BannerLink />
+      <BannerLink lng={lng} />
       <section className="section video__container">
         <div className="container">
           <div className="video">
             <div className="title-label">
-              <span>Наши материалы</span>
+              <span>{t("ourContent")}</span>
             </div>
             <h2 className="title title-h2 video__title">
               QAZALEM{" "}
@@ -117,7 +117,7 @@ const Home = async ({ params: { lng } }) => {
               />{" "}
               CHANNEL
             </h2>
-            <Youtube />
+            <Youtube lng={lng} />
           </div>
         </div>
       </section>
@@ -125,10 +125,10 @@ const Home = async ({ params: { lng } }) => {
         <div className="container">
           <div className="world-news-home">
             <div className="title-label">
-              <span>Пресс центр</span>
+              <span>{t("pressCenter")}</span>
             </div>
             <h2 className="title title-h2 world-news-home__title">
-              Мировые события
+              {t("worldEvents")}
             </h2>
             <div className="world-news-home__content">
               <WorldNews lng={lng} />
@@ -140,10 +140,10 @@ const Home = async ({ params: { lng } }) => {
         <div className="container">
           <div className="news-home">
             <div className="title-label">
-              <span>Пресс центр</span>
+              <span>{t("pressCenter")}</span>
             </div>
             <h2 className="title title-h2 news-home__title">
-              Новости Казахстана
+              {t("newsKazakhstan")}
             </h2>
             <div className="news-home__content">
               <OriginCountryNews lng={lng} />
@@ -155,15 +155,16 @@ const Home = async ({ params: { lng } }) => {
         <div className="container container--banner">
           <div className="partners">
             <div className="title-label">
-              <span>Нам доверяют</span>
+              <span>{t("trustUs")}</span>
             </div>
-            <h2 className="title title-h2 partners__title">Наши партнеры</h2>
+            <h2 className="title title-h2 partners__title">
+              {t("ourPartners")}
+            </h2>
             <Partners />
           </div>
         </div>
       </section>
-      <BannerBlock />
+      <BannerBlock lng={lng} />
     </div>
   );
-};
-export default Home;
+}

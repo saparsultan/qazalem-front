@@ -1,4 +1,8 @@
 {
   "registerSuccessEvent": "Сіз іс-шараға сәтті тіркелдіңіз",
-  "registerError": "Тіркеу кезінде қате орын алды"
+  "registerError": "Тіркеу кезінде қате орын алды",
+  "updateProfileSuccess": "Профиль успешно обновлен",
+  "updateProfileError": "Произошла ошибка при обновлении",
+  "success": "Успешно",
+  "error": "Ошибка"
 }
