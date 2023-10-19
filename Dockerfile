@@ -12,7 +12,7 @@ RUN yarn build
 FROM node:18.15.0 as runner
 WORKDIR /qazalem
 
-
+ENV NEXTAUTH_URL=https://qazalem.kz
 COPY --from=builder /qazalem/public ./public
 COPY --from=builder /qazalem/package.json ./package.json
 COPY --from=builder /qazalem/.next ./.next
