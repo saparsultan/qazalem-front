@@ -65,12 +65,13 @@ const Login = ({ props, params: { lng } }) => {
     }).then((res) => {
       if (res?.error) {
         console.log("error message", res?.error);
-        // setError('email', {message: "Something went wrong.", type: "error"})
       } else {
-        router.push("/");
+        router.push(`/${lng}/${LINK_URLS.profile}/${LINK_URLS.main}`);
       }
     });
   };
+
+  // setError('email', {message: "Something went wrong.", type: "error"})
 
   return (
     <ConfigProvider theme={theme}>

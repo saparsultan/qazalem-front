@@ -257,7 +257,7 @@ const HeaderClient = ({ children, lng }) => {
           </div>
         </div>
       </header>
-      <MobileMenu lng={lng} showMenu={showMenu} setShowMenu={setShowMenu} />
+      {/*<MobileMenu lng={lng} showMenu={showMenu} setShowMenu={setShowMenu} />*/}
     </>
   );
 };

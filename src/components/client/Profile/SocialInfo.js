@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import { Button, Form, Input } from "antd";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import UserService from "@/services/UserService";
+import { useSession } from "next-auth/react";
 
 let userId;
 if (typeof window !== "undefined") {
@@ -10,6 +11,7 @@ if (typeof window !== "undefined") {
 }
 
 const SocialInfo = () => {
+  // const { data: session, status } = useSession();
   const queryClient = useQueryClient();
   const [form] = Form.useForm();
   const { data } = useQuery({
@@ -18,7 +20,7 @@ const SocialInfo = () => {
       const { data } = await UserService.getUserSocial(userId);
       return data;
     },
-    staleTime: Infinity,
+    // staleTime: Infinity,
   });
 
   console.log({ data });
@@ -51,8 +53,8 @@ const SocialInfo = () => {
       const { data } = await UserService.updateSocial(userId, formData);
       console.log("data data data", data);
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries(["userSocial"]);
+    onSuccess: async () => {
+      await queryClient.invalidateQueries(["userSocial"]);
       console.log("success");
     },
     onError: (error) => {

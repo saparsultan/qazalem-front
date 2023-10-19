@@ -1,6 +1,9 @@
 import $api from "@/utils/http";
 
 export default class InformationService {
+  static getAbout(lng) {
+    return $api.get(`about_us/about_us?lang=${lng}`);
+  }
   static getSOSCountry(lng) {
     return $api.get(`sos/counrty?lang=${lng}`);
   }
