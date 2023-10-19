@@ -1,8 +1,4 @@
 {
-<<<<<<< HEAD
-    "titlePersonalData": "Персональные данные",
-    "titleMainData": "Основная информация"
-=======
-    "titlePersonalData": "Персональные данные"
->>>>>>> origin/main
+    "titlePersonalData": "個人資訊",
+    "titleMainData": "基本訊息"
 }
