@@ -1,14 +1,16 @@
 "use client";
-import { useState } from "react";
-import Link from "next/link";
-import BlogContentPageClient from "@/components/client/Blogs/BlogContentPage.client";
 import { useParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
+import { useTranslation } from "@/app/i18n/client";
 import NewsService from "@/services/NewsService";
+import { LINK_URLS } from "@/utils/constants";
+import BlogContentPageClient from "@/components/client/Blogs/BlogContentPage.client";
 import LatestBlogsAside from "@/components/client/Blogs/LatestBlogsAside";
 
 const NewsPage = ({ params: { lng } }) => {
+  const { t } = useTranslation(lng, "default");
   const { slug } = useParams();
+  const link = LINK_URLS.news;
 
   const { data } = useQuery({
     queryKey: ["oneNewsWorld"],
@@ -48,9 +50,9 @@ const NewsPage = ({ params: { lng } }) => {
               <aside className="publdet-aside">
                 <div className="publdet-aside-wrapper">
                   <h3 className="title title-h3 mdm publdet-aside__title">
-                    Последние новости
+                    {t("latestNews")}
                   </h3>
-                  <LatestBlogsAside data={latestBlogs} lng={lng} />
+                  <LatestBlogsAside data={latestBlogs} link={link} lng={lng} />
                 </div>
               </aside>
             </div>

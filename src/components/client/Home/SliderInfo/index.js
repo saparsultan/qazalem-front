@@ -35,7 +35,7 @@ const SliderInfo = ({ lng }) => {
             title={t("regions")}
             image={sliderInfo2}
             alt={t("regions")}
-            link="https://www.gov.kz/memleket/entities/qazalem/activities/directions"
+            link={`/${lng}/${LINK_URLS.regions}`}
             sliderInfoActive={sliderInfoActive}
             handleOnHover={handleOnHover}
           />

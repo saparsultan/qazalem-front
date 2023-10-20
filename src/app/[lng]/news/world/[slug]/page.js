@@ -1,13 +1,16 @@
 "use client";
-import { useState } from "react";
-import Link from "next/link";
-import BlogContentPageClient from "@/components/client/Blogs/BlogContentPage.client";
-import { useQuery } from "@tanstack/react-query";
-import NewsService from "@/services/NewsService";
 import { useParams, useRouter } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
+import { useTranslation } from "@/app/i18n/client";
+import NewsService from "@/services/NewsService";
+import { LINK_URLS } from "@/utils/constants";
+import BlogContentPageClient from "@/components/client/Blogs/BlogContentPage.client";
+import LatestBlogsAside from "@/components/client/Blogs/LatestBlogsAside";
 
 const WorldNewsPage = ({ params: { lng } }) => {
+  const { t } = useTranslation(lng, "default");
   const { slug } = useParams();
+  const link = `${LINK_URLS.news}/${LINK_URLS.world}`;
 
   const { data } = useQuery({
     queryKey: ["oneNewsWorld"],
@@ -16,7 +19,22 @@ const WorldNewsPage = ({ params: { lng } }) => {
       return data;
     },
   });
-  console.log({ data });
+
+  const latestBlogs = useQuery({
+    queryKey: ["blogNewsOriginCountryLatest"],
+    queryFn: async ({ signal }) => {
+      const getData = {
+        lang: lng,
+        subcategory: "",
+        published_date: "",
+        search: "",
+        limit: 5,
+        offset: "",
+      };
+      const { data } = await NewsService.getNewsWorld(getData);
+      return data;
+    },
+  });
 
   return (
     <>
@@ -29,47 +47,12 @@ const WorldNewsPage = ({ params: { lng } }) => {
             <div className="publdet-wrap">
               <BlogContentPageClient data={data} lng={lng} />
               <aside className="publdet-aside">
-                <h3 className="title title-h3 mdm publdet-aside__title">
-                  Последние новости
-                </h3>
-                <ul className="list-reset publdet-list">
-                  <li className="publdet-list__item">
-                    <div className="publdet-list__head">
-                      <div className="publdet-list__tag blog-item__tag">
-                        новости
-                      </div>
-                      <div className="publdet-list__date">18 сентября 2023</div>
-                    </div>
-                    <Link href="/" className="publdet-list__link">
-                      18 сентября 2023 Казахстанские борцы поборятся за «бронзу»
-                      чемпионата мира по вольной борьбе
-                    </Link>
-                  </li>
-                  <li className="publdet-list__item">
-                    <div className="publdet-list__head">
-                      <div className="publdet-list__tag blog-item__tag">
-                        новости
-                      </div>
-                      <div className="publdet-list__date">18 сентября 2023</div>
-                    </div>
-                    <Link href="/" className="publdet-list__link">
-                      18 сентября 2023 Казахстанские борцы поборятся за «бронзу»
-                      чемпионата мира по вольной борьбе
-                    </Link>
-                  </li>
-                  <li className="publdet-list__item">
-                    <div className="publdet-list__head">
-                      <div className="publdet-list__tag blog-item__tag">
-                        новости
-                      </div>
-                      <div className="publdet-list__date">18 сентября 2023</div>
-                    </div>
-                    <Link href="/" className="publdet-list__link">
-                      18 сентября 2023 Казахстанские борцы поборятся за «бронзу»
-                      чемпионата мира по вольной борьбе
-                    </Link>
-                  </li>
-                </ul>
+                <div className="publdet-aside-wrapper">
+                  <h3 className="title title-h3 mdm publdet-aside__title">
+                    {t("latestNews")}
+                  </h3>
+                  <LatestBlogsAside data={latestBlogs} link={link} lng={lng} />
+                </div>
               </aside>
             </div>
           </div>

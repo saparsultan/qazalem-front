@@ -1,6 +1,4 @@
-import React from "react";
-
-const UploadImageIcon = () => {
+const UploadImageIcon = ({ text }) => {
   return (
     <div className="upload-image__icon">
       <svg
@@ -15,13 +13,9 @@ const UploadImageIcon = () => {
           fill="#1C1B1F"
         />
       </svg>
-      <span>Загрузить</span>
+      <span>{text}</span>
     </div>
   );
-};
-
-export const UploadImageEmpty = () => {
-  return <div className="upload-image__empty"></div>;
 };
 
 export default UploadImageIcon;

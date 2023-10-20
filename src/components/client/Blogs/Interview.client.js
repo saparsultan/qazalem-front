@@ -2,7 +2,7 @@
 import { DatePicker, Input, Button } from "antd";
 const { RangePicker } = DatePicker;
 import locale from "antd/es/date-picker/locale/ru_RU";
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import NewsService from "@/services/NewsService";
 import BlogItem from "@/components/client/Blogs/BlogItem";
 import React, { useEffect, useState } from "react";
@@ -16,6 +16,7 @@ import weekOfYear from "dayjs/plugin/weekOfYear";
 import weekYear from "dayjs/plugin/weekYear";
 import { LINK_URLS } from "@/utils/constants";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useTranslation } from "@/app/i18n/client";
 const { Search } = Input;
 
 dayjs.extend(customParseFormat);
@@ -26,14 +27,15 @@ dayjs.extend(weekOfYear);
 dayjs.extend(weekYear);
 
 const InterviewClient = ({ lng }) => {
+  const { t } = useTranslation(lng, "default");
   const pathname = usePathname();
   const router = useRouter();
   const searchParams = useSearchParams();
+  const [isClient, setIsClient] = useState(false);
   const [publishDate, setPublishDate] = useState("");
   const [startEndDate, setStartEndDate] = useState(null);
   const [category, setCategory] = useState("");
   const [search, setSearch] = useState("");
-
   const link = `/${lng}/${LINK_URLS.interview}`;
 
   const searchQuery =
@@ -47,20 +49,20 @@ const InterviewClient = ({ lng }) => {
       : "";
 
   useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  useEffect(() => {
     if (searchQuery && searchQuery !== "") {
       setSearch(searchQuery);
     }
-    // if (
-    //     publishDateQuery &&
-    //     publishDateQuery !== "" &&
-    // ) {
-    //   const dateQueryFirst = dayjs(new Date(startDateQuery));
-    //   const dateQuerySecond = dayjs(new Date(endDateQuery));
-    //   setPublishDate([dateQueryFirst, dateQuerySecond]);
-    // }
-  }, [searchQuery]);
-
-  console.log({ publishDateQuery });
+    if (publishDateQuery && publishDateQuery !== "") {
+      const dateQueryFirst = dayjs(new Date(publishDateQuery.split(" ")[0]));
+      const dateQuerySecond = dayjs(new Date(publishDateQuery.split(" ")[1]));
+      console.log({ dateQueryFirst });
+      setStartEndDate([dateQueryFirst, dateQuerySecond]);
+    }
+  }, [publishDateQuery, searchQuery]);
 
   const { data } = useInfiniteQuery({
     queryKey: ["blogInterview", searchQuery, publishDateQuery, lng],
@@ -100,11 +102,6 @@ const InterviewClient = ({ lng }) => {
     }
     setStartEndDate(value);
   };
-
-  console.log({ publishDate });
-  console.log({ category });
-  console.log({ data });
-  console.log({ startEndDate });
   const onSubmitFilter = () => {
     router.push(`${pathname}?search=${search}&publish_date=${publishDate}`);
   };
@@ -127,69 +124,67 @@ const InterviewClient = ({ lng }) => {
   };
 
   return (
-    <section className="section section--publish news-world__container">
-      <div className="container">
-        <div className="news-world">
-          <h2 className="title title-left text-low title-h2 publish__title">
-            Интервью
-          </h2>
-          <p className="publish__desc">
-            Цикл интервью с нашими соотечественниками, которые добились
-            выдающихся успехов за рубежом. Реализуется совместно с Forbes
-            Kazakhstan
-          </p>
-          <div className="publish publish--two">
-            <div className="publish-filter publish-item">
-              <RangePicker
-                locale={locale}
-                value={startEndDate}
-                onChange={onChangeDate}
-              />
-              <Button
-                type="primary"
-                style={{
-                  width: "100%",
-                }}
-                onClick={onSubmitFilter}
-              >
-                Применить
-              </Button>
-            </div>
-            <div className="publish-grid-wrap">
-              <div className="publish-search">
-                <Search
-                  placeholder="Поиск..."
-                  onSearch={onSearch}
-                  value={search}
-                  onChange={onChangeSearch}
-                  className="publish-search__input"
+    isClient && (
+      <section className="section section--publish news-world__container">
+        <div className="container">
+          <div className="news-world">
+            <h2 className="title title-left text-low title-h2 publish__title">
+              {t("interview")}
+            </h2>
+            <p className="publish__desc">{t("interviewDesc")}</p>
+            <div className="publish publish--two">
+              <div className="publish-filter publish-item">
+                <RangePicker
+                  locale={locale}
+                  value={startEndDate}
+                  onChange={onChangeDate}
+                />
+                <Button
+                  type="primary"
                   style={{
                     width: "100%",
                   }}
-                />
+                  onClick={onSubmitFilter}
+                >
+                  Применить
+                </Button>
               </div>
-              <div className="publish-grid publish-grid--two publish-item">
-                {data &&
-                  data?.pages[0]?.results.map(
-                    ({ id, published_date, image, title, subcategory }) => (
-                      <BlogItem
-                        key={id}
-                        id={id}
-                        date={published_date}
-                        image={image}
-                        subcategory={subcategory}
-                        title={title}
-                        lng={lng}
-                        link={link}
-                      />
-                    ),
-                  )}
+              <div className="publish-grid-wrap">
+                <div className="publish-search">
+                  <Search
+                    placeholder="Поиск..."
+                    onSearch={onSearch}
+                    value={search}
+                    onChange={onChangeSearch}
+                    className="publish-search__input"
+                    style={{
+                      width: "100%",
+                    }}
+                  />
+                </div>
+                <div className="publish-grid publish-grid--two publish-item">
+                  {data &&
+                    data?.pages[0]?.results.map(
+                      ({ id, published_date, image, title, subcategory }) => (
+                        <BlogItem
+                          key={id}
+                          id={id}
+                          date={published_date}
+                          image={image}
+                          subcategory={subcategory}
+                          title={title}
+                          lng={lng}
+                          link={link}
+                        />
+                      ),
+                    )}
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    )
   );
 };
 

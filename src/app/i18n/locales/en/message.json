@@ -4,5 +4,7 @@
   "updateProfileSuccess": "Профиль успешно обновлен",
   "updateProfileError": "Произошла ошибка при обновлении",
   "success": "Успешно",
-  "error": "Ошибка"
+  "error": "Ошибка",  "successSubmitted": "Форма успешно отправлена!",
+  "errorSubmitted": "Произошла ошибка при отправке",
+  "registerSuccess": "Регистрация прошла успешно"
 }

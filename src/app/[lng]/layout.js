@@ -36,15 +36,15 @@ const RootLayout = async ({ children, params: { lng } }) => {
       <body className={inter.className}>
         <NextAuthProvider>
           <TanstackProvider>
+            <Header lng={lng} />
             <AuthContextProvider>
               <StyledComponentsRegistry>
                 <ConfigProvider theme={theme}>
-                  <Header lng={lng} />
                   <main>{children}</main>
-                  <Footer lng={lng} />
                 </ConfigProvider>
               </StyledComponentsRegistry>
             </AuthContextProvider>
+            <Footer lng={lng} />
           </TanstackProvider>
         </NextAuthProvider>
       </body>

@@ -1,6 +1,13 @@
 {
   "homeMetaTitle": "Qazalem интернет-сервисі",
   "homeMetaDesc": "Qazalem порталы – Қазақстаннан тыс жерде тұратын отандастарды біріктіретін бірегей интернет қызметі",
-  "titlePersonalData": "Персональные данные",
-  "titleMainData": "Основная информация"
+  "titlePersonalData": "Жеке мәліметтер",
+  "titleMainData": "Негізгі ақпарат",
+  "titleSocialData": "Әлеуметтік желілер",
+  "titleAdditionalData": "Қосымша ақпарат",
+  "regions": "Аймақтар",
+  "latestNews": "Соңғы жаңалықтар",
+  "latestInterview": "Соңғы сұхбаттар",
+  "interview": "Cұхбаттар",
+  "interviewDesc": "Шетелде толағай табысқа жеткен қандастарымызбен сұхбаттар топтамасы. Forbes Kazakhstan-мен бірлесіп жүзеге асырылады"
 }

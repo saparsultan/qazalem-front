@@ -1,12 +1,9 @@
-import React from "react";
 import Link from "next/link";
 import LinesEllipsis from "react-lines-ellipsis";
 import { Skeleton } from "antd";
-import { LINK_URLS } from "@/utils/constants";
 import { RedableFormat } from "@/utils/dayjs";
 
-const LatestBlogsAside = ({ data, lng }) => {
-  console.log("data data", data);
+const LatestBlogsAside = ({ data, link, lng }) => {
   return (
     <ul className="list-reset publdet-list">
       {data?.isLoading && !data?.isSuccess
@@ -47,7 +44,7 @@ const LatestBlogsAside = ({ data, lng }) => {
                   </div>
                 </div>
                 <Link
-                  href={`/${lng}/${LINK_URLS.interview}/${id}`}
+                  href={`/${lng}/${link}/${id}`}
                   className="publdet-list__link"
                 >
                   <LinesEllipsis

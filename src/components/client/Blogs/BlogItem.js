@@ -16,11 +16,7 @@ const BlogItem = ({
 }) => {
   return (
     <div className="blog-item">
-      <div
-        className={
-          subcategory ? "blog-item__img" : "blog-item__img blog-item__img--big"
-        }
-      >
+      <div className="blog-item__img blog-item__img--big">
         <Image
           sizes="(max-width: 768px) 100vw"
           src={image}

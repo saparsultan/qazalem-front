@@ -1,11 +1,12 @@
 "use client";
-import React, { useState } from "react";
-import { Form, Input, message, Select, Upload, DatePicker, Button } from "antd";
+import { Form, Input, Select, DatePicker, Button } from "antd";
 import { useQuery } from "@tanstack/react-query";
-import AuthService from "@/services/AuthService";
 import InputMask from "react-input-mask";
+import AuthService from "@/services/AuthService";
+import { useTranslation } from "@/app/i18n/client";
 
 const StepSecond = ({
+  lng,
   form,
   onFinish,
   onBack,
@@ -20,19 +21,19 @@ const StepSecond = ({
   setSpeciality,
   setStudies,
 }) => {
+  const { t } = useTranslation(lng, "form");
   const configs = useQuery({
     queryKey: ["configRegister"],
     queryFn: async () => {
       const { data } = await AuthService.config();
       return data;
     },
-    // staleTime: Infinity,
   });
 
-  const onChange = (date, dateString) => {
-    console.log("date", date);
-    console.log("dateString", dateString);
-  };
+  // const onChange = (date, dateString) => {
+  //   console.log("date", date);
+  //   console.log("dateString", dateString);
+  // };
 
   return (
     <Form
@@ -44,7 +45,7 @@ const StepSecond = ({
     >
       <div className="form-row">
         <div className="form-item">
-          <Form.Item name="birthDate" label="Дата рождения">
+          <Form.Item name="birthDate" label={t("labelBirth")}>
             <DatePicker
               onChange={(date) => setBirthDate(date)}
               style={{
@@ -52,9 +53,9 @@ const StepSecond = ({
               }}
             />
           </Form.Item>
-          <Form.Item name="country" label="Страна проживания">
+          <Form.Item name="country" label={t("labelCountry")}>
             <Select
-              placeholder="Выберите страну"
+              placeholder={t("placeholderSelectCountry")}
               allowClear
               onChange={(name) => setCountry(name)}
               options={
@@ -70,16 +71,16 @@ const StepSecond = ({
           </Form.Item>
           <Form.Item
             name="natonality"
-            label="Гражданство"
+            label={t("labelCitizenship")}
             rules={[
               {
                 required: true,
-                message: "Поле обязательно для выбора",
+                message: t("required"),
               },
             ]}
           >
             <Select
-              placeholder="Выберите вид гражданства"
+              placeholder={t("placeholderSelectCitizenship")}
               style={{
                 width: "100%",
               }}
@@ -96,9 +97,9 @@ const StepSecond = ({
               }
             />
           </Form.Item>
-          <Form.Item name="scopeActivity" label="Область деятельности">
+          <Form.Item name="scopeActivity" label={t("labelFieldActivity")}>
             <Select
-              placeholder="Выберите область"
+              placeholder={t("placeholderSelectArea")}
               style={{
                 width: "100%",
               }}
@@ -115,9 +116,9 @@ const StepSecond = ({
               }
             />
           </Form.Item>
-          <Form.Item name="speciality" label="Специальность">
+          <Form.Item name="speciality" label={t("labelSpeciality")}>
             <Input
-              placeholder="Введите специальность"
+              placeholder={t("placeholderSpecialty")}
               onChange={(e) => setSpeciality(e.target.value)}
             />
           </Form.Item>
@@ -125,12 +126,12 @@ const StepSecond = ({
         <div className="form-item">
           <Form.Item
             name="iin"
-            label="ИИН"
+            label={t("labelIin")}
             rules={[
               {
                 required: true,
                 pattern: /^\d{12}$/,
-                message: "Поле обязательно к заполнению",
+                message: t("requiredField"),
               },
             ]}
           >
@@ -142,7 +143,7 @@ const StepSecond = ({
               {() => <Input placeholder="____________" />}
             </InputMask>
           </Form.Item>
-          <Form.Item name="phone" label="Номер телефона">
+          <Form.Item name="phone" label={t("labelPhone")}>
             <InputMask
               mask="+7 (999) 999-99-99"
               maskChar="_"
@@ -151,28 +152,31 @@ const StepSecond = ({
               {() => <Input placeholder="+7 (___) ___-__-__" />}
             </InputMask>
           </Form.Item>
-          <Form.Item name="city" label="Город проживания">
-            <Input onChange={(e) => setCity(e.target.value)} />
+          <Form.Item name="city" label={t("labelCity")}>
+            <Input
+              onChange={(e) => setCity(e.target.value)}
+              placeholder={t("placeholderCityResidence")}
+            />
           </Form.Item>
           <Form.Item
             name="course"
-            label="Курс/класс"
+            label={t("labelCourse")}
             rules={[
               {
                 pattern: /^\d+$/,
-                message: "Поле содержит только числовое значение",
+                message: t("rulesNumericValue"),
               },
             ]}
           >
             <Input
               onChange={(e) => setCourse(e.target.value)}
-              placeholder="Введите ваш курс/класс"
+              placeholder={t("placeholderEnterCourse")}
             />
           </Form.Item>
           <Form.Item name="studies" label="Учеба">
             <Input
               onChange={(e) => setStudies(e.target.value)}
-              placeholder="Введите учебное заведение"
+              placeholder={t("placeholderEnterEducation")}
             />
           </Form.Item>
         </div>
@@ -183,7 +187,7 @@ const StepSecond = ({
           marginTop: 24,
         }}
       >
-        <Button onClick={onBack}>Назад</Button>
+        <Button onClick={onBack}>{t("prev")}</Button>
         <Button
           type="primary"
           style={{
@@ -191,7 +195,7 @@ const StepSecond = ({
           }}
           htmlType="submit"
         >
-          Далее
+          {t("next")}
         </Button>
       </div>
     </Form>

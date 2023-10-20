@@ -21,6 +21,12 @@ export default class InformationService {
       `about_kazakhstan/subcategory/content?lang=${lng}&id=${id}`,
     );
   }
+  static getRegionsCategory(lng) {
+    return $api.get(`regions/category?lang=${lng}`);
+  }
+  static getRegionsContent(id, lng) {
+    return $api.get(`regions/category/content?lang=${lng}&id=${id}`);
+  }
   static getHelpfulInformationCategory(lng, limit) {
     return $api.get(`usefull_information/category?lang=${lng}&limit=${limit}`);
   }

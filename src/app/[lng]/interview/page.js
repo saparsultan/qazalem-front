@@ -7,7 +7,9 @@ import InterviewClient from "@/components/client/Blogs/Interview.client";
 const Interview = async ({ params: { lng } }) => {
   const queryClient = getQueryClient();
   await queryClient.prefetchQuery(["blogInterview"], async () => {
-    const { data } = await NewsService.getInterview();
+    const { data } = await NewsService.getInterview({
+      lang: lng,
+    });
     return data;
   });
   const dehydratedState = dehydrate(queryClient);

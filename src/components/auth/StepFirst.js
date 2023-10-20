@@ -2,10 +2,11 @@
 import Image from "next/image";
 import { Button, Form, Input, Select } from "antd";
 import ImageUploading from "react-images-uploading";
+import { useTranslation } from "@/app/i18n/client";
 import UploadImageIcon from "@/components/UploadImageIcon";
-import { useState } from "react";
 
 const StepFirst = ({
+  lng,
   form,
   onChangeAvatar,
   onFinish,
@@ -18,6 +19,7 @@ const StepFirst = ({
   emailCheck,
   avatar,
 }) => {
+  const { t } = useTranslation(lng, "form");
   return (
     <Form
       form={form}
@@ -30,77 +32,79 @@ const StepFirst = ({
         <div className="form-item form-item--full">
           <Form.Item
             name="name"
-            label="Имя"
+            label={t("name")}
             rules={[
               {
                 required: true,
-                message: "Поле обязательно к заполнению",
+                message: t("requiredField"),
               },
             ]}
           >
             <Input
               onChange={(e) => setName(e.target.value)}
-              placeholder="Введите имя"
+              placeholder={t("placeholderName")}
             />
           </Form.Item>
-          <Form.Item name="surname" label="Фамилия">
+          <Form.Item name="surname" label={t("lastname")}>
             <Input
               onChange={(e) => setSurname(e.target.value)}
-              placeholder="Введите фамилию"
+              placeholder={t("placeholderLastName")}
             />
           </Form.Item>
-          <Form.Item name="middlename" label="Отчество">
+          <Form.Item name="middlename" label={t("middlename")}>
             <Input
               onChange={(e) => setMiddlename(e.target.value)}
-              placeholder="Введите отчество"
+              placeholder={t("placeholderMiddleName")}
             />
           </Form.Item>
         </div>
         <div className="form-auto">
-          <Form.Item label="Фотография">
+          <Form.Item label={t("photo")} name="photo">
             <ImageUploading
               value={avatar}
               onChange={onChangeAvatar}
               dataURLKey="data_url"
             >
-              {({ imageList, onImageUpload, isDragging, dragProps }) => (
-                <div
-                  className="upload__image-wrapper"
-                  style={isDragging ? { border: "1px solid red" } : undefined}
-                  onClick={onImageUpload}
-                  {...dragProps}
-                >
-                  {imageList.length ? (
-                    <div className="upload__image-item">
-                      <Image
-                        className="upload__image-src"
-                        src={imageList[0]["data_url"]}
-                        alt=""
-                        width={100}
-                        height={100}
-                      />
-                    </div>
-                  ) : (
-                    <UploadImageIcon />
-                  )}
-                </div>
-              )}
+              {({ imageList, onImageUpload, isDragging, dragProps }) => {
+                return (
+                  <div
+                    className="upload__image-wrapper"
+                    style={isDragging ? { border: "1px solid red" } : undefined}
+                    onClick={onImageUpload}
+                    {...dragProps}
+                  >
+                    {imageList?.length ? (
+                      <div className="upload__image-item">
+                        <Image
+                          className="upload__image-src"
+                          src={avatar[0]["data_url"]}
+                          alt=""
+                          width={100}
+                          height={100}
+                        />
+                      </div>
+                    ) : (
+                      <UploadImageIcon text={t("download")} />
+                    )}
+                  </div>
+                );
+              }}
             </ImageUploading>
           </Form.Item>
         </div>
       </div>
       <Form.Item
         name="gender"
-        label="Пол"
+        label={t("gender")}
         rules={[
           {
             required: true,
-            message: "Поле обязательно к заполнению",
+            message: t("requiredField"),
           },
         ]}
       >
         <Select
-          placeholder="Выберите пол"
+          placeholder={t("labelSelectGender")}
           style={{
             width: "100%",
           }}
@@ -108,11 +112,11 @@ const StepFirst = ({
           options={[
             {
               value: "MALE",
-              label: "Мужской",
+              label: t("male"),
             },
             {
               value: "FEMALE",
-              label: "Женский",
+              label: t("female"),
             },
           ]}
           onChange={(name) => setGender(name)}
@@ -125,18 +129,18 @@ const StepFirst = ({
         rules={[
           {
             type: "email",
-            message: "Введен неверный e-mail!",
+            message: t("rulesEmail"),
           },
           {
             required: true,
-            message: "Поле обязательно к заполнению",
+            message: t("requiredField"),
           },
           () => ({
             validator() {
               if (emailCheck === false) {
                 return Promise.resolve();
               } else {
-                return Promise.reject(new Error("Email уже существует"));
+                return Promise.reject(new Error(t("rulesCheckEmail")));
               }
             },
           }),
@@ -145,55 +149,52 @@ const StepFirst = ({
         <Input
           onChange={(e) => setEmail(e)}
           autoComplete="off"
-          placeholder="Введите email"
+          placeholder={t("placeholderEmail")}
         />
       </Form.Item>
       <Form.Item
-        label="Пароль"
         name="password"
+        label={t("password")}
+        hasFeedback
         rules={[
           {
             required: true,
-            message: "Поле обязательно к заполнению",
+            message: t("requiredField"),
           },
           {
-            pattern:
-              /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/,
-            message:
-              "Пароль не менее 8 символов, включающий хотя бы одну цифру, заглавную и строчную букву",
+            pattern: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/,
+            message: t("rulesCheckTryPassword"),
           },
         ]}
       >
         <Input.Password
           onChange={(e) => setPassword(e.target.value)}
           autoComplete="off"
-          placeholder="Введите пароль"
+          placeholder={t("placeholderEnterPassword")}
         />
       </Form.Item>
 
       <Form.Item
-        label="Повторить пароль"
+        label={t("confirmPassword")}
         name="confirm"
         dependencies={["password"]}
         hasFeedback
         rules={[
           {
             required: true,
-            message: "Пожалуйста, подтвердите свой пароль",
+            message: t("rulesEnterConfirmPassword"),
           },
           ({ getFieldValue }) => ({
             validator(_, value) {
               if (!value || getFieldValue("password") === value) {
                 return Promise.resolve();
               }
-              return Promise.reject(
-                new Error("Пароль, который вы ввели, не соответствует"),
-              );
+              return Promise.reject(new Error(t("rulesCheckPassword")));
             },
           }),
         ]}
       >
-        <Input.Password placeholder="Подтвердите пароль" />
+        <Input.Password placeholder={t("placeholderEnterConfirmPassword")} />
       </Form.Item>
       <div
         className="form-btns"
@@ -208,7 +209,7 @@ const StepFirst = ({
           }}
           htmlType="submit"
         >
-          Далее
+          {t("next")}
         </Button>
       </div>
     </Form>

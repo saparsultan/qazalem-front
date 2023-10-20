@@ -1,7 +1,10 @@
+"use client";
 import React, { useEffect, useState } from "react";
 import { Form, Input, Radio, Checkbox, Button } from "antd";
+import { useTranslation } from "@/app/i18n/client";
 
 const StepFourth = ({
+  lng,
   form,
   onFinish,
   onBack,
@@ -11,6 +14,7 @@ const StepFourth = ({
   setBenefit,
   setVolunteer,
 }) => {
+  const { t } = useTranslation(lng, "form");
   const valuesForm = Form.useWatch([], form);
   const personalValue = valuesForm?.personal;
   const [submittable, setSubmittable] = useState(false);
@@ -30,40 +34,34 @@ const StepFourth = ({
       autoComplete="off"
       onFinish={onFinish}
     >
-      <Form.Item name="relocate" label="Хотите ли вы переехать в Казахстан?">
+      <Form.Item name="relocate" label={t("doYouWantMove")}>
         <Input
           onChange={(e) => setRelocate(e.target.value)}
           placeholder="Введите ваш ответ"
         />
       </Form.Item>
-      <Form.Item name="ability" label="Какие у вас есть способности?">
+      <Form.Item name="ability" label={t("whatAbilities")}>
         <Input
           onChange={(e) => setAbility(e.target.value)}
-          placeholder="Введите ваш ответ"
+          placeholder={t("youAnswer")}
         />
       </Form.Item>
-      <Form.Item
-        name="instrument"
-        label="На каком инструменте вы умеете играть?"
-      >
+      <Form.Item name="instrument" label={t("whatInstrumentPlay")}>
         <Input
           onChange={(e) => setInstrument(e.target.value)}
-          placeholder="Введите ваш ответ"
+          placeholder={t("youAnswer")}
         />
       </Form.Item>
-      <Form.Item
-        name="benefit"
-        label="Какую пользу вы можете принести на мероприятиях?"
-      >
+      <Form.Item name="benefit" label={t("whatBringEvents")}>
         <Input
           onChange={(e) => setBenefit(e.target.value)}
-          placeholder="Введите ваш ответ"
+          placeholder={t("youAnswer")}
         />
       </Form.Item>
-      <Form.Item name="volunteer" label="Вы волонтер?">
+      <Form.Item name="volunteer" label={t("youVolunteer")}>
         <Radio.Group onChange={(e) => setVolunteer(e.target.value)}>
-          <Radio value={true}>Да</Radio>
-          <Radio value={false}>Нет</Radio>
+          <Radio value={true}>{t("yes")}</Radio>
+          <Radio value={false}>{t("no")}</Radio>
         </Radio.Group>
       </Form.Item>
       <Form.Item
@@ -72,13 +70,11 @@ const StepFourth = ({
         rules={[
           {
             required: true,
-            message: "Поле обязательно к заполнению",
+            message: t("requiredField"),
           },
         ]}
       >
-        <Checkbox onChange={onChangePersonal}>
-          Даю согласие на предоставление и обработку персональных данных
-        </Checkbox>
+        <Checkbox onChange={onChangePersonal}>{t("agreePersonal")}</Checkbox>
       </Form.Item>
       <div
         className="form-btns"
@@ -86,7 +82,7 @@ const StepFourth = ({
           marginTop: 24,
         }}
       >
-        <Button onClick={onBack}>Назад</Button>
+        <Button onClick={onBack}>{t("prev")}</Button>
         <Button
           type="primary"
           style={{
@@ -95,7 +91,7 @@ const StepFourth = ({
           htmlType="submit"
           disabled={!submittable}
         >
-          Зарегистрироваться
+          {t("signup")}
         </Button>
       </div>
     </Form>

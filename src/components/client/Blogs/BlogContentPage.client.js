@@ -1,5 +1,6 @@
 "use client";
-import React, { useState } from "react";
+import { useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Modal } from "antd";
@@ -15,21 +16,27 @@ import {
   WhatsappIcon,
   WhatsappShareButton,
 } from "react-share";
-import { useQuery } from "@tanstack/react-query";
-import NewsService from "@/services/NewsService";
-import { useParams } from "next/navigation";
-import * as dayjs from "dayjs";
-import kk from "dayjs/locale/kk";
-import Image from "next/image";
+import ImageGallery from "react-image-gallery";
+import { RedableFormat } from "@/utils/dayjs";
+import "react-image-gallery/styles/scss/image-gallery.scss";
 
 const BlogContentPageClient = ({ data, lng, noArticleWidget }) => {
   const router = useRouter();
-  const { slug } = useParams();
   const shareUrl = "https://www.pakkamarwadi.tk/";
-
-  const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
-  console.log({ data });
+  const [loading, setLoading] = useState(false);
+
+  const dynamicImages = data?.dynamic_images
+    ? data?.dynamic_images.map(({ id, image, product }) => {
+        return {
+          key: id,
+          original: image,
+          thumbnail: image,
+          originalAlt: `original-${id++}`,
+          thumbnailAlt: `thumbnail-${id++}`,
+        };
+      })
+    : null;
 
   const showModal = () => {
     setOpen(true);
@@ -44,10 +51,6 @@ const BlogContentPageClient = ({ data, lng, noArticleWidget }) => {
   const handleCancel = () => {
     setOpen(false);
   };
-
-  const dateSrc = dayjs(new Date(data?.published_date))
-    .locale(kk)
-    .format("D MMMM, YYYY - H:mm");
 
   return (
     <>
@@ -87,7 +90,13 @@ const BlogContentPageClient = ({ data, lng, noArticleWidget }) => {
                     fill="#1C1B1F"
                   />
                 </svg>
-                <div className="article-widget__date-text">{dateSrc}</div>
+                <div className="article-widget__date-text">
+                  <RedableFormat
+                    date={data?.published_date}
+                    lng={lng}
+                    format="D MMMM, YYYY - H:mm"
+                  />
+                </div>
               </div>
               <div className="article-widget__share" onClick={showModal}>
                 <svg
@@ -147,17 +156,21 @@ const BlogContentPageClient = ({ data, lng, noArticleWidget }) => {
           </div>
         )}
         <div className="publdet-content">
-          <div className="publdet-content__preview">
-            <Image
-              src={data?.image}
-              alt={data?.title}
-              sizes="(max-width: 768px) 100vw"
-              width={100}
-              height={100}
-              style={{ objectFit: "contain" }}
-              placeholder="empty"
-            />
-          </div>
+          {dynamicImages?.length > 0 ? (
+            <ImageGallery items={dynamicImages} showIndex />
+          ) : (
+            <div className="publdet-content__preview">
+              <Image
+                src={data?.image}
+                alt={data?.title}
+                sizes="(max-width: 768px) 100vw"
+                width={100}
+                height={100}
+                style={{ objectFit: "contain" }}
+                placeholder="empty"
+              />
+            </div>
+          )}
           <div
             dangerouslySetInnerHTML={{ __html: data?.body_text }}
             className="inner-html"

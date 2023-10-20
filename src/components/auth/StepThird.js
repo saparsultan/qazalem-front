@@ -1,5 +1,9 @@
+"use client";
 import { Button, Form, Input } from "antd";
+import { useTranslation } from "@/app/i18n/client";
+
 const StepThird = ({
+  lng,
   form,
   onFinish,
   onBack,
@@ -12,6 +16,7 @@ const StepThird = ({
   setVk,
   setLinkedIn,
 }) => {
+  const { t } = useTranslation(lng, "form");
   return (
     <Form
       form={form}
@@ -24,25 +29,25 @@ const StepThird = ({
         <div className="form-item">
           <Form.Item name="facebook" label="Facebook">
             <Input
-              placeholder="Укажите ссылку"
+              placeholder={t("placeholderProvideLink")}
               onChange={(e) => setFacebook(e.target.value)}
             />
           </Form.Item>
           <Form.Item name="instagram" label="Instagram">
             <Input
-              placeholder="Укажите ссылку"
+              placeholder={t("placeholderProvideLink")}
               onChange={(e) => setInsta(e.target.value)}
             />
           </Form.Item>
           <Form.Item name="tiktok" label="TikTok">
             <Input
-              placeholder="Укажите ссылку"
+              placeholder={t("placeholderProvideLink")}
               onChange={(e) => setTikTok(e.target.value)}
             />
           </Form.Item>
           <Form.Item name="vk" label="VK">
             <Input
-              placeholder="Укажите ссылку"
+              placeholder={t("placeholderProvideLink")}
               onChange={(e) => setVk(e.target.value)}
             />
           </Form.Item>
@@ -50,25 +55,25 @@ const StepThird = ({
         <div className="form-item">
           <Form.Item name="twitter" label="Twitter">
             <Input
-              placeholder="Укажите ссылку"
+              placeholder={t("placeholderProvideLink")}
               onChange={(e) => setTwit(e.target.value)}
             />
           </Form.Item>
           <Form.Item name="youtube" label="YouTube">
             <Input
-              placeholder="Укажите ссылку"
+              placeholder={t("placeholderProvideLink")}
               onChange={(e) => setYouTube(e.target.value)}
             />
           </Form.Item>
           <Form.Item name="discord" label="Discord">
             <Input
-              placeholder="Укажите ссылку"
+              placeholder={t("placeholderProvideLink")}
               onChange={(e) => setDiscord(e.target.value)}
             />
           </Form.Item>
           <Form.Item name="linkedin" label="LinkedIn">
             <Input
-              placeholder="Укажите ссылку"
+              placeholder={t("placeholderProvideLink")}
               onChange={(e) => setLinkedIn(e.target.value)}
             />
           </Form.Item>
@@ -80,7 +85,7 @@ const StepThird = ({
           marginTop: 24,
         }}
       >
-        <Button onClick={onBack}>Назад</Button>
+        <Button onClick={onBack}>{t("prev")}</Button>
         <Button
           type="primary"
           style={{
@@ -88,7 +93,7 @@ const StepThird = ({
           }}
           htmlType="submit"
         >
-          Далее
+          {t("next")}
         </Button>
       </div>
     </Form>

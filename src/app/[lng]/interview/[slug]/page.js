@@ -2,12 +2,16 @@
 import { useParams } from "next/navigation";
 import { Skeleton } from "antd";
 import { useQuery } from "@tanstack/react-query";
-import BlogContentPageClient from "@/components/client/Blogs/BlogContentPage.client";
+import { useTranslation } from "@/app/i18n/client";
 import NewsService from "@/services/NewsService";
+import { LINK_URLS } from "@/utils/constants";
+import BlogContentPageClient from "@/components/client/Blogs/BlogContentPage.client";
 import LatestBlogsAside from "@/components/client/Blogs/LatestBlogsAside";
 
 const InterviewPage = ({ params: { lng } }) => {
+  const { t } = useTranslation(lng, "default");
   const { slug } = useParams();
+  const link = LINK_URLS.interview;
 
   const { data, isLoading } = useQuery({
     queryKey: ["oneInterview"],
@@ -33,8 +37,6 @@ const InterviewPage = ({ params: { lng } }) => {
     },
   });
 
-  console.log("latestBlogs", latestBlogs);
-
   return (
     <>
       <section className="section publdet__container">
@@ -59,9 +61,9 @@ const InterviewPage = ({ params: { lng } }) => {
               <aside className="publdet-aside">
                 <div className="publdet-aside-wrapper">
                   <h3 className="title title-h3 sm-bold publdet-aside__title">
-                    Последние интервью
+                    {t("latestInterview")}
                   </h3>
-                  <LatestBlogsAside data={latestBlogs} lng={lng} />
+                  <LatestBlogsAside data={latestBlogs} link={link} lng={lng} />
                 </div>
               </aside>
             </div>
