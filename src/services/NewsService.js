@@ -49,7 +49,7 @@ export default class NewsService {
   }
 
   static getEvents({
-    event_date,
+    event_date_start,
     event_date_end,
     type_of_event,
     countries,
@@ -60,7 +60,7 @@ export default class NewsService {
     lang,
   }) {
     return $api.get(
-      `events/preview?event_date=${event_date}&event_date_end=${event_date_end}&type_of_event=${type_of_event}&countries=${countries}&search=${search}&archive=${archive}&limit=${limit}&offset=${offset}&lang=${lang}`,
+      `events/preview?event_date=${event_date_start}&event_date_end=${event_date_end}&type_of_event=${type_of_event}&countries=${countries}&search=${search}&archive=${archive}&limit=${limit}&offset=${offset}&lang=${lang}`,
     );
   }
 

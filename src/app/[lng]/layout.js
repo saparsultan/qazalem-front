@@ -12,18 +12,23 @@ import { ConfigProvider } from "antd";
 import theme from "@/theme/themeConfig";
 import "@/app/globals.css";
 import "@/scss/main.scss";
+import { useTranslation } from "@/app/i18n";
 
 const inter = Raleway({ subsets: ["latin"] });
 
 export async function generateStaticParams() {
   return languages.map((lng) => ({ lng }));
 }
-
-export const metadata = {
-  title: "Web-сервис QazAlem",
-  description:
-    "Портал Qazalem-уникальный интернет-сервис, который объединяет соотечественников, проживающих за пределами Казахстана",
-};
+export async function generateMetadata({ params: { lng } }) {
+  async function GenerateMetadata() {
+    const { t } = await useTranslation(lng, "default");
+    return {
+      title: t("homeMetaTitle"),
+      description: t("homeMetaDesc"),
+    };
+  }
+  return GenerateMetadata();
+}
 
 const RootLayout = async ({ children, params: { lng } }) => {
   return (

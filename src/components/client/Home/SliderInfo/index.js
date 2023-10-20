@@ -20,15 +20,17 @@ const SliderInfo = ({ lng }) => {
       <div className="container">
         <div className="slider-info">
           <SliderInfoItem
+            lng={lng}
             id={0}
             title={t("aboutKazakhstan")}
             image={sliderInfo1}
             alt={t("aboutKazakhstan")}
-            link="https://www.gov.kz/memleket/entities/qazalem/activities/directions"
+            link={`/${lng}/${LINK_URLS.aboutKazakhstan}`}
             sliderInfoActive={sliderInfoActive}
             handleOnHover={handleOnHover}
           />
           <SliderInfoItem
+            lng={lng}
             id={1}
             title={t("regions")}
             image={sliderInfo2}
@@ -38,6 +40,7 @@ const SliderInfo = ({ lng }) => {
             handleOnHover={handleOnHover}
           />
           <SliderInfoItem
+            lng={lng}
             id={2}
             title={t("infoCandasSupport")}
             image={sliderInfo3}
@@ -47,6 +50,7 @@ const SliderInfo = ({ lng }) => {
             handleOnHover={handleOnHover}
           />
           <SliderInfoItem
+            lng={lng}
             id={3}
             title="Meta Alem"
             image={banner}

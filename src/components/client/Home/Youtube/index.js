@@ -23,6 +23,7 @@ const Youtube = ({ lng }) => {
       );
       return data;
     },
+    staleTime: Infinity,
   });
 
   return (

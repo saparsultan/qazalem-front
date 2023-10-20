@@ -1,4 +1,4 @@
-import AboutCountryClient from "@/components/client/Blogs/AboutCountry.client";
+import AboutCountryClient from "@/components/client/Information/AboutCountry.client";
 
 const AboutKazakhstan = ({ params: { lng } }) => {
   return (

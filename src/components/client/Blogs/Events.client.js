@@ -125,7 +125,7 @@ const EventsClient = ({ lng }) => {
     ],
     queryFn: async ({ pageParam = 0 }) => {
       const getData = {
-        event_date: startDateQuery,
+        event_date_start: startDateQuery,
         event_date_end: endDateQuery,
         type_of_event: typeQuery,
         countries: countryQuery,
@@ -293,7 +293,7 @@ const EventsClient = ({ lng }) => {
                   data?.pages[0]?.results.map(
                     ({
                       id,
-                      event_date,
+                      event_date_start,
                       event_date_end,
                       image,
                       slug,
@@ -302,7 +302,7 @@ const EventsClient = ({ lng }) => {
                       <BlogItem
                         key={id}
                         id={id}
-                        event_date={event_date}
+                        event_date={event_date_start}
                         event_date_end={event_date_end}
                         image={image}
                         slug={slug}

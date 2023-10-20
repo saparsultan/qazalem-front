@@ -49,9 +49,9 @@ iframe {
   border: none!important;
 }
 
-.site-container {
-  overflow: hidden; // если используете на сайте position: sticky - уберите эту настройку
-}
+//.site-container {
+//  overflow: hidden; // если используете на сайте position: sticky - уберите эту настройку
+//}
 
 .is-hidden {
   display: none !important; /* stylelint-disable-line declaration-no-important */
@@ -209,6 +209,11 @@ iframe {
     color: var(--light-color);
     background-color: var(--accent-color);
     border-color: var(--accent-color);
+    transition: all .2s ease-in-out;
+    &:hover {
+      background-color: var(--primary-color);
+      border-color: var(--primary-color);
+    }
   }
   &-link {
     font-size: 1.125rem;

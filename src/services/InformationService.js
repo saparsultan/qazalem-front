@@ -16,6 +16,11 @@ export default class InformationService {
   static getAboutCountryContent(id, lng) {
     return $api.get(`about_kazakhstan/category/content?lang=${lng}&id=${id}`);
   }
+  static getAboutCountrySubContent(id, lng) {
+    return $api.get(
+      `about_kazakhstan/subcategory/content?lang=${lng}&id=${id}`,
+    );
+  }
   static getHelpfulInformationCategory(lng, limit) {
     return $api.get(`usefull_information/category?lang=${lng}&limit=${limit}`);
   }

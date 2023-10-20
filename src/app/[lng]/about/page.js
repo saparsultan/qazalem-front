@@ -1,5 +1,5 @@
 import { useTranslation } from "@/app/i18n";
-import AboutUsClient from "@/components/client/Blogs/AboutUs.client";
+import AboutUsClient from "@/components/client/Information/AboutUs.client";
 
 export default async function AboutUs({ params: { lng } }) {
   const { t } = await useTranslation(lng, "layout");

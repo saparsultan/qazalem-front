@@ -232,6 +232,10 @@
     font-weight: 600;
     color: currentColor;
     padding: 0 0.9375em;
+    transition: opacity .15s linear;
+    &:hover {
+      opacity: .7;
+    }
   }
 }
 

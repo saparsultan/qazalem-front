@@ -112,10 +112,25 @@
       justify-content: center;
       margin-right: .5em;
       cursor: pointer;
-
       svg {
         width: 28px;
         height: 28px;
+        path {
+          fill: var(--base-color);
+        }
+      }
+
+      span {
+        font-weight: 600;
+        margin-left: 0.375em;
+      }
+      &--small {
+        margin-bottom: 0.75em;
+        opacity: .7;
+        svg {
+          width: 24px;
+          height: 24px;
+        }
       }
     }
 
@@ -210,6 +225,11 @@
             margin: 0;
           }
         }
+      }
+    }
+    .img-author {
+      img {
+        width: 100%;
       }
     }
   }

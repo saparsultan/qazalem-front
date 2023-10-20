@@ -1,8 +1,10 @@
-import React from "react";
+"use client";
 import Image from "next/image";
 import Link from "next/link";
 import cx from "classnames";
-const SliderInfoItem = ({
+import { useTranslation } from "@/app/i18n/client";
+export default function SliderInfoItem({
+  lng,
   id,
   title,
   image,
@@ -10,7 +12,8 @@ const SliderInfoItem = ({
   link,
   sliderInfoActive,
   handleOnHover,
-}) => {
+}) {
+  const { t } = useTranslation(lng, "home");
   return (
     <div
       className={cx("slider-info__item", {
@@ -32,10 +35,9 @@ const SliderInfoItem = ({
           href={link}
           className="btn btn-accent btn-link btn-ligth sm-bold slider-info__link"
         >
-          Подробнее
+          {t("learnMore")}
         </Link>
       </div>
     </div>
   );
-};
-export default SliderInfoItem;
+}
