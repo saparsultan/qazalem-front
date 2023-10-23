@@ -12,7 +12,6 @@ import { languagesClient } from "@/app/i18n/settings";
 import { LINK_URLS } from "@/utils/constants";
 import logoIcon from "@/assets/img/logo.png";
 import logoPrimaryIcon from "@/assets/img/logo-primary.png";
-import MobileMenu from "@/components/layout/MobileMenu";
 
 const HeaderClient = ({ children, lng }) => {
   const langClient = lng.toUpperCase();
@@ -26,6 +25,7 @@ const HeaderClient = ({ children, lng }) => {
   const [showProfile, setShowProfile] = useState(false);
   const [showLang, setShowLang] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
@@ -44,6 +44,21 @@ const HeaderClient = ({ children, lng }) => {
       document.removeEventListener("click", handleClickLangOutside);
     };
   }, []);
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  const handleScroll = () => {
+    if (window.scrollY > 0) {
+      setIsScrolled(true);
+    } else {
+      setIsScrolled(false);
+    }
+  };
 
   const handleClickOutside = (event) => {
     if (blockRef.current && !blockRef.current.contains(event.target)) {
@@ -95,11 +110,11 @@ const HeaderClient = ({ children, lng }) => {
     isClient && (
       <>
         <header
-          className={
-            pathname === `/${lng}` || pathname === "/"
-              ? "header__container header__container--home"
-              : "header__container"
-          }
+          className={cx("header__container", {
+            "header__container--home":
+              pathname === `/${lng}` || pathname === "/",
+            active: isScrolled,
+          })}
         >
           <div className="container">
             <div className="header">
@@ -119,19 +134,29 @@ const HeaderClient = ({ children, lng }) => {
               </div>
               <Link href={`/${lng}`} className="header-logo logo">
                 <div className="logo__icon">
-                  <Image
-                    src={
-                      pathname === `/${lng}` || pathname === "/"
-                        ? logoIcon
-                        : logoPrimaryIcon
-                    }
-                    alt="logo"
-                  />
+                  {isScrolled ? (
+                    <Image src={logoPrimaryIcon} alt="logo" />
+                  ) : (
+                    <Image
+                      src={
+                        pathname === `/${lng}` || pathname === "/"
+                          ? logoIcon
+                          : logoPrimaryIcon
+                      }
+                      alt="logo"
+                    />
+                  )}
                 </div>
                 {/*<div className="logo__text">QAZALEM</div>*/}
               </Link>
               {children}
               <div className="header-actions">
+                <Link
+                  href={`/${lng}/${LINK_URLS.help}`}
+                  className="btn btn-link btn-ligth bold help-link"
+                >
+                  SOS
+                </Link>
                 <div className="lang-block" ref={langRef}>
                   <div className="lang" onClick={() => setShowLang(!showLang)}>
                     <Trans i18nKey="languageSwitcher" t={t}>

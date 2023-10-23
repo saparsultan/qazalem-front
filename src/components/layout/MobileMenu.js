@@ -60,10 +60,10 @@ const MobileMenu = ({ lng, showMenu, setShowMenu }) => {
             </li>
             <li className="mobile-nav__item">
               <Link
-                href={`/${lng}/${LINK_URLS.events}`}
+                href={`/${lng}/${LINK_URLS.services}`}
                 className="mobile-nav__link"
               >
-                {isClient && t("events")}
+                {isClient && t("services")}
               </Link>
             </li>
             <li className="mobile-nav__item">

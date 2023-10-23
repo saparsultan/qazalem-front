@@ -12,6 +12,9 @@ RUN yarn build
 FROM node:18.15.0 as runner
 WORKDIR /qazalem
 
+ENV NEXT_PUBLIC_API_URL=https://qazalem.ziz.kz/api/v1/
+ENV NEXT_PUBLIC_YOUTUBE=UCef62ITFdIiXn3oXc_0BCLg
+ENV NEXT_PUBLIC_API_GOOGLE=AIzaSyB6ZUos11000PDzfqJ0dRWnWclueCBMNzQ
 ENV NEXTAUTH_SECRET=00857cbb0e13043bb5b2a53814e0bb9e
 ENV NEXTAUTH_URL=https://qazalem.kz
 COPY --from=builder /qazalem/public ./public

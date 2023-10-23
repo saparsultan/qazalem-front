@@ -11,6 +11,11 @@ export default async function HelpPage({ params: { lng } }) {
         <div className="container">
           <div className="help">
             <h2 className="title title-h2 help__title">{t("help")}</h2>
+            <p className="help__desc">
+              {t("helpDescLabel")}
+              <br />
+              {t("helpDesc")}
+            </p>
             <div className="form-help">
               <div className="container container-small">
                 <HelpClient lng={lng} />

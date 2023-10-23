@@ -13,10 +13,10 @@ export default async function FooterNav({ lng }) {
       </li>
       <li className="footer-item__item">
         <Link
-          href={`/${lng}/${LINK_URLS.events}`}
+          href={`/${lng}/${LINK_URLS.services}`}
           className="footer-item__link"
         >
-          {t("events")}
+          {t("services")}
         </Link>
       </li>
       <li className="footer-item__item">

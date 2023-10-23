@@ -2,59 +2,19 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useMutation } from "@tanstack/react-query";
+import { signIn } from "next-auth/react";
 import { Button, ConfigProvider, Form, Input } from "antd";
-import { useAuthContext } from "@/providers/AuthProvider";
+import { useTranslation } from "@/app/i18n/client";
 import theme from "@/theme/themeConfig";
 import { LINK_URLS } from "@/utils/constants";
-import AuthService from "@/services/AuthService";
-import { useTranslation } from "@/app/i18n/client";
-import { signIn } from "next-auth/react";
 
-const Login = ({ props, params: { lng } }) => {
+const Login = ({ params: { lng } }) => {
   const { t } = useTranslation(lng, "auth");
+  const { t: tForm } = useTranslation(lng, "form");
+  const { t: tlayout } = useTranslation(lng, "layout");
   const router = useRouter();
-  const { setAuth } = useAuthContext();
   const [form] = Form.useForm();
   const [errorMessage, setErrorMessage] = useState("");
-
-  // const { mutate: onSubmitAuth } = useMutation({
-  //   mutationFn: async (values) => {
-  //     const { data } = await AuthService.login(values.email, values.password);
-  //     const accessToken = data?.access;
-  //     const refreshToken = data?.refresh;
-  //     const userId = data?.user?.id;
-  //     setAuth(data?.user);
-  //     localStorage.setItem("token", accessToken);
-  //     localStorage.setItem("refresh", refreshToken);
-  //     localStorage.setItem("userId", userId);
-  //   },
-  //   onSuccess: () => {
-  //     router.push(`/${lng}/${LINK_URLS.profile}/${LINK_URLS.main}`, {
-  //       scroll: false,
-  //     });
-  //   },
-  //   onError: (error) => {
-  //     console.log("error-login", error);
-  //     setErrorMessage("unauthorized");
-  //   },
-  // });
-
-  // const onSubmitAuth = async (values) => {
-  //   const res = await signIn("credentials", {
-  //     username: "sultansyzdyc@gmail.com",
-  //     password: "@Aa123456ved",
-  //     redirect: true,
-  //     callbackUrl: "/",
-  //   });
-  //   // router.push(props.callbackUrl ?? "http://localhost:3000");
-  //
-  //   console.log("res res res", res);
-  //
-  //   if (!res?.error) {
-  //     router.push(props.callbackUrl ?? "http://localhost:3000");
-  //   }
-  // };
 
   const onSubmitAuth = async (values) => {
     signIn("credentials", {
@@ -95,11 +55,11 @@ const Login = ({ props, params: { lng } }) => {
                     rules={[
                       {
                         type: "email",
-                        message: "Введите корректный e-mail!",
+                        message: tForm("rulesEmail"),
                       },
                       {
                         required: true,
-                        message: "Поле обязательно к заполнению",
+                        message: tForm("requiredField"),
                       },
                       () => ({
                         validator() {
@@ -114,21 +74,23 @@ const Login = ({ props, params: { lng } }) => {
                       }),
                     ]}
                   >
-                    <Input placeholder="Введите ваш email" />
+                    <Input placeholder={tForm("placeholderEmail")} />
                   </Form.Item>
                   <Form.Item>
                     <Form.Item
-                      label="Пароль"
+                      label={tForm("password")}
                       name="password"
                       rules={[
                         {
                           required: true,
-                          message: "Поле обязательно к заполнению",
+                          message: tForm("requiredField"),
                         },
                       ]}
                       style={{ marginBottom: "0px" }}
                     >
-                      <Input.Password placeholder="Введите ваш пароль" />
+                      <Input.Password
+                        placeholder={tForm("placeholderEnterPassword")}
+                      />
                     </Form.Item>
                     <div style={{ position: "absolute", top: "0", right: "0" }}>
                       <Link href={`/${lng}/${LINK_URLS.login}`}>
@@ -142,11 +104,11 @@ const Login = ({ props, params: { lng } }) => {
                       htmlType="submit"
                       style={{ width: "100%", marginBottom: "8px" }}
                     >
-                      Войти
+                      {tlayout("login")}
                     </Button>
-                    или{" "}
+                    {tForm("or")}&nbsp;
                     <Link href={`/${lng}/${LINK_URLS.signUp}`}>
-                      Зарегистрируйтесь
+                      {tForm("register")}
                     </Link>
                   </Form.Item>
                 </Form>

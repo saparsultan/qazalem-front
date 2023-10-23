@@ -17,5 +17,6 @@
   "help": "Помощь",
   "privacyPolicy": "Политика конфедиенциальности",
   "apiConnection": "API подключение",
-  "callCenter": "Call-центры"
+  "callCenter": "Call-центры",
+  "services": "Сервисы"
 }

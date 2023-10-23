@@ -18,7 +18,6 @@ const HelpClient = ({ lng }) => {
       const { data } = await InformationService.getSOSCountry(lng);
       return data;
     },
-    staleTime: Infinity,
   });
 
   const { mutate: onSubmitForm } = useMutation({

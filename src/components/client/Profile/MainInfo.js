@@ -33,8 +33,6 @@ const MainInfo = ({ lng }) => {
       status === "authenticated",
     ],
     queryFn: async ({ pageParam = 1 }) => {
-      const sessionId =
-        session && session?.user && session?.user?.id ? session?.user?.id : "";
       const { data } = await UserService.getUserMain(
         session?.user?.id,
         session?.accessToken,
@@ -51,7 +49,7 @@ const MainInfo = ({ lng }) => {
       email: session?.user && data?.pages[0]?.email,
       gender: session?.user && data?.pages[0]?.gender,
     });
-  }, [session, data, isSuccess, form]);
+  }, [data, isSuccess, form]);
 
   const { mutate: onSubmitForm } = useMutation({
     mutationFn: async (value) => {
@@ -101,9 +99,9 @@ const MainInfo = ({ lng }) => {
 
   console.log({ avatar });
 
-  // if (!session?.user) {
-  //   return "sssss";
-  // }
+  if (!session?.user) {
+    return "sssss";
+  }
 
   return (
     <div className="profile-form">

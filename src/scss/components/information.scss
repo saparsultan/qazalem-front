@@ -74,3 +74,15 @@
     }
   }
 }
+
+.help {
+  &__title {
+    margin-bottom: 0.3333333333333333em;
+  }
+  &__desc {
+    width: 50%;
+    line-height: 153%;
+    text-align: center;
+    margin: 0 auto 1.5em;
+  }
+}

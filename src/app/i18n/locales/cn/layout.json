@@ -17,5 +17,6 @@
   "help": "幫助",
   "privacyPolicy": "隱私權政策",
   "apiConnection": "API連接",
-  "callCenter": "呼叫中心"
+  "callCenter": "呼叫中心",
+  "services": "服務"
 }

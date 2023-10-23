@@ -124,7 +124,7 @@ const SignupClient = ({ lng }) => {
   const newformatDate =
     !birthDate || !birthDate === null
       ? null
-      : `${formatDateYear}-${formatDateDay}-${formatDateMonth}`;
+      : `${formatDateYear}-${formatDateMonth}-${formatDateDay}`;
 
   const { mutate: onSubmitForm } = useMutation({
     mutationFn: async () => {

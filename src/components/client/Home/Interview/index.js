@@ -37,12 +37,7 @@ const InterviewHome = ({ lng }) => {
         isSuccess={isSuccess}
         link={link}
       />
-      <MoreLink
-        link="https://www.gov.kz/memleket/entities/qazalem/activities/30461"
-        target
-      >
-        {t("allInterview")}
-      </MoreLink>
+      <MoreLink link={link}>{t("allInterview")}</MoreLink>
     </>
   );
 };

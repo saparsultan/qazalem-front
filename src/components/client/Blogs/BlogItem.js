@@ -39,14 +39,8 @@ const BlogItem = ({
             <RedableFormat date={event_date_end} lng={lng} format="D MMMM" />
           </div>
         )}
-        <Link href={`${link}/${id}`} className="blog-item__text bold">
-          <LinesEllipsis
-            text={title}
-            maxLine="2"
-            ellipsis="..."
-            trimRight
-            basedOn="letters"
-          />
+        <Link href={`${link}/${id}`} className="blog-item__text sm-bold">
+          {title}
         </Link>
         {date && (
           <div className="blog-item__date">

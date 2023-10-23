@@ -2,12 +2,12 @@
   &-list {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    grid-gap: 1.25em;
+    grid-gap: 1em;
     @include tablet {
       grid-template-columns: repeat(2, 1fr);
     }
     @include small-tablet {
-      grid-gap: 0.875em;
+      grid-gap: .875em;
     }
     @include mobile {
       grid-template-columns: 1fr;
@@ -16,15 +16,23 @@
   &-item {
     display: flex;
     flex-direction: column;
-    box-shadow: 0px 4px 26px 0px rgba(142, 142, 142, 0.25);
-    border-radius: 8px;
     overflow: hidden;
+    &:hover {
+      .blog-item__img {
+        img {
+          transform: translate(-50%,-50%) scale(1.1);
+          transition: transform .6s;
+        }
+      }
+    }
     &__img {
+      position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
       width: 100%;
       height: 150px;
+      border-radius: 8px;
       overflow: hidden;
       &--big {
         height: 200px;
@@ -39,12 +47,18 @@
         }
       }
       img {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
         width: 100%;
         height: 100%;
+        transform-origin: 50% 50%;
+        transition: transform .6s ease-in-out;
       }
     }
     &__content {
-      padding: 1.25em;
+      padding: 1em 0;
       @include mobile {
         padding: 0.9375em;
       }
@@ -54,12 +68,12 @@
       align-items: center;
       justify-content: center;
       width: fit-content;
-      font-size: .938rem;
+      font-size: .875rem;
       font-weight: 600;
       letter-spacing: .02em;
       text-transform: lowercase;
-      margin-bottom: 0.8em;
-      padding: 0.3333333333333333em 0.9333333333333333em;
+      margin-bottom: .7em;
+      padding: .3333333333333333em .9333333333333333em;
       color: var(--accent-color);
       background-color: rgba(36, 106, 249, .15);
       border-radius: 6px;
@@ -69,18 +83,22 @@
       }
     }
     &__text {
-      font-size: 1.125rem;
+      font-size: 1rem;
+      line-height: 140%;
+      transition: color .1s linear;
+      &:hover {
+        color: var(--accent-color);
+      }
       @include mobile {
-        font-size: 1rem;
+        font-size: .875rem;
       }
     }
     &__date {
       font-size: .875rem;
       line-height: 170%;
-      margin-top: 1.7142857142857142em;
-      margin-bottom: 0.14285714285714285em;
+      margin-top: .875em;
       @include mobile {
-        margin-top: 1em;
+        margin-top: .75em;
       }
     }
     //&__link {

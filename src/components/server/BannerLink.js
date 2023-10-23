@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { useTranslation } from "@/app/i18n";
 import banner from "@/assets/img/banner-link.jpg";
+import { LINK_URLS } from "@/utils/constants";
 
 const bannerStyle = {
   backgroundImage: `url("${banner.src}")`,
@@ -18,7 +19,10 @@ export default async function BannerLink({ lng }) {
           <h3 className="title-banner banner-link__title ex-bold">
             {t("callCenterKazakhstan")}
           </h3>
-          <Link href="/" className="btn btn-link btn-prime banner-link__link">
+          <Link
+            href={`/${lng}/${LINK_URLS.callCenters}`}
+            className="btn btn-link btn-prime banner-link__link"
+          >
             {t("learnMore")}
           </Link>
         </div>

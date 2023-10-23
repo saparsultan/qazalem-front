@@ -375,6 +375,8 @@ iframe {
 
 .help {
   &-link {
+    padding: 0.6378571428571428em 1.5em;
+    font-size: .875rem;
     color: var(--light-color);
     background-color: #ff4d4d;
     border-color: #ff4d4d!important;
@@ -418,37 +420,6 @@ iframe {
       &:hover {
         border-color: var(--accent-color);
       }
-    }
-  }
-}
-
-.swiper-nav-btns {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-left: -6.25em;
-  margin-right: -6.25em;
-  &__wrapper {
-    position: absolute;
-    top: 50%;
-    right: 0;
-    transform: translateY(-50%);
-    width: 100%;
-    z-index: 999;
-  }
-  button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--light-color);
-  }
-  &__btn {
-    padding:  0.75em;
-    border-radius: 50px;
-    background-color: rgba(255, 255, 255, 0.10);
-    svg {
-      width: 28px;
-      height: 28px;
     }
   }
 }

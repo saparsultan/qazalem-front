@@ -160,15 +160,18 @@ const BlogContentPageClient = ({ data, lng, noArticleWidget }) => {
             <ImageGallery items={dynamicImages} showIndex />
           ) : (
             <div className="publdet-content__preview">
-              <Image
-                src={data?.image}
-                alt={data?.title}
-                sizes="(max-width: 768px) 100vw"
-                width={100}
-                height={100}
-                style={{ objectFit: "contain" }}
-                placeholder="empty"
-              />
+              {data && data?.image && (
+                <Image
+                  src={data?.image}
+                  alt={data?.title}
+                  priority
+                  sizes="(max-width: 768px) 100vw"
+                  width={100}
+                  height={100}
+                  style={{ objectFit: "contain" }}
+                  placeholder="empty"
+                />
+              )}
             </div>
           )}
           <div

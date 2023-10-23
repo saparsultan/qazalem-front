@@ -71,5 +71,10 @@
   "doYouWantMove": "Хотите ли вы переехать в Казахстан?",
   "whatAbilities": "Какие у вас есть способности?",
   "whatInstrumentPlay": "На каком инструменте вы умеете играть?",
-  "whatBringEvents": "Какую пользу вы можете принести на мероприятиях?"
+  "whatBringEvents": "Какую пользу вы можете принести на мероприятиях?",
+  "register": "Sign up",
+  "or": "or",
+  "activityCategory": "Activity category",
+  "apply": "Apply",
+  "search": "Search"
 }

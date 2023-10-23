@@ -9,7 +9,7 @@
     min-height: 100vh;
     height: 100vh;
     color: var(--light-color);
-
+    background-color: var(--base-color);
     &__item {
       position: relative;
     }
@@ -34,7 +34,7 @@
         display: block;
         width: 100%;
         height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
+        background-color: rgba(0, 9, 41, .6);
         z-index: 2;
       }
     }
@@ -52,15 +52,23 @@
       @include mobile {
         margin-top: -60px;
       }
+      .social {
+        position: absolute;
+        top: 50%;
+        right: 15px;
+        transform: translateY(-50%);
+        flex-direction: column;
+        gap: 20px;
+      }
     }
 
     &__title {
-      font-size: 3.125rem;
+      font-size: 4rem;
       font-weight: 800;
       text-align: left;
-      width: 500px;
+      width: 85%;
       letter-spacing: .03em;
-      margin-bottom: 0.48em;
+      margin-bottom: 0.3125em;
       @include tablet {
         font-size: 2.5rem;
       }
@@ -72,7 +80,7 @@
 
     &__desc {
       width: 500px;
-      font-size: 1.125rem;
+      font-size: 1.25rem;
       line-height: 150%;
       text-align: left;
       margin-bottom: 2.2222222222222223em;
@@ -107,6 +115,20 @@
       }
       @include mobile {
         width: 100%;
+      }
+      &-anons {
+        position: absolute;
+        right: 15px;
+        bottom: 5%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+        font-weight: 500;
+        padding: 0.75em 1em;
+        color: var(--light-color);
+        background-color: var(--primary-color);
+        border-radius: 12px;
       }
     }
 
@@ -161,13 +183,28 @@
         }
       }
     }
-
-    .swiper-button-prev {
-      display: none;
+    .swiper-button-prev, .swiper-button-next {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 48px;
+      height: 48px;
+      color: var(--light-color);
+      background-color: rgba(255, 255, 255, 0.2);
+      border-radius: 50px;
+      &:after {
+        font-size: 1.375rem;
+        font-weight: 600;
+      }
     }
-
+    .swiper-button-prev {
+      left: 2%;
+    }
     .swiper-button-next {
-      display: none;
+      right: 2%;
+      &:after {
+       margin-left: 0.09090909090909091em;
+      }
     }
   }
 }

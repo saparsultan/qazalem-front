@@ -2,19 +2,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useQuery } from "@tanstack/react-query";
-import { LINK_URLS } from "@/utils/constants";
-import UserService from "@/services/UserService";
-import defaultAvatar from "@/assets/img/default.png";
-import useAxiosPrivate from "@/hooks/useAxiosPrivate";
 import { useSession } from "next-auth/react";
+import { LINK_URLS } from "@/utils/constants";
+import defaultAvatar from "@/assets/img/default.png";
 
-let userId;
-if (typeof window !== "undefined") {
-  userId = localStorage.getItem("userId");
-}
 const SideBar = ({ lng }) => {
   const pathname = usePathname();
+  const { data: session } = useSession();
   const profileMain = `/${lng}/${LINK_URLS.profile}/${LINK_URLS.main}`;
   const profilePersonal = `/${lng}/${LINK_URLS.profile}/${LINK_URLS.personal}`;
   const profileSocial = `/${lng}/${LINK_URLS.profile}/${LINK_URLS.social}`;
@@ -23,19 +17,6 @@ const SideBar = ({ lng }) => {
   const profileRegisterEvent = `/${lng}/${LINK_URLS.profile}/${LINK_URLS.registerEvent}`;
   const activeLink = "profile-sidebar-list__link active";
   const defaultLink = "profile-sidebar-list__link";
-  const axiosPrivate = useAxiosPrivate();
-  const { data: session, status } = useSession();
-
-  const { data } = useQuery({
-    queryKey: ["userMain"],
-    queryFn: async () => {
-      const { data } = await axiosPrivate.get(`user/profile/main/9`);
-      // const { data } = await UserService.getUserMain(userId);
-      return data;
-    },
-  });
-
-  console.log("userMain", data);
 
   return (
     <>
@@ -59,7 +40,9 @@ const SideBar = ({ lng }) => {
           <div className="profile-sidebar-header__avatar">
             <Image
               quality={75}
-              src={data && data?.image ? data?.image : defaultAvatar}
+              src={
+                session && session?.user ? session?.user.image : defaultAvatar
+              }
               alt="Avatar"
               sizes="(max-width: 768px) 100vw"
               width={100}
@@ -70,7 +53,8 @@ const SideBar = ({ lng }) => {
             />
           </div>
           <div className="profile-sidebar-header__fio">
-            {data && `${data.lastname} ${data.firstname} ${data.middlename}`}
+            {session?.user &&
+              `${session?.user.lastname} ${session?.user.firstname} ${session?.user.middlename}`}
           </div>
         </div>
       </div>

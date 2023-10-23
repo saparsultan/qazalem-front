@@ -1,15 +1,14 @@
 "use client";
-import React, { useState } from "react";
+import Link from "next/link";
+import { useState } from "react";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
+import { Skeleton } from "antd";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
-import ArrowLink from "@/components/arrowLink";
+import { useTranslation } from "@/app/i18n/client";
+import { LINK_URLS } from "@/utils/constants";
 import BlogList from "@/components/layout/BlogList";
 import NewsService from "@/services/NewsService";
-import Link from "next/link";
-import { LINK_URLS } from "@/utils/constants";
-import { Skeleton } from "antd";
 import MoreLink from "@/components/layout/MoreLink";
-import { useTranslation } from "@/app/i18n/client";
 
 const NewsWorldHome = ({ lng }) => {
   const { t } = useTranslation(lng, "home");
@@ -64,7 +63,7 @@ const NewsWorldHome = ({ lng }) => {
               })}
           </TabList>
           <Link href={link} className="tab-list__link">
-            <ArrowLink />
+            {t("allNews")}
           </Link>
         </div>
         <TabPanel key="default">
@@ -109,12 +108,8 @@ const NewsWorldHome = ({ lng }) => {
             );
           })}
       </Tabs>
-      <MoreLink
-        clasName="more-link__mobile"
-        link="https://www.gov.kz/memleket/entities/qazalem/activities/30461"
-        target
-      >
-        Все новости
+      <MoreLink clasName="more-link__mobile" link={link} target>
+        {t("allNews")}
       </MoreLink>
     </>
   );

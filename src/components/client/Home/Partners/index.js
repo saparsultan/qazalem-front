@@ -1,23 +1,19 @@
 "use client";
-import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import HomeService from "@/services/HomeServices";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import Link from "next/link";
 import Image from "next/image";
-import embassy1 from "@/assets/img/embassy1.jpeg";
-import { BASE_URL } from "@/utils/constants";
 
-const Partners = (props) => {
-  const { data } = useQuery({
+const Partners = () => {
+  const { data, isLoading, isSuccess } = useQuery({
     queryKey: ["partnersList"],
     queryFn: async () => {
       const { data } = await HomeService.getPartners();
       return data;
     },
   });
-  console.log({ data });
 
   return (
     <Swiper
@@ -28,7 +24,9 @@ const Partners = (props) => {
       className="grid-slider partners-slider"
     >
       {data?.length &&
-        data.map(({ id, image, url, name }) => {
+        !isLoading &&
+        isSuccess &&
+        data?.map(({ id, image, url, name }) => {
           return (
             <SwiperSlide
               className="grid-slider__slide partners__slide"

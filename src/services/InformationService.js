@@ -33,4 +33,7 @@ export default class InformationService {
   static getHelpfulInformationContent(id, lng) {
     return $api.get(`usefull_information/content?lang=${lng}&id=${id}`);
   }
+  static getCallCenters(lng) {
+    return $api.get(`call_center/content?lang=${lng}`);
+  }
 }

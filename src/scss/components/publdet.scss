@@ -232,5 +232,23 @@
         width: 100%;
       }
     }
+    table {
+      width: 100%!important;
+      border-collapse: collapse;
+      border: none;
+      tr {
+        &:first-child {
+          background-color: rgba(0, 0, 0, 0.1);
+          td {
+            font-weight: 600!important;
+          }
+        }
+      }
+      td {
+        line-height: 140%;
+        padding: 0.625em 1em;
+        border: 1px solid rgba(0, 0, 0, .1);
+      }
+    }
   }
 }

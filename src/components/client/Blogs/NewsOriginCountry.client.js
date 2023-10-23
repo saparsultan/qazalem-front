@@ -116,8 +116,6 @@ const NewsOriginCountryClient = ({ lng }) => {
     getPreviousPageParam: (firstPage, allPages) => firstPage.prevCursor,
   });
 
-  console.log({ newsWorldCategory });
-
   const onChangeDate = (value) => {
     if (value) {
       const startDateSrc = dayjs(new Date(value[0]))
@@ -133,10 +131,6 @@ const NewsOriginCountryClient = ({ lng }) => {
     }
     setStartEndDate(value);
   };
-
-  console.log({ publishDate });
-  console.log({ category });
-  console.log({ data });
 
   const onChangeCategory = (value) => {
     value && true && true && !isNaN(value)
@@ -167,87 +161,78 @@ const NewsOriginCountryClient = ({ lng }) => {
   };
 
   return (
-    <section className="section section--publish news-world__container">
-      <div className="container">
-        <div className="news-world">
-          <h2 className="title title-left text-low title-h2 news-world__title">
-            Новости из Казахстана
-          </h2>
-          <div className="publish publish--two">
-            <div className="publish-filter publish-item">
-              <RangePicker
-                locale={locale}
-                value={startEndDate}
-                onChange={onChangeDate}
-              />
+    <div className="publish publish--two">
+      <div className="publish-filter publish-item">
+        <RangePicker
+          locale={locale}
+          value={startEndDate}
+          onChange={onChangeDate}
+        />
 
-              <Select
-                allowClear
-                placeholder="Категория деятельности"
-                value={
-                  category && category !== ""
-                    ? {
-                        value: category,
-                        label: getCategoryLabel(category),
-                      }
-                    : null
+        <Select
+          allowClear
+          placeholder="Категория деятельности"
+          value={
+            category && category !== ""
+              ? {
+                  value: category,
+                  label: getCategoryLabel(category),
                 }
-                onChange={onChangeCategory}
-                options={
-                  newsWorldCategory?.data?.length &&
-                  newsWorldCategory?.data.map(({ id, name }) => {
-                    return {
-                      value: id,
-                      label: name,
-                    };
-                  })
-                }
-              />
-              <Button
-                type="primary"
-                style={{
-                  width: "100%",
-                }}
-                onClick={onSubmitFilter}
-              >
-                Применить
-              </Button>
-            </div>
-            <div className="publish-grid-wrap">
-              <div className="publish-search">
-                <Search
-                  placeholder="Поиск..."
-                  onSearch={onSearch}
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  className="publish-search__input"
-                  style={{
-                    width: "100%",
-                  }}
+              : null
+          }
+          onChange={onChangeCategory}
+          options={
+            newsWorldCategory?.data?.length &&
+            newsWorldCategory?.data.map(({ id, name }) => {
+              return {
+                value: id,
+                label: name,
+              };
+            })
+          }
+        />
+        <Button
+          type="primary"
+          style={{
+            width: "100%",
+          }}
+          onClick={onSubmitFilter}
+        >
+          Применить
+        </Button>
+      </div>
+      <div className="publish-grid-wrap">
+        <div className="publish-search">
+          <Search
+            placeholder="Поиск..."
+            onSearch={onSearch}
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="publish-search__input"
+            style={{
+              width: "100%",
+            }}
+          />
+        </div>
+        <div className="publish-grid publish-grid--two publish-item">
+          {data &&
+            data?.pages[0]?.results.map(
+              ({ id, published_date, image, title, subcategory }) => (
+                <BlogItem
+                  key={id}
+                  id={id}
+                  date={published_date}
+                  image={image}
+                  subcategory={subcategory}
+                  title={title}
+                  lng={lng}
+                  link={link}
                 />
-              </div>
-              <div className="publish-grid publish-grid--two publish-item">
-                {data &&
-                  data?.pages[0]?.results.map(
-                    ({ id, published_date, image, title, subcategory }) => (
-                      <BlogItem
-                        key={id}
-                        id={id}
-                        date={published_date}
-                        image={image}
-                        subcategory={subcategory}
-                        title={title}
-                        lng={lng}
-                        link={link}
-                      />
-                    ),
-                  )}
-              </div>
-            </div>
-          </div>
+              ),
+            )}
         </div>
       </div>
-    </section>
+    </div>
   );
 };
 

@@ -1,5 +1,5 @@
 "use client";
-import { DatePicker, Input, Button } from "antd";
+import { DatePicker, Input, Button, Skeleton } from "antd";
 const { RangePicker } = DatePicker;
 import locale from "antd/es/date-picker/locale/ru_RU";
 import { useInfiniteQuery } from "@tanstack/react-query";
@@ -64,7 +64,7 @@ const InterviewClient = ({ lng }) => {
     }
   }, [publishDateQuery, searchQuery]);
 
-  const { data } = useInfiniteQuery({
+  const { data, isLoading, isSuccess } = useInfiniteQuery({
     queryKey: ["blogInterview", searchQuery, publishDateQuery, lng],
     queryFn: async ({ pageParam = 0 }) => {
       const datesArray = publishDateQuery.split(" ");
@@ -88,6 +88,7 @@ const InterviewClient = ({ lng }) => {
   });
 
   const onChangeDate = (value) => {
+    console.log("RANGE", value);
     if (value) {
       const startDateSrc = dayjs(new Date(value[0]))
         .locale(kk)
@@ -97,8 +98,17 @@ const InterviewClient = ({ lng }) => {
         .format("YYYY-MM-DD");
       const publishDate = `${startDateSrc} ${endDateSrc}`;
       setPublishDate(publishDate);
-    } else if (value === null || value === undefined) {
+    } else if (value === null || value === undefined || !publishDateQuery) {
       setPublishDate("");
+      if (
+        publishDateQuery ||
+        publishDateQuery !== null ||
+        publishDateQuery !== ""
+      ) {
+        router.push(`${pathname}?search=${search}&publish_date=`);
+      } else {
+        router.push(`${pathname}?search=${search}`);
+      }
     }
     setStartEndDate(value);
   };
@@ -117,8 +127,13 @@ const InterviewClient = ({ lng }) => {
   const onChangeSearch = (e) => {
     const target = e.target.value;
     if (target === "" && searchQuery !== "") {
+      if (publishDateQuery !== "" || publishDateQuery !== null) {
+        router.push(`${pathname}?search=${target}&publish_date=${publishDate}`);
+      } else {
+        router.push(`${pathname}?search=${target}`);
+      }
       setSearch("");
-      router.push(pathname);
+      // router.push(pathname);
     }
     setSearch(target);
   };
@@ -163,21 +178,39 @@ const InterviewClient = ({ lng }) => {
                   />
                 </div>
                 <div className="publish-grid publish-grid--two publish-item">
-                  {data &&
-                    data?.pages[0]?.results.map(
-                      ({ id, published_date, image, title, subcategory }) => (
-                        <BlogItem
-                          key={id}
-                          id={id}
-                          date={published_date}
-                          image={image}
-                          subcategory={subcategory}
-                          title={title}
-                          lng={lng}
-                          link={link}
-                        />
-                      ),
-                    )}
+                  {!isLoading && isSuccess && data
+                    ? data?.pages[0]?.results.map(
+                        ({ id, published_date, image, title, subcategory }) => (
+                          <BlogItem
+                            key={id}
+                            id={id}
+                            date={published_date}
+                            image={image}
+                            subcategory={subcategory}
+                            title={title}
+                            lng={lng}
+                            link={link}
+                          />
+                        ),
+                      )
+                    : Array(4)
+                        .fill(0)
+                        .map((_, index) => (
+                          <div key={index} className="skeleton-blogCard">
+                            <Skeleton.Image
+                              style={{
+                                width: "100%",
+                                height: "100%",
+                              }}
+                              active={true}
+                              className="skeleton-blogCard__img"
+                            />
+                            <Skeleton
+                              className="skeleton-blogCard__text"
+                              active
+                            />
+                          </div>
+                        ))}
                 </div>
               </div>
             </div>

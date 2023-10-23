@@ -4,7 +4,7 @@
   justify-content: space-between;
 
   &__container {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     z-index: 99;
@@ -13,19 +13,33 @@
     align-items: center;
     justify-content: space-between;
     color: var(--base-color);
-    padding-top: 1.25em;
-    padding-bottom: 1.25em;
-    box-shadow: 0 0 24px rgba(0, 0, 0, 0.06);
-
+    padding-top: .875em;
+    padding-bottom: .875em;
+    border-bottom: 1px solid rgba(0, 0, 0, .06);
     @include small-desktop {
       padding-top: 0.75em;
       padding-bottom: 0.75em;
+    }
+    &:before {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: #fff;
+      transform: translateY(-100%);
+      opacity: 0;
+      transition: transform .3s,opacity 0s .3s;
+    }
+    .container {
+      position: relative;
     }
 
     &--home {
       color: var(--light-color);
       box-shadow: none;
-
+      border-color: transparent;
       .auth {
         &-block {
           &__login {
@@ -44,6 +58,31 @@
       .user {
         color: var(--light-color);
         border-color: var(--light-color);
+      }
+    }
+    &.active {
+      color: var(--base-color);
+      box-shadow: 0 0 24px rgba(0, 0, 0, 0.06);
+      border-color: transparent;
+      &:before {
+        transition: transform .3s,opacity 0s;
+        transform: translateY(0);
+        opacity: 1;
+      }
+      .auth {
+        &-block {
+          &__login {
+            color: var(--base-color);
+            background-color: rgba(0, 0, 0, 0.1);
+            border: 1px solid transparent;
+          }
+        }
+      }
+      .lang {
+        color: var(--base-color);
+        &:hover {
+          background-color: rgba(0, 0, 0, 0.1);
+        }
       }
     }
   }
@@ -127,27 +166,15 @@
   }
 
   &-home {
+    position: absolute;
+    bottom: 85px;
+    right: 20px;
     display: flex;
     flex-direction: column;
 
-    &__wrapper {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      right: 0;
-      z-index: 1;
-      width: fit-content;
-      @include small-tablet {
-        top: auto;
-        bottom: 40px;
-        left: 50%;
-        transform: translateX(-50%);
-      }
-    }
-
     .social {
       flex-direction: column;
-      margin-left: auto;
+      gap: 10px;
       @include small-tablet {
         flex-direction: row;
       }
@@ -252,3 +279,17 @@
     height: 32px;
   }
 }
+@keyframes pulse {
+  0% {
+    //transform(scale(.9));
+  }
+  70% {
+    //transform(scale(1));
+    box-shadow: 0 0 0 50px rgba(#e3871c, 0);
+  }
+  100% {
+    //transform(scale(.9));
+    box-shadow: 0 0 0 0 rgba(#e3871c, 0);
+  }
+}
+

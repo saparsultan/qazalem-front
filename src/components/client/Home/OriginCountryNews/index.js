@@ -1,15 +1,14 @@
 "use client";
-import React, { useState } from "react";
-import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
-import ArrowLink from "@/components/arrowLink";
-import BlogList from "@/components/layout/BlogList";
-import NewsService from "@/services/NewsService";
 import Link from "next/link";
-import { LINK_URLS } from "@/utils/constants";
+import { useState } from "react";
+import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import { Skeleton } from "antd";
-import MoreLink from "@/components/layout/MoreLink";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { useTranslation } from "@/app/i18n/client";
+import NewsService from "@/services/NewsService";
+import { LINK_URLS } from "@/utils/constants";
+import BlogList from "@/components/layout/BlogList";
+import MoreLink from "@/components/layout/MoreLink";
 
 const NewsOriginCountryHome = ({ lng }) => {
   const { t } = useTranslation(lng, "home");
@@ -43,8 +42,6 @@ const NewsOriginCountryHome = ({ lng }) => {
     },
   });
 
-  console.log("news------", data);
-
   return (
     <>
       <Tabs className="world-news-home__tabs-wrap">
@@ -67,7 +64,7 @@ const NewsOriginCountryHome = ({ lng }) => {
               })}
           </TabList>
           <Link href={link} className="tab-list__link">
-            <ArrowLink />
+            {t("allNews")}
           </Link>
         </div>
         <TabPanel key="default">
@@ -112,12 +109,8 @@ const NewsOriginCountryHome = ({ lng }) => {
             );
           })}
       </Tabs>
-      <MoreLink
-        clasName="more-link__mobile"
-        link="https://www.gov.kz/memleket/entities/qazalem/activities/30461"
-        target
-      >
-        Все новости
+      <MoreLink clasName="more-link__mobile" link={link}>
+        {t("allNews")}
       </MoreLink>
     </>
   );

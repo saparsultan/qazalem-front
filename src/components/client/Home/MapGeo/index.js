@@ -1,4 +1,4 @@
-import { MAP_GEO } from "@/utils/constants";
+import { GOOGlE_API_KEY, MAP_GEO } from "@/utils/constants";
 
 const MapGeo = ({ lng }) => {
   const lngMapFunc = () => {
@@ -17,7 +17,7 @@ const MapGeo = ({ lng }) => {
   };
   const lngMap = lngMapFunc();
   return (
-    <div className="map-geo__content">
+    <div className="map-geo__content" id="map">
       <iframe
         src={lngMap}
         width="100%"
