@@ -18,5 +18,9 @@
   "privacyPolicy": "Құпиялылық саясаты",
   "apiConnection": "API қосылымы",
   "callCenter": "Call-орталықтар",
-  "services": "Қызметтер"
+  "services": "Қызметтер",
+  "personalInfo": "Жеке ақпарат",
+  "registerGuide": "Гид-ке тіркелу",
+  "registerVolunteer": "Еріктілікке тіркелу",
+  "registerBrand": "QazBrend-те тіркелу"
 }

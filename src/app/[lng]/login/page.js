@@ -94,7 +94,7 @@ const Login = ({ params: { lng } }) => {
                     </Form.Item>
                     <div style={{ position: "absolute", top: "0", right: "0" }}>
                       <Link href={`/${lng}/${LINK_URLS.login}`}>
-                        Забыли пароль?
+                        {tForm("forgotPassword")}
                       </Link>
                     </div>
                   </Form.Item>

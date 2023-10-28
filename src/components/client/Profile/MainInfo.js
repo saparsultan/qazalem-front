@@ -7,13 +7,12 @@ import {
   useMutation,
   useQueryClient,
 } from "@tanstack/react-query";
-import { App, Button, Form, Input, Select } from "antd";
+import { App, Button, Form, Input, Select, Skeleton } from "antd";
 import ImageUploading from "react-images-uploading";
 import { useTranslation } from "@/app/i18n/client";
 import UserService from "@/services/UserService";
 import defaultAvatar from "@/assets/img/default.png";
 import beforeUpload from "@/utils/beforeUpload";
-import { Skeleton } from "antd";
 
 const MainInfo = ({ lng }) => {
   const [form] = Form.useForm();
@@ -25,31 +24,15 @@ const MainInfo = ({ lng }) => {
   const [avatar, setAvatar] = useState(null);
   const [avatarForm, setAvatarForm] = useState(null);
 
-  const { data, isSuccess } = useInfiniteQuery({
-    queryKey: [
-      "userMain",
-      session?.user?.id !== undefined,
-      session?.accessToken,
-      status === "authenticated",
-    ],
-    queryFn: async ({ pageParam = 1 }) => {
-      const { data } = await UserService.getUserMain(
-        session?.user?.id,
-        session?.accessToken,
-      );
-      return data;
-    },
-  });
-
   useEffect(() => {
     form.setFieldsValue({
-      name: session?.user && data?.pages[0]?.firstname,
-      surname: session?.user && data?.pages[0]?.lastname,
-      middlename: session?.user && data?.pages[0]?.middlename,
-      email: session?.user && data?.pages[0]?.email,
-      gender: session?.user && data?.pages[0]?.gender,
+      name: session?.user && session?.user?.firstname,
+      surname: session?.user && session?.user?.lastname,
+      middlename: session?.user && session?.user?.middlename,
+      email: session?.user && session?.user?.email,
+      gender: session?.user && session?.user?.gender,
     });
-  }, [data, isSuccess, form]);
+  }, [session]);
 
   const { mutate: onSubmitForm } = useMutation({
     mutationFn: async (value) => {
@@ -97,17 +80,15 @@ const MainInfo = ({ lng }) => {
     }
   };
 
-  console.log({ avatar });
-
-  if (!session?.user) {
-    return "sssss";
-  }
-
   return (
     <div className="profile-form">
       <Form layout="vertical" form={form} onFinish={onSubmitForm}>
         {!session?.user ? (
-          <Skeleton />
+          <Skeleton
+            paragraph={{
+              rows: 8,
+            }}
+          />
         ) : (
           <>
             <div className="form-row">
@@ -173,6 +154,7 @@ const MainInfo = ({ lng }) => {
                             {imageList && imageList.length > 0 ? (
                               <div className="upload__image-item ss">
                                 <Image
+                                  priority
                                   className="upload__image-src"
                                   quality={75}
                                   sizes="(max-width: 768px) 100vw"
@@ -185,12 +167,13 @@ const MainInfo = ({ lng }) => {
                             ) : (
                               <div className="upload__image-item gg">
                                 <Image
+                                  priority
                                   className="upload__image-src"
                                   quality={75}
                                   sizes="(max-width: 768px) 100vw"
                                   src={
-                                    data?.pages[0]?.image
-                                      ? data?.pages[0]?.image
+                                    session?.user?.image
+                                      ? session?.user?.image
                                       : defaultAvatar
                                   }
                                   alt="User Avatar"

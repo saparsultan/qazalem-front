@@ -1,42 +1,48 @@
 "use client";
-import React, { useEffect } from "react";
-import { Button, Form, Input } from "antd";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import UserService from "@/services/UserService";
+import { useEffect } from "react";
 import { useSession } from "next-auth/react";
+import { App, Button, Form, Input, Skeleton } from "antd";
+import {
+  useInfiniteQuery,
+  useMutation,
+  useQueryClient,
+} from "@tanstack/react-query";
+import { useTranslation } from "@/app/i18n/client";
+import UserService from "@/services/UserService";
 
-let userId;
-if (typeof window !== "undefined") {
-  userId = localStorage.getItem("userId");
-}
-
-const SocialInfo = () => {
-  // const { data: session, status } = useSession();
-  const queryClient = useQueryClient();
+const SocialInfo = ({ lng }) => {
   const [form] = Form.useForm();
-  const { data } = useQuery({
-    queryKey: ["userSocial"],
+  const { notification } = App.useApp();
+  const { data: session } = useSession();
+  const { t: tForm } = useTranslation(lng, "form");
+  const { t: tMessage } = useTranslation(lng, "message");
+  const queryClient = useQueryClient();
+
+  const { data, isLoading, isSuccess } = useInfiniteQuery({
+    queryKey: ["userSocial", session?.user?.id, session?.accessToken],
     queryFn: async () => {
-      const { data } = await UserService.getUserSocial(userId);
+      const sessionId =
+        session && session?.user && session?.user?.id ? session?.user?.id : "";
+      const { data } = await UserService.getUserSocial(
+        sessionId,
+        session?.accessToken,
+      );
       return data;
     },
-    // staleTime: Infinity,
   });
-
-  console.log({ data });
 
   useEffect(() => {
     form.setFieldsValue({
-      facebook: data?.facebook,
-      instagram: data?.instagram,
-      tiktok: data?.tiktok,
-      vk: data?.vk,
-      twitter: data?.twitter,
-      youtube: data?.youtube,
-      discord: data?.discord,
-      linkedin: data?.linkedin,
+      facebook: data?.pages[0]?.facebook,
+      instagram: data?.pages[0]?.instagram,
+      tiktok: data?.pages[0]?.tiktok,
+      vk: data?.pages[0]?.vk,
+      twitter: data?.pages[0]?.twitter,
+      youtube: data?.pages[0]?.youtube,
+      discord: data?.pages[0]?.discord,
+      linkedin: data?.pages[0]?.linkedin,
     });
-  }, [data, form]);
+  }, [isSuccess]);
 
   const { mutate: onSubmitForm } = useMutation({
     mutationFn: async (value) => {
@@ -50,15 +56,27 @@ const SocialInfo = () => {
         discord: value?.discord,
         linkedin: value?.linkedin,
       };
-      const { data } = await UserService.updateSocial(userId, formData);
-      console.log("data data data", data);
+      await UserService.updateSocial(
+        session?.user?.id,
+        session?.accessToken,
+        formData,
+      );
     },
     onSuccess: async () => {
       await queryClient.invalidateQueries(["userSocial"]);
-      console.log("success");
+      await notification.success({
+        message: tMessage("success"),
+        description: tMessage("updateProfileSuccess"),
+        placement: "topRight",
+      });
     },
-    onError: (error) => {
-      console.log({ error });
+    onError: async (error) => {
+      await notification.error({
+        message: tMessage("error"),
+        description: tMessage("updateProfileError"),
+        placement: "topRight",
+      });
+      console.error("Error update social info", error);
     },
   });
 
@@ -70,45 +88,55 @@ const SocialInfo = () => {
         name="validateOnly"
         layout="vertical"
       >
-        <div className="form-row">
-          <div className="form-item">
-            <Form.Item name="facebook" label="Facebook">
-              <Input />
-            </Form.Item>
-            <Form.Item name="instagram" label="Instagram">
-              <Input />
-            </Form.Item>
-            <Form.Item name="tiktok" label="TikTok">
-              <Input />
-            </Form.Item>
-            <Form.Item name="vk" label="VK">
-              <Input />
-            </Form.Item>
-          </div>
-          <div className="form-item">
-            <Form.Item name="twitter" label="Twitter">
-              <Input />
-            </Form.Item>
-            <Form.Item name="youtube" label="YouTube">
-              <Input />
-            </Form.Item>
-            <Form.Item name="discord" label="Discord">
-              <Input />
-            </Form.Item>
-            <Form.Item name="linkedin" label="LinkedIn">
-              <Input />
-            </Form.Item>
-          </div>
-        </div>
-        <Button
-          type="primary"
-          style={{
-            marginLeft: "auto",
-          }}
-          htmlType="submit"
-        >
-          Далее
-        </Button>
+        {isLoading && !isSuccess ? (
+          <Skeleton
+            paragraph={{
+              rows: 8,
+            }}
+          />
+        ) : (
+          <>
+            <div className="form-row">
+              <div className="form-item">
+                <Form.Item name="facebook" label="Facebook">
+                  <Input placeholder={tForm("placeholderProvideLink")} />
+                </Form.Item>
+                <Form.Item name="instagram" label="Instagram">
+                  <Input placeholder={tForm("placeholderProvideLink")} />
+                </Form.Item>
+                <Form.Item name="tiktok" label="TikTok">
+                  <Input placeholder={tForm("placeholderProvideLink")} />
+                </Form.Item>
+                <Form.Item name="vk" label="VK">
+                  <Input placeholder={tForm("placeholderProvideLink")} />
+                </Form.Item>
+              </div>
+              <div className="form-item">
+                <Form.Item name="twitter" label="Twitter">
+                  <Input placeholder={tForm("placeholderProvideLink")} />
+                </Form.Item>
+                <Form.Item name="youtube" label="YouTube">
+                  <Input placeholder={tForm("placeholderProvideLink")} />
+                </Form.Item>
+                <Form.Item name="discord" label="Discord">
+                  <Input placeholder={tForm("placeholderProvideLink")} />
+                </Form.Item>
+                <Form.Item name="linkedin" label="LinkedIn">
+                  <Input placeholder={tForm("placeholderProvideLink")} />
+                </Form.Item>
+              </div>
+            </div>
+            <Button
+              type="primary"
+              style={{
+                marginLeft: "auto",
+              }}
+              htmlType="submit"
+            >
+              {tForm("save")}
+            </Button>
+          </>
+        )}
       </Form>
     </div>
   );

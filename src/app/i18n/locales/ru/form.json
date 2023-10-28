@@ -33,7 +33,7 @@
   "placeholderSelectCountry": "Выберите страну",
   "placeholderCityResidence": "Введите город проживания",
   "placeholderCourse": "Введите курс/класс",
-  "placeholderStudios": "Введите учебное завадение",
+  "placeholderStudios": "Введите учебное заведение",
   "placeholderGender": "Введите пол",
   "male": "Мужской",
   "female": "Женский",
@@ -76,5 +76,7 @@
   "or": "или",
   "activityCategory": "Категория деятельности",
   "apply": "Применить",
-  "search": "Поиск"
+  "search": "Поиск",
+  "forgotPassword": "Забыли пароль?",
+  "change": "Изменить"
 }

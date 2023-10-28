@@ -1,8 +1,9 @@
 "use client";
-import React from "react";
 import { Button, Form, Input } from "antd";
+import { useTranslation } from "@/app/i18n/client";
 
-const ChangePassword = () => {
+const ChangePassword = ({ lng }) => {
+  const { t: tForm } = useTranslation(lng, "form");
   return (
     <div className="profile-form">
       <Form name="validateOnly" layout="vertical" autoComplete="off">
@@ -12,14 +13,14 @@ const ChangePassword = () => {
           rules={[
             {
               required: true,
-              message: "Поле обязательно к заполнению",
+              message: tForm("requiredField"),
             },
           ]}
         >
           <Input.Password
             onChange={(e) => setPassword(e.target.value)}
             autoComplete="off"
-            placeholder="Введите пароль"
+            placeholder={tForm("placeholderEnterPassword")}
           />
         </Form.Item>
         <Form.Item
@@ -35,7 +36,7 @@ const ChangePassword = () => {
           <Input.Password
             onChange={(e) => setPassword(e.target.value)}
             autoComplete="off"
-            placeholder="Введите пароль"
+            placeholder={tForm("placeholderEnterPassword")}
           />
         </Form.Item>
 
@@ -61,7 +62,9 @@ const ChangePassword = () => {
             }),
           ]}
         >
-          <Input.Password placeholder="Подтвердите пароль" />
+          <Input.Password
+            placeholder={tForm("placeholderEnterConfirmPassword")}
+          />
         </Form.Item>
         <Button
           type="primary"
@@ -70,7 +73,7 @@ const ChangePassword = () => {
           }}
           htmlType="submit"
         >
-          Изменить
+          {tForm("change")}
         </Button>
       </Form>
     </div>

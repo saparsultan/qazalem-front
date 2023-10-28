@@ -1,30 +1,14 @@
 import AdditionalInfo from "@/components/client/Profile/AdditionalInfo";
-import { ReactQueryHydrate } from "@/components/client/ReactQueryHydrate/ReactQueryHydrate";
-import getQueryClient from "@/utils/getQueryClient";
-import UserService from "@/services/UserService";
-import { dehydrate } from "@tanstack/react-query";
+import { useTranslation } from "@/app/i18n";
 
-let userId;
-if (typeof window !== "undefined") {
-  userId = localStorage.getItem("userId");
-}
-const ProfileAdditional = async () => {
-  const queryClient = getQueryClient();
-  await queryClient.prefetchQuery(["userAdditional"], async () => {
-    const { data } = await UserService.getUserSocial(userId);
-    return data;
-  });
-  const dehydratedState = dehydrate(queryClient);
+export default async function ProfileAdditional({ params: { lng } }) {
+  const { t } = await useTranslation(lng, "default");
   return (
     <>
       <h2 className="title-h2 title-left bold profile__title">
-        Дополнительная информация
+        {t("titleAdditionalData")}
       </h2>
-      <ReactQueryHydrate state={dehydratedState}>
-        <AdditionalInfo userId={userId} />
-      </ReactQueryHydrate>
+      <AdditionalInfo lng={lng} />
     </>
   );
-};
-
-export default ProfileAdditional;
+}
