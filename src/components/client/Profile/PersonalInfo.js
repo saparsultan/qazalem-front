@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
-import { Button, DatePicker, Form, Input, Select } from "antd";
+import { App, Button, DatePicker, Form, Input, Select, Skeleton } from "antd";
 import {
   useInfiniteQuery,
   useMutation,
@@ -18,7 +18,7 @@ import weekYear from "dayjs/plugin/weekYear";
 import { useTranslation } from "@/app/i18n/client";
 import AuthService from "@/services/AuthService";
 import UserService from "@/services/UserService";
-import InputMask from "react-input-mask";
+
 dayjs.extend(customParseFormat);
 dayjs.extend(advancedFormat);
 dayjs.extend(weekday);
@@ -26,22 +26,23 @@ dayjs.extend(localeData);
 dayjs.extend(weekOfYear);
 dayjs.extend(weekYear);
 const PersonalInfo = ({ lng }) => {
-  const { t: tForm } = useTranslation(lng, "form");
-  const { data: session, status } = useSession();
-  const queryClient = useQueryClient();
   const [form] = Form.useForm();
-
+  const { notification } = App.useApp();
+  const { data: session } = useSession();
+  const { t: tForm } = useTranslation(lng, "form");
+  const { t: tMessage } = useTranslation(lng, "message");
+  const queryClient = useQueryClient();
   const [date, setDate] = useState("");
 
   const configs = useQuery({
     queryKey: ["configRegister"],
     queryFn: async () => {
-      const { data } = await AuthService.config();
+      const { data } = await AuthService.config(lng);
       return data;
     },
   });
 
-  const { data, isSuccess } = useInfiniteQuery({
+  const { data, isLoading, isSuccess } = useInfiniteQuery({
     queryKey: ["userPersonal", session?.user?.id, session?.accessToken],
     queryFn: async () => {
       const sessionId =
@@ -53,10 +54,6 @@ const PersonalInfo = ({ lng }) => {
       return data;
     },
   });
-
-  console.log("data data ", data);
-  console.log("date-local", new Date(data?.pages[0]?.date_of_birth));
-
   const dateLocal = dayjs(new Date(data?.pages[0]?.date_of_birth));
 
   useEffect(() => {
@@ -70,7 +67,7 @@ const PersonalInfo = ({ lng }) => {
       course: data?.pages[0]?.course,
       studies: data?.pages[0]?.profession,
     });
-  }, [data, dateLocal, form]);
+  }, [isSuccess]);
 
   const { mutate: onSubmitForm } = useMutation({
     mutationFn: async (value) => {
@@ -89,7 +86,7 @@ const PersonalInfo = ({ lng }) => {
         course: value?.course,
         education: value?.studies,
       };
-      const { data } = await UserService.updatePersonal(
+      await UserService.updatePersonal(
         session?.user?.id,
         session?.accessToken,
         formData,
@@ -97,130 +94,159 @@ const PersonalInfo = ({ lng }) => {
     },
     onSuccess: async () => {
       await queryClient.invalidateQueries(["userPersonal"]);
-      console.log("success");
+      await notification.success({
+        message: tMessage("success"),
+        description: tMessage("updateProfileSuccess"),
+        placement: "topRight",
+      });
     },
-    onError: (error) => {
-      console.log({ error });
+    onError: async (error) => {
+      await notification.error({
+        message: tMessage("error"),
+        description: tMessage("updateProfileError"),
+        placement: "topRight",
+      });
+      console.error("Error update personal info", error);
     },
   });
-
-  console.log({ data });
 
   return (
     <div className="profile-form">
       <Form layout="vertical" form={form} onFinish={onSubmitForm}>
-        <div className="form-row">
-          <div className="form-item">
-            <Form.Item name="birthDate" label={tForm("labelBirth")}>
-              <DatePicker
-                style={{
-                  width: "100%",
-                }}
-                value={date}
-                onChange={(e) => setDate(e)}
-              />
-            </Form.Item>
-            <Form.Item name="country" label={tForm("labelCountry")}>
-              <Select
-                placeholder={tForm("placeholderSelectCountry")}
-                allowClear
-                options={
-                  configs?.data?.country.length &&
-                  configs?.data?.country.map(({ id, value }) => {
-                    return {
-                      value: id,
-                      label: value,
-                    };
-                  })
-                }
-              />
-            </Form.Item>
-            <Form.Item
-              name="natonality"
-              label={tForm("labelCitizenship")}
-              rules={[
-                {
-                  required: true,
-                  message: tForm("required"),
-                },
-              ]}
+        {isLoading && !isSuccess ? (
+          <Skeleton
+            paragraph={{
+              rows: 8,
+            }}
+          />
+        ) : (
+          <>
+            <div className="form-row">
+              <div className="form-item">
+                <Form.Item name="birthDate" label={tForm("labelBirth")}>
+                  <DatePicker
+                    style={{
+                      width: "100%",
+                    }}
+                    value={date}
+                    onChange={(e) => setDate(e)}
+                  />
+                </Form.Item>
+                <Form.Item name="country" label={tForm("labelCountry")}>
+                  <Select
+                    placeholder={tForm("placeholderSelectCountry")}
+                    allowClear
+                    options={
+                      configs?.data?.country.length &&
+                      configs?.data?.country.map(({ id, value }) => {
+                        return {
+                          value: id,
+                          label: value,
+                        };
+                      })
+                    }
+                  />
+                </Form.Item>
+                <Form.Item
+                  name="natonality"
+                  label={tForm("labelCitizenship")}
+                  rules={[
+                    {
+                      required: true,
+                      message: tForm("required"),
+                    },
+                  ]}
+                >
+                  <Select
+                    placeholder={tForm("placeholderSelectCitizenship")}
+                    style={{
+                      width: "100%",
+                    }}
+                    allowClear
+                    options={
+                      configs?.data?.citizenship.length &&
+                      configs?.data?.citizenship.map(({ id, value }) => {
+                        return {
+                          value: id,
+                          label: value,
+                        };
+                      })
+                    }
+                  />
+                </Form.Item>
+                <Form.Item
+                  name="scopeActivity"
+                  label={tForm("labelFieldActivity")}
+                >
+                  <Select
+                    placeholder={tForm("placeholderSelectArea")}
+                    style={{
+                      width: "100%",
+                    }}
+                    allowClear
+                    options={
+                      configs?.data?.field_of_activity.length &&
+                      configs?.data?.field_of_activity.map(({ id, value }) => {
+                        return {
+                          value: id,
+                          label: value,
+                        };
+                      })
+                    }
+                  />
+                </Form.Item>
+                <Form.Item name="speciality" label={tForm("labelSpeciality")}>
+                  <Input placeholder={tForm("placeholderSpecialty")} />
+                </Form.Item>
+              </div>
+              <div className="form-item">
+                <Form.Item
+                  name="iin"
+                  label={tForm("labelIin")}
+                  rules={[
+                    {
+                      required: true,
+                      pattern: /^\d{12}$/,
+                      message: tForm("requiredIin"),
+                    },
+                  ]}
+                >
+                  <Input placeholder="____________" />
+                </Form.Item>
+                <Form.Item name="phone" label={tForm("labelPhone")}>
+                  <Input placeholder="+7 (___) ___-__-__" />
+                </Form.Item>
+                <Form.Item name="city" label={tForm("labelCity")}>
+                  <Input placeholder={tForm("placeholderCityResidence")} />
+                </Form.Item>
+                <Form.Item
+                  name="course"
+                  label={tForm("labelCourse")}
+                  rules={[
+                    {
+                      pattern: /^\d+$/,
+                      message: tForm("rulesNumericValue"),
+                    },
+                  ]}
+                >
+                  <Input placeholder={tForm("placeholderCourse")} />
+                </Form.Item>
+                <Form.Item name="studies" label={tForm("labelStudies")}>
+                  <Input placeholder={tForm("placeholderStudios")} />
+                </Form.Item>
+              </div>
+            </div>
+            <Button
+              type="primary"
+              style={{
+                marginLeft: "auto",
+              }}
+              htmlType="submit"
             >
-              <Select
-                placeholder={tForm("placeholderSelectCitizenship")}
-                style={{
-                  width: "100%",
-                }}
-                allowClear
-                options={
-                  configs?.data?.citizenship.length &&
-                  configs?.data?.citizenship.map(({ id, value }) => {
-                    return {
-                      value: id,
-                      label: value,
-                    };
-                  })
-                }
-              />
-            </Form.Item>
-            <Form.Item name="scopeActivity" label={tForm("labelFieldActivity")}>
-              <Select
-                placeholder={tForm("placeholderSelectArea")}
-                style={{
-                  width: "100%",
-                }}
-                allowClear
-                options={
-                  configs?.data?.field_of_activity.length &&
-                  configs?.data?.field_of_activity.map(({ id, value }) => {
-                    return {
-                      value: id,
-                      label: value,
-                    };
-                  })
-                }
-              />
-            </Form.Item>
-            <Form.Item name="speciality" label={tForm("labelSpeciality")}>
-              <Input placeholder={tForm("placeholderSpecialty")} />
-            </Form.Item>
-          </div>
-          <div className="form-item">
-            <Form.Item
-              name="iin"
-              label={tForm("labelIin")}
-              rules={[
-                {
-                  required: true,
-                  pattern: /^\d{12}$/,
-                  message: tForm("requiredIin"),
-                },
-              ]}
-            >
-              <Input placeholder="____________" />
-            </Form.Item>
-            <Form.Item name="phone" label={tForm("labelPhone")}>
-              <Input placeholder="+7 (___) ___-__-__" />
-            </Form.Item>
-            <Form.Item name="city" label={tForm("labelCity")}>
-              <Input placeholder={tForm("placeholderCityResidence")} />
-            </Form.Item>
-            <Form.Item name="course" label={tForm("labelCourse")}>
-              <Input placeholder={tForm("placeholderCourse")} />
-            </Form.Item>
-            <Form.Item name="studies" label={tForm("labelStudies")}>
-              <Input placeholder={tForm("placeholderStudios")} />
-            </Form.Item>
-          </div>
-        </div>
-        <Button
-          type="primary"
-          style={{
-            marginLeft: "auto",
-          }}
-          htmlType="submit"
-        >
-          {tForm("save")}
-        </Button>
+              {tForm("save")}
+            </Button>
+          </>
+        )}
       </Form>
     </div>
   );

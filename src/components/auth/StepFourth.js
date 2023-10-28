@@ -37,7 +37,7 @@ const StepFourth = ({
       <Form.Item name="relocate" label={t("doYouWantMove")}>
         <Input
           onChange={(e) => setRelocate(e.target.value)}
-          placeholder="Введите ваш ответ"
+          placeholder={t("youAnswer")}
         />
       </Form.Item>
       <Form.Item name="ability" label={t("whatAbilities")}>

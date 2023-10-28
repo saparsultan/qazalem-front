@@ -15,11 +15,19 @@ export default class UserService {
       },
     });
   }
-  static getUserSocial(id) {
-    return $apiPrivate.get(`user/profile/social/${id}`);
+  static getUserSocial(id, token) {
+    return $apiPrivate.get(`user/profile/social/${id}`, {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    });
   }
-  static getUserAdditional(id) {
-    return $apiPrivate.get(`user/profile/additional/${id}`);
+  static getUserAdditional(id, token) {
+    return $apiPrivate.get(`user/profile/additional/${id}`, {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    });
   }
   static updateMain(id, token, data) {
     return $api.put(`user/profile/main/${id}`, data, {

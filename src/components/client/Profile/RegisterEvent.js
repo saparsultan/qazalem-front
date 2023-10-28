@@ -7,7 +7,8 @@ import { useTranslation } from "@/app/i18n/client";
 const RegisterEvent = ({ lng }) => {
   const { message } = App.useApp();
   const [form] = Form.useForm();
-  const { t } = useTranslation(lng, "message");
+  const { t: tForm } = useTranslation(lng, "form");
+  const { tMessage } = useTranslation(lng, "message");
 
   const selectEvents = useQuery({
     queryKey: ["selectEvents"],
@@ -15,7 +16,6 @@ const RegisterEvent = ({ lng }) => {
       const { data } = await UserService.getSelectEvents(lng);
       return data;
     },
-    staleTime: Infinity,
   });
 
   const { mutate: onSubmitForm } = useMutation({
@@ -49,14 +49,14 @@ const RegisterEvent = ({ lng }) => {
       await UserService.registerEvents(formData);
     },
     onSuccess: async () => {
-      await message.success(t("registerSuccessEvent"));
+      await message.success(tMessage("registerSuccessEvent"));
     },
     onError: async (error) => {
       console.log("Error register event form", error);
       if (error.response.status === 409) {
         await message.error(error?.response?.data?.events);
       } else {
-        await message.error(t("registerError"));
+        await message.error(tMessage("registerError"));
       }
     },
   });
@@ -69,117 +69,111 @@ const RegisterEvent = ({ lng }) => {
         layout="vertical"
         onFinish={onSubmitForm}
       >
-        <div className="form-row">
-          <div className="form-item form-item--full">
-            <Form.Item
-              name="eventType"
-              label="В каком мероприятии вы хотите принять участие?"
-              rules={[
-                {
-                  required: true,
-                  message: "Поле обязательно к заполнению",
-                },
-              ]}
-            >
-              <Select
-                placeholder="Выберите мероприятие"
-                style={{
-                  width: "100%",
-                }}
-                allowClear
-                options={
-                  selectEvents?.data?.length &&
-                  selectEvents.data.map(({ id, title }) => {
-                    return {
-                      value: id,
-                      label: title,
-                    };
-                  })
-                }
-              />
-            </Form.Item>
-            <Form.Item
-              name="eventFormat"
-              label="Формат мероприятия"
-              rules={[{}]}
-            >
-              <Select
-                placeholder="Выберите формат"
-                style={{
-                  width: "100%",
-                }}
-                allowClear
-                options={[
-                  {
-                    value: "ONLINE",
-                    label: "Онлайн",
-                  },
-                  {
-                    value: "OFFLINE",
-                    label: "Офлайн",
-                  },
-                ]}
-              />
-            </Form.Item>
-            <Form.Item name="comments" label="Отзывы и предложения">
-              <Input placeholder="Введите отзыв и предложение" />
-            </Form.Item>
-          </div>
-          <div className="form-item">
-            <Form.Item
-              name="organization"
-              label="Организация"
-              rules={[
-                {
-                  required: true,
-                  message: "Поле обязательно к заполнению",
-                },
-              ]}
-            >
-              <Input placeholder="Введите организацию" />
-            </Form.Item>
-            <Form.Item
-              name="position"
-              label="Должность"
-              rules={[
-                {
-                  required: true,
-                  message: "Поле обязательно к заполнению",
-                },
-              ]}
-            >
-              <Input placeholder="Введите должность" />
-            </Form.Item>
-            <Form.Item
-              name="passport"
-              label="Есть ли у вас паспорт готовый для выезда за границу?"
-              rules={[
-                {
-                  required: true,
-                  message: "Поле обязательно к заполнению",
-                },
-              ]}
-            >
-              <Select
-                placeholder="Выберите вариант"
-                style={{
-                  width: "100%",
-                }}
-                allowClear
-                options={[
-                  {
-                    value: "YES",
-                    label: "Да",
-                  },
-                  {
-                    value: "NO",
-                    label: "Нет",
-                  },
-                ]}
-              />
-            </Form.Item>
-          </div>
-        </div>
+        <Form.Item
+          name="eventType"
+          label={tForm("labelWhatEventTake")}
+          rules={[
+            {
+              required: true,
+              message: tForm("requiredField"),
+            },
+          ]}
+        >
+          <Select
+            placeholder={tForm("placeholderWhatEventTake")}
+            style={{
+              width: "100%",
+            }}
+            allowClear
+            options={
+              selectEvents?.data?.length &&
+              selectEvents.data.map(({ id, title }) => {
+                return {
+                  value: id,
+                  label: title,
+                };
+              })
+            }
+          />
+        </Form.Item>
+        <Form.Item
+          name="organization"
+          label={tForm("labelOrganization")}
+          rules={[
+            {
+              required: true,
+              message: tForm("requiredField"),
+            },
+          ]}
+        >
+          <Input placeholder={tForm("placeholderOrganization")} />
+        </Form.Item>
+        <Form.Item
+          name="eventFormat"
+          label={tForm("labelFormatEvent")}
+          rules={[{ required: true, message: tForm("requiredField") }]}
+        >
+          <Select
+            placeholder={tForm("placeholderFormatEvent")}
+            style={{
+              width: "100%",
+            }}
+            allowClear
+            options={[
+              {
+                value: "ONLINE",
+                label: tForm("online"),
+              },
+              {
+                value: "OFFLINE",
+                label: tForm("offline"),
+              },
+            ]}
+          />
+        </Form.Item>
+        <Form.Item
+          name="position"
+          label={tForm("labelPosition")}
+          rules={[
+            {
+              required: true,
+              message: tForm("requiredField"),
+            },
+          ]}
+        >
+          <Input placeholder={tForm("placeholderPosition")} />
+        </Form.Item>
+        <Form.Item
+          name="passport"
+          label={tForm("labelHavePassport")}
+          rules={[
+            {
+              required: true,
+              message: tForm("requiredField"),
+            },
+          ]}
+        >
+          <Select
+            placeholder={tForm("placeholderVariant")}
+            style={{
+              width: "100%",
+            }}
+            allowClear
+            options={[
+              {
+                value: "YES",
+                label: tForm("yes"),
+              },
+              {
+                value: "NO",
+                label: tForm("no"),
+              },
+            ]}
+          />
+        </Form.Item>
+        <Form.Item name="comments" label={tForm("labelComments")}>
+          <Input placeholder={tForm("placeholderComments")} />
+        </Form.Item>
         <Button
           type="primary"
           style={{
@@ -187,7 +181,7 @@ const RegisterEvent = ({ lng }) => {
           }}
           htmlType="submit"
         >
-          Отправить заявку
+          {tForm("sendRequest")}
         </Button>
       </Form>
     </div>

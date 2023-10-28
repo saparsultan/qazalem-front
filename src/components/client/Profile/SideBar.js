@@ -1,14 +1,17 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useSession } from "next-auth/react";
+import { usePathname, useRouter } from "next/navigation";
+import { signOut, useSession } from "next-auth/react";
 import { LINK_URLS } from "@/utils/constants";
 import defaultAvatar from "@/assets/img/default.png";
+import { useTranslation } from "@/app/i18n/client";
 
 const SideBar = ({ lng }) => {
-  const pathname = usePathname();
   const { data: session } = useSession();
+  const { t: tDefault } = useTranslation(lng, "default");
+  const pathname = usePathname();
+  const router = useRouter();
   const profileMain = `/${lng}/${LINK_URLS.profile}/${LINK_URLS.main}`;
   const profilePersonal = `/${lng}/${LINK_URLS.profile}/${LINK_URLS.personal}`;
   const profileSocial = `/${lng}/${LINK_URLS.profile}/${LINK_URLS.social}`;
@@ -18,11 +21,21 @@ const SideBar = ({ lng }) => {
   const activeLink = "profile-sidebar-list__link active";
   const defaultLink = "profile-sidebar-list__link";
 
+  const handleLogout = async () => {
+    await signOut();
+    await router.push(`/${lng}`, {
+      scroll: false,
+    });
+  };
+
   return (
     <>
       <div className="profile-sidebar__header profile-sidebar-header">
         <div className="profile-sidebar-header__preview">
-          <div className="profile-sidebar-header__logout">
+          <div
+            className="profile-sidebar-header__logout"
+            onClick={handleLogout}
+          >
             <svg
               width="24"
               height="24"
@@ -65,7 +78,7 @@ const SideBar = ({ lng }) => {
               href={profileMain}
               className={pathname === profileMain ? activeLink : defaultLink}
             >
-              <span>Основная информация</span>
+              <span>{tDefault("titleMainData")}</span>
               <svg
                 width="24"
                 height="24"
@@ -87,7 +100,7 @@ const SideBar = ({ lng }) => {
                 pathname === profilePersonal ? activeLink : defaultLink
               }
             >
-              <span>Персональные данные</span>
+              <span>{tDefault("titlePersonalData")}</span>
               <svg
                 width="24"
                 height="24"
@@ -107,7 +120,7 @@ const SideBar = ({ lng }) => {
               href={profileSocial}
               className={pathname === profileSocial ? activeLink : defaultLink}
             >
-              <span>Социальные сети</span>
+              <span>{tDefault("titleSocialData")}</span>
               <svg
                 width="24"
                 height="24"
@@ -129,7 +142,7 @@ const SideBar = ({ lng }) => {
                 pathname === profileAdditional ? activeLink : defaultLink
               }
             >
-              <span>Дополнительная информация</span>
+              <span>{tDefault("titleAdditionalData")}</span>
               <svg
                 width="24"
                 height="24"
@@ -151,7 +164,7 @@ const SideBar = ({ lng }) => {
                 pathname === profileChangePassword ? activeLink : defaultLink
               }
             >
-              <span>Изменить пароль</span>
+              <span>{tDefault("titleChangePassword")}</span>
               <svg
                 width="24"
                 height="24"
@@ -173,7 +186,7 @@ const SideBar = ({ lng }) => {
                 pathname === profileRegisterEvent ? activeLink : defaultLink
               }
             >
-              <span>Зарегистрироваться на мероприятие</span>
+              <span>{tDefault("titleRegisterEvent")}</span>
               <svg
                 width="24"
                 height="24"

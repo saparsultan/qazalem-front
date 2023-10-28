@@ -18,5 +18,9 @@
   "privacyPolicy": "Политика конфедиенциальности",
   "apiConnection": "API подключение",
   "callCenter": "Call-центры",
-  "services": "Сервисы"
+  "services": "Сервисы",
+  "personalInfo": "Личная информация",
+  "registerGuide": "Регистрация в Гид",
+  "registerVolunteer": "Регистрация в Волонтерство",
+  "registerBrand": "Регистрация в QazBrend"
 }

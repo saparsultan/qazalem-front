@@ -1,77 +1,93 @@
 "use client";
-import React from "react";
-import { Button, Form, Input } from "antd";
+import { useSession } from "next-auth/react";
+import { Button, Form, Input, Skeleton } from "antd";
+import { useTranslation } from "@/app/i18n/client";
 
-const ChangePassword = () => {
+const ChangePassword = ({ lng }) => {
+  const { data: session } = useSession();
+  const { t: tForm } = useTranslation(lng, "form");
   return (
     <div className="profile-form">
       <Form name="validateOnly" layout="vertical" autoComplete="off">
-        <Form.Item
-          label="Текущий пароль"
-          name="changePassword"
-          rules={[
-            {
-              required: true,
-              message: "Поле обязательно к заполнению",
-            },
-          ]}
-        >
-          <Input.Password
-            onChange={(e) => setPassword(e.target.value)}
-            autoComplete="off"
-            placeholder="Введите пароль"
+        {!session?.user ? (
+          <Skeleton
+            paragraph={{
+              rows: 8,
+            }}
           />
-        </Form.Item>
-        <Form.Item
-          label="Новый пароль"
-          name="newPassword"
-          rules={[
-            {
-              required: true,
-              message: "Поле обязательно к заполнению",
-            },
-          ]}
-        >
-          <Input.Password
-            onChange={(e) => setPassword(e.target.value)}
-            autoComplete="off"
-            placeholder="Введите пароль"
-          />
-        </Form.Item>
+        ) : (
+          <>
+            <Form.Item
+              label={tForm("labelCurrentPassword")}
+              name="changePassword"
+              rules={[
+                {
+                  required: true,
+                  message: tForm("requiredField"),
+                },
+              ]}
+            >
+              <Input.Password
+                onChange={(e) => setPassword(e.target.value)}
+                autoComplete="off"
+                placeholder={tForm("placeholderEnterPassword")}
+              />
+            </Form.Item>
+            <Form.Item
+              label={tForm("labelNewPassword")}
+              name="newPassword"
+              rules={[
+                {
+                  required: true,
+                  message: tForm("requiredField"),
+                },
+              ]}
+            >
+              <Input.Password
+                onChange={(e) => setPassword(e.target.value)}
+                autoComplete="off"
+                placeholder={tForm("placeholderEnterPassword")}
+              />
+            </Form.Item>
 
-        <Form.Item
-          label="Повторить новый пароль"
-          name="confirm"
-          dependencies={["newPassword"]}
-          hasFeedback
-          rules={[
-            {
-              required: true,
-              message: "Пожалуйста, подтвердите свой пароль",
-            },
-            ({ getFieldValue }) => ({
-              validator(_, value) {
-                if (!value || getFieldValue("newPassword") === value) {
-                  return Promise.resolve();
-                }
-                return Promise.reject(
-                  new Error("Пароль, который вы ввели, не соответствует"),
-                );
-              },
-            }),
-          ]}
-        >
-          <Input.Password placeholder="Подтвердите пароль" />
-        </Form.Item>
-        <Button
-          type="primary"
-          style={{
-            marginLeft: "auto",
-          }}
-          htmlType="submit"
-        >
-          Изменить
-        </Button>
+            <Form.Item
+              label={tForm("labelNewConfirmPassword")}
+              name="confirm"
+              dependencies={["newPassword"]}
+              hasFeedback
+              rules={[
+                {
+                  required: true,
+                  message: tForm("rulesEnterConfirmPassword"),
+                },
+                ({ getFieldValue }) => ({
+                  validator(_, value) {
+                    if (!value || getFieldValue("newPassword") === value) {
+                      return Promise.resolve();
+                    }
+                    return Promise.reject(
+                      new Error(tForm("passwordDontMatch")),
+                    );
+                  },
+                }),
+              ]}
+            >
+              <Input.Password
+                placeholder={tForm("placeholderEnterConfirmPassword")}
+              />
+            </Form.Item>
+            <Button
+              type="primary"
+              disabled
+              style={{
+                marginLeft: "auto",
+              }}
+              htmlType="submit"
+            >
+              {tForm("change")}
+            </Button>
+          </>
+        )}
       </Form>
     </div>
   );

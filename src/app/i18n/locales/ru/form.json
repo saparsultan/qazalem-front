@@ -21,6 +21,9 @@
   "labelHostCountry": "Страна пребывания",
   "labelSelectGender": "Выберите пол",
   "labelContactConsulate": "Cвязаться с консульством",
+  "labelCurrentPassword": "Текущий пароль",
+  "labelNewPassword": "Новый пароль",
+  "labelNewConfirmPassword": "Повторить новый пароль",
 
 
   "required": "Поле обязательно для выбора",
@@ -33,7 +36,7 @@
   "placeholderSelectCountry": "Выберите страну",
   "placeholderCityResidence": "Введите город проживания",
   "placeholderCourse": "Введите курс/класс",
-  "placeholderStudios": "Введите учебное завадение",
+  "placeholderStudios": "Введите учебное заведение",
   "placeholderGender": "Введите пол",
   "male": "Мужской",
   "female": "Женский",
@@ -76,5 +79,23 @@
   "or": "или",
   "activityCategory": "Категория деятельности",
   "apply": "Применить",
-  "search": "Поиск"
+  "search": "Поиск",
+  "forgotPassword": "Забыли пароль?",
+  "change": "Изменить",
+  "passwordDontMatch": "Пароль, который вы ввели, не соответствует",
+  "sendRequest": "Отправить заявку",
+  "labelWhatEventTake": "В каком мероприятии вы хотите принять участие?",
+  "placeholderWhatEventTake": "Выберите мероприятие",
+  "labelOrganization": "Организация",
+  "placeholderOrganization": "Введите организацию",
+  "labelFormatEvent": "Формат мероприятия",
+  "placeholderFormatEvent": "Выберите формат",
+  "labelPosition": "Должность",
+  "placeholderPosition": "Введите должность",
+  "labelHavePassport": "Есть ли у вас паспорт готовый для выезда за границу?",
+  "placeholderVariant": "Выберите вариант",
+  "labelComments": "Отзывы и предложения",
+  "placeholderComments": "Введите отзыв и предложение",
+  "online": "Онлайн",
+  "offline": "Офлайн"
 }

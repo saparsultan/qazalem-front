@@ -18,5 +18,9 @@
   "privacyPolicy": "Privacy Policy",
   "apiConnection": "API connection",
   "callCenter": "Call centers",
-  "services": "Services"
+  "services": "Services",
+  "personalInfo": "Personal info",
+  "registerGuide": "Registration in Guide",
+  "registerVolunteer": "Registration in Volunteering",
+  "registerBrand": "Registration in QazBrend"
 }

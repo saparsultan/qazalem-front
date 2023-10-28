@@ -2,8 +2,8 @@ import $api, { $apiPrivate } from "@/utils/http";
 import { BASE_URL } from "@/utils/constants";
 
 export default class AuthService {
-  static config() {
-    return $api.get("config/?lang=ru");
+  static config(lng) {
+    return $api.get(`config/?lang=${lng}`);
   }
   static async emailExists(data) {
     return $api.post("email_exists/", { email: data });
