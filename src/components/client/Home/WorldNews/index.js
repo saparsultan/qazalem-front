@@ -27,14 +27,14 @@ const NewsWorldHome = ({ lng }) => {
 
   const { data, isLoading, isSuccess } = useInfiniteQuery({
     queryKey: ["blogNewsWorld", category, lng],
-    queryFn: async ({ limit = 4 }) => {
+    queryFn: async ({ page_size = 4 }) => {
       const getData = {
         lang: lng,
         subcategory: category,
         published_date: "",
         search: "",
-        limit,
-        offset: "",
+        page: 1,
+        page_size,
       };
       const { data } = await NewsService.getNewsWorld(getData);
       return data;

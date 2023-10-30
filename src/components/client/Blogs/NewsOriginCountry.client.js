@@ -36,6 +36,8 @@ const NewsOriginCountryClient = ({ lng }) => {
   const [category, setCategory] = useState("");
   const [search, setSearch] = useState("");
 
+  // const [pagination, setPagination] = useState("");
+
   const link = `/${lng}/${LINK_URLS.news}`;
 
   const searchQuery =
@@ -96,8 +98,7 @@ const NewsOriginCountryClient = ({ lng }) => {
         published_date_start: firstDate,
         published_date_end: secondDate,
         search: searchQuery,
-        limit: "",
-        offset: "",
+        page: 1,
         lang: lng,
       };
       const { data } = await NewsService.getNewsOriginCountry(getData);
@@ -150,6 +151,17 @@ const NewsOriginCountryClient = ({ lng }) => {
       router.push(`${pathname}?search=${search}`);
     }
   };
+
+  // const onShowSizeChange = (current, pageSize) => {
+  //   console.log(current, pageSize);
+  // };
+
+  // const onChangeSize = (current, pageSize) => {
+  //   const size = current * 10;
+  //   setPagination(size);
+  //   console.log(current, pageSize);
+  //   console.log({ size });
+  // };
 
   return (
     <div className="publish publish--two">
@@ -237,6 +249,13 @@ const NewsOriginCountryClient = ({ lng }) => {
                   </div>
                 ))}
         </div>
+        {/*<Pagination*/}
+        {/*  showSizeChanger*/}
+        {/*  onChange={onChangeSize}*/}
+        {/*  onShowSizeChange={onShowSizeChange}*/}
+        {/*  defaultCurrent={1}*/}
+        {/*  total={data?.pages[0].count}*/}
+        {/*/>*/}
       </div>
     </div>
   );

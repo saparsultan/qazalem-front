@@ -27,15 +27,15 @@ const NewsOriginCountryHome = ({ lng }) => {
 
   const { data, isLoading, isSuccess } = useInfiniteQuery({
     queryKey: ["blogNewsOriginCountry", category, lng],
-    queryFn: async ({ limit = 4 }) => {
+    queryFn: async ({ page_size = 4 }) => {
       const getData = {
         lang: lng,
         subcategory: category,
         published_date_start: "",
         published_date_end: "",
         search: "",
-        limit,
-        offset: "",
+        page_size,
+        page: 1,
       };
       const { data } = await NewsService.getNewsOriginCountry(getData);
       return data;

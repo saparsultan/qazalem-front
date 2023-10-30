@@ -2,12 +2,54 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
-import "react-tabs/style/react-tabs.scss";
-import tabImg1 from "@/assets/img/tab-img1.jpg";
-import { LINK_URLS } from "@/utils/constants";
+import { Skeleton } from "antd";
 import { useTranslation } from "@/app/i18n/client";
+import { LINK_URLS } from "@/utils/constants";
+import "react-tabs/style/react-tabs.scss";
+import { useQuery } from "@tanstack/react-query";
+import HomeService from "@/services/HomeServices";
 
 const ServicesHome = ({ lng }) => {
+  const dataTourism = useQuery({
+    queryKey: ["kazakhTourismPreview"],
+    queryFn: async () => {
+      const { data } = await HomeService.getKazakhTourismPreview(lng);
+      return data;
+    },
+  });
+
+  const dataInvest = useQuery({
+    queryKey: ["kazakhInvestPreview"],
+    queryFn: async () => {
+      const { data } = await HomeService.getKazakhInvestPreview(lng);
+      return data;
+    },
+  });
+
+  const dataAlemMeta = useQuery({
+    queryKey: ["alemMetaPreview"],
+    queryFn: async () => {
+      const { data } = await HomeService.getAlemMetaPreview(lng);
+      return data;
+    },
+  });
+
+  const dataQazTrade = useQuery({
+    queryKey: ["qazTradePreview"],
+    queryFn: async () => {
+      const { data } = await HomeService.getQazTradePreview(lng);
+      return data;
+    },
+  });
+
+  const dataAstanaHub = useQuery({
+    queryKey: ["astanaHubPreview"],
+    queryFn: async () => {
+      const { data } = await HomeService.getAstanaHubPreview(lng);
+      return data;
+    },
+  });
+
   const { t } = useTranslation(lng, "home");
   return (
     <div className="company-list__content">
@@ -17,8 +59,8 @@ const ServicesHome = ({ lng }) => {
           <Tab className="tab-list__tab">Kazakh Invest</Tab>
           <Tab className="tab-list__tab">Alem Metaverse</Tab>
           <Tab className="tab-list__tab">QazTrade</Tab>
-          <Tab className="tab-list__tab">KazakhExport</Tab>
-          <Tab className="tab-list__tab">ВТП Атамекен</Tab>
+          {/*<Tab className="tab-list__tab">KazakhExport</Tab>*/}
+          {/*<Tab className="tab-list__tab">ВТП Атамекен</Tab>*/}
           <Tab className="tab-list__tab">Astana Hub</Tab>
         </TabList>
         <TabPanel>
@@ -27,32 +69,37 @@ const ServicesHome = ({ lng }) => {
               <h3 className="title title-h3 company-list-content__title">
                 Kazakh Tourism
               </h3>
-              <p className="company-list-content__desc">
-                АО «Национальная компания «Kazakh Tourism» было основано в 2017
-                году после многочисленных успешных мероприятий проведенных в
-                стране с целью продолжения продвижения Казахстана в мировом
-                масштабе как туристического направления. Kazakh Tourism, являясь
-                бренд-менеджером страны по туризму и дочерней компанией
-                Министерства культуры и спорта, обеспечивает всестороннее и
-                целостное позиционирование страны как на международном, так и на
-                внутреннем рынке. Kazakh Tourism уделяет особое внимание
-                маркетингу и продвижению страны, привлечению инвестиций в туризм
-                и реализации Государственной программе развития туризма до 2025
-                года.
-              </p>
+              <div
+                dangerouslySetInnerHTML={{
+                  __html:
+                    !dataTourism.isLoading &&
+                    dataTourism.isSuccess &&
+                    dataTourism?.data[0]?.description,
+                }}
+                className="company-list-content__desc"
+              ></div>
               <Link
-                href={`/${lng}/${LINK_URLS.services}`}
+                href={`/${lng}/${LINK_URLS.services}/kazakh-tourism`}
                 className="btn btn-link btn-accent company-list-content__link"
               >
                 {t("learnMore")}
               </Link>
             </div>
             <div className="company-list-content__item company-list-content__item--img">
-              <Image
-                src={tabImg1}
-                className="company-list-content__img"
-                alt="tab-img-1"
-              />
+              {!dataTourism?.isLoading &&
+              dataTourism.isSuccess &&
+              dataTourism?.data?.length > 0 ? (
+                <Image
+                  src={dataTourism?.data[0]?.image}
+                  priority
+                  width={100}
+                  height={100}
+                  className="company-list-content__img"
+                  alt={`company-list-${dataTourism?.data[0]?.id}`}
+                />
+              ) : (
+                <Skeleton.Image active />
+              )}
             </div>
           </div>
         </TabPanel>
@@ -62,32 +109,37 @@ const ServicesHome = ({ lng }) => {
               <h3 className="title title-h3 company-list-content__title">
                 Kazakh Invest
               </h3>
-              <p className="company-list-content__desc">
-                АО «Национальная компания «KAZAKH INVEST» создана в соответствии
-                с постановлением Правительства Республики Казахстан от 1 марта
-                2017 года № 100 «О переименовании акционерного общества
-                «Национальное агентство по экспорту и инвестициям «KAZNEX
-                INVEST» в целях содействия устойчивому социально-экономическому
-                развитию Республики Казахстан путем привлечения иностранных
-                инвестиций в приоритетные сектора экономики и комплексного
-                сопровождения инвестиционных проектов. Указом Президента
-                Республики Казахстан «О мерах по дальнейшему совершенствованию
-                системы государственного управления Республики Казахстан» от 26
-                декабря 2018 года №806 права владения
-              </p>
+              <div
+                dangerouslySetInnerHTML={{
+                  __html:
+                    !dataInvest.isLoading &&
+                    dataInvest.isSuccess &&
+                    dataInvest?.data[0]?.description,
+                }}
+                className="company-list-content__desc"
+              ></div>
               <Link
-                href={`/${lng}/${LINK_URLS.services}`}
+                href={`/${lng}/${LINK_URLS.services}/kazakh-invest`}
                 className="btn btn-link btn-accent company-list-content__link"
               >
                 {t("learnMore")}
               </Link>
             </div>
             <div className="company-list-content__item company-list-content__item--img">
-              <Image
-                src={tabImg1}
-                className="company-list-content__img"
-                alt="tab-img-1"
-              />
+              {!dataInvest?.isLoading &&
+              dataInvest.isSuccess &&
+              dataInvest?.data?.length > 0 ? (
+                <Image
+                  src={dataInvest?.data[0]?.image}
+                  priority
+                  width={100}
+                  height={100}
+                  className="company-list-content__img"
+                  alt={`company-list-${dataInvest?.data[0]?.id}`}
+                />
+              ) : (
+                <Skeleton.Image active />
+              )}
             </div>
           </div>
         </TabPanel>
@@ -95,14 +147,17 @@ const ServicesHome = ({ lng }) => {
           <div className="company-list-content">
             <div className="company-list-content__item">
               <h3 className="title title-h3 company-list-content__title">
-                Kazakh Tourism 3
+                Alem Metaverse
               </h3>
-              <p className="company-list-content__desc">
-                Lorem Ipsum - это текст-рыба, часто используемый в печати и
-                вэб-дизайне. Lorem I psum является стандартной рыбой для текстов
-                на латинице с начала XVI века. В то время некий текстов на
-                латинице с начала XVI века. В то время некий
-              </p>
+              <div
+                dangerouslySetInnerHTML={{
+                  __html:
+                    !dataAlemMeta.isLoading &&
+                    dataAlemMeta.isSuccess &&
+                    dataAlemMeta?.data[0]?.description,
+                }}
+                className="company-list-content__desc"
+              ></div>
               <Link
                 href={`/${lng}/${LINK_URLS.services}`}
                 className="btn btn-link btn-accent company-list-content__link"
@@ -111,11 +166,20 @@ const ServicesHome = ({ lng }) => {
               </Link>
             </div>
             <div className="company-list-content__item company-list-content__item--img">
-              <Image
-                src={tabImg1}
-                className="company-list-content__img"
-                alt="tab-img-1"
-              />
+              {!dataAlemMeta?.isLoading &&
+              dataAlemMeta.isSuccess &&
+              dataAlemMeta?.data?.length > 0 ? (
+                <Image
+                  src={dataAlemMeta?.data[0]?.image}
+                  priority
+                  width={100}
+                  height={100}
+                  className="company-list-content__img"
+                  alt={`company-list-${dataAlemMeta?.data[0]?.id}`}
+                />
+              ) : (
+                <Skeleton.Image active />
+              )}
             </div>
           </div>
         </TabPanel>
@@ -125,17 +189,15 @@ const ServicesHome = ({ lng }) => {
               <h3 className="title title-h3 company-list-content__title">
                 QazTrade
               </h3>
-              <p className="company-list-content__desc">
-                Акционерное общество «Центр развития торговой политики
-                «QazTrade» (далее — QazTrade) создано в соответствии с
-                постановлением Правительства Республики Казахстан от 30 июня
-                2006 года № 616 «О некоторых вопросах создания акционерного
-                общества «Центр развития торговой политики» и постановлением
-                Правительства Республики Казахстан от 6 сентября 2019 года № 663
-                «О переименовании акционерного общества «Центр развития торговой
-                политики» в акционерное общество «Центр развития торговой
-                политики «QazTrade».
-              </p>
+              <div
+                dangerouslySetInnerHTML={{
+                  __html:
+                    !dataQazTrade.isLoading &&
+                    dataQazTrade.isSuccess &&
+                    dataQazTrade?.data[0]?.description,
+                }}
+                className="company-list-content__desc"
+              ></div>
               <Link
                 href={`/${lng}/${LINK_URLS.services}`}
                 className="btn btn-link btn-accent company-list-content__link"
@@ -144,15 +206,24 @@ const ServicesHome = ({ lng }) => {
               </Link>
             </div>
             <div className="company-list-content__item company-list-content__item--img">
-              <Image
-                src={tabImg1}
-                className="company-list-content__img"
-                alt="tab-img-1"
-              />
+              {!dataQazTrade?.isLoading &&
+              dataQazTrade.isSuccess &&
+              dataQazTrade?.data?.length > 0 ? (
+                <Image
+                  src={dataQazTrade?.data[0]?.image}
+                  priority
+                  width={100}
+                  height={100}
+                  className="company-list-content__img"
+                  alt={`company-list-${dataQazTrade?.data[0]?.id}`}
+                />
+              ) : (
+                <Skeleton.Image active />
+              )}
             </div>
           </div>
         </TabPanel>
-        <TabPanel>
+        {/*        <TabPanel>
           <div className="company-list-content">
             <div className="company-list-content__item">
               <h3 className="title title-h3 company-list-content__title">
@@ -217,35 +288,44 @@ const ServicesHome = ({ lng }) => {
               />
             </div>
           </div>
-        </TabPanel>
+        </TabPanel>*/}
         <TabPanel>
           <div className="company-list-content">
             <div className="company-list-content__item">
               <h3 className="title title-h3 company-list-content__title">
                 Astana Hub
               </h3>
-              <p className="company-list-content__desc">
-                Astana Hub это крупнейший технопарк для IT-проектов в
-                Центральной Азии. С помощью него развиваются самые интересные
-                стартап-проекты в стране. Astana Hub представляет собой
-                корпоративный бизнес-инкубатор, направленный на развитие
-                передовых идей в сфере IT., площадка где созданы условия для
-                свободного развития местных и зарубежных технологических
-                компаний.
-              </p>
+              <div
+                dangerouslySetInnerHTML={{
+                  __html:
+                    !dataAstanaHub.isLoading &&
+                    dataAstanaHub.isSuccess &&
+                    dataAstanaHub?.data[0]?.description,
+                }}
+                className="company-list-content__desc"
+              ></div>
               <Link
-                href={`/${lng}/${LINK_URLS.services}`}
+                href={`/${lng}/${LINK_URLS.services}/astana-hub`}
                 className="btn btn-link btn-accent company-list-content__link"
               >
                 {t("learnMore")}
               </Link>
             </div>
             <div className="company-list-content__item company-list-content__item--img">
-              <Image
-                src={tabImg1}
-                className="company-list-content__img"
-                alt="tab-img-1"
-              />
+              {!dataAstanaHub?.isLoading &&
+              dataAstanaHub.isSuccess &&
+              dataAstanaHub?.data?.length > 0 ? (
+                <Image
+                  src={dataAstanaHub?.data[0]?.image}
+                  priority
+                  width={100}
+                  height={100}
+                  className="company-list-content__img"
+                  alt={`company-list-${dataAstanaHub?.data[0]?.id}`}
+                />
+              ) : (
+                <Skeleton.Image active />
+              )}
             </div>
           </div>
         </TabPanel>

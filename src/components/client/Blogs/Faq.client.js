@@ -50,8 +50,7 @@ const FaqClient = ({ lng }) => {
         direction: directionQuery,
         search: searchQuery,
         published_date: "",
-        limit: "",
-        offset: "",
+        page: 1,
         lang: lng,
       };
       const { data } = await NewsService.getFaq(getData);

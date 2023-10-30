@@ -30,7 +30,12 @@ export default function SliderInfoItem({
         alt={alt}
       />
       <div className="slider-info__content">
-        <div className="slider-info__desc bold">{title}</div>
+        <div
+          dangerouslySetInnerHTML={{
+            __html: title,
+          }}
+          className="slider-info__desc ex-bold"
+        ></div>
         <Link
           href={link}
           className="btn btn-accent btn-link btn-ligth sm-bold slider-info__link"

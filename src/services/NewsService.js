@@ -11,11 +11,11 @@ export default class NewsService {
     published_date_start,
     published_date_end,
     search,
-    limit,
-    offset,
+    page_size,
+    page,
   }) {
     return $api.get(
-      `news/kazakhstan/filter/preview?lang=${lang}&subcategory=${subcategory}&published_date_start=${published_date_start}&published_date_end=${published_date_end}&search=${search}&limit=${limit}&offset=${offset}`,
+      `news/kazakhstan/filter/preview?lang=${lang}&subcategory=${subcategory}&published_date_start=${published_date_start}&published_date_end=${published_date_end}&search=${search}&page=${page}&page_size=${page_size}`,
     );
   }
 
@@ -34,11 +34,11 @@ export default class NewsService {
     subcategory,
     published_date,
     search,
-    limit,
-    offset,
+    page_size,
+    page,
   }) {
     return $api.get(
-      `news/world/filter/preview?lang=${lang}&subcategory=${subcategory}&published_date=${published_date}&search=${search}&limit=${limit}&offset=${offset}`,
+      `news/world/filter/preview?lang=${lang}&subcategory=${subcategory}&published_date=${published_date}&search=${search}&page=${page}&page_size=${page_size}`,
     );
   }
 
@@ -55,12 +55,12 @@ export default class NewsService {
     countries,
     search,
     archive,
-    limit,
-    offset,
+    page,
+    page_size,
     lang,
   }) {
     return $api.get(
-      `events/preview?event_date=${event_date_start}&event_date_end=${event_date_end}&type_of_event=${type_of_event}&countries=${countries}&search=${search}&archive=${archive}&limit=${limit}&offset=${offset}&lang=${lang}`,
+      `events/preview?event_date=${event_date_start}&event_date_end=${event_date_end}&type_of_event=${type_of_event}&countries=${countries}&search=${search}&archive=${archive}&page=${page}&page_size=${page_size}&lang=${lang}`,
     );
   }
 
@@ -82,12 +82,12 @@ export default class NewsService {
     published_date_start,
     published_date_end,
     search,
-    limit,
-    offset,
+    page,
+    page_size,
     lang,
   }) {
     return $api.get(
-      `interview/filter/preview?lang=${lang}&published_date_start=${published_date_start}&published_date_end=${published_date_end}&search=${search}&limit=${limit}&offset=${offset}`,
+      `interview/filter/preview?lang=${lang}&published_date_start=${published_date_start}&published_date_end=${published_date_end}&search=${search}&page=${page}&page_size=${page_size}`,
     );
   }
 
@@ -97,9 +97,9 @@ export default class NewsService {
     });
   }
 
-  static getFaq({ published_date, direction, search, limit, offset, lang }) {
+  static getFaq({ published_date, direction, search, page, page_size, lang }) {
     return $api.get(
-      `for_bloods/filter?lang=${lang}&published_date=${published_date}&direction=${direction}&search=${search}&limit=${limit}&offset=${offset}`,
+      `for_bloods/filter?lang=${lang}&published_date=${published_date}&direction=${direction}&search=${search}&page=${page}&page_size=${page_size}`,
     );
   }
 

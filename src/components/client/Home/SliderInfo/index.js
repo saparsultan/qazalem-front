@@ -3,10 +3,10 @@ import { useState } from "react";
 import { useTranslation } from "@/app/i18n/client";
 import SliderInfoItem from "@/components/client/Home/SliderInfo/Item";
 import { LINK_URLS } from "@/utils/constants";
-import sliderInfo1 from "@/assets/img/slider-info1.jpg";
-import sliderInfo2 from "@/assets/img/slider-info2.jpg";
-import sliderInfo3 from "@/assets/img/slider-info3.jpg";
-import banner from "@/assets/img/banner.jpg";
+import sliderInfo1 from "@/assets/img/about-country.jpeg";
+import sliderInfo2 from "@/assets/img/regions.jpg";
+import sliderInfo3 from "@/assets/img/candas.jpg";
+import metaalem from "@/assets/img/metaalem.jpg";
 
 const SliderInfo = ({ lng }) => {
   const { t } = useTranslation(lng, "home");
@@ -53,7 +53,7 @@ const SliderInfo = ({ lng }) => {
             lng={lng}
             id={3}
             title="Meta Alem"
-            image={banner}
+            image={metaalem}
             alt="Meta Alem"
             link="https://alem.amadao.network/"
             sliderInfoActive={sliderInfoActive}

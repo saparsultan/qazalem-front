@@ -79,8 +79,7 @@ const InterviewClient = ({ lng }) => {
         published_date_start: firstDate,
         published_date_end: secondDate,
         search: searchQuery,
-        limit: "",
-        offset: "",
+        page: 1,
         lang: lng,
       };
       const { data } = await NewsService.getInterview(getData);

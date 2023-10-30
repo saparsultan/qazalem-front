@@ -36,4 +36,41 @@ export default class InformationService {
   static getCallCenters(lng) {
     return $api.get(`call_center/content?lang=${lng}`);
   }
+
+  static getKazakhInvestContent(lng) {
+    return $api.get(`kazakh_invest/content?lang=${lng}`);
+  }
+  static getAstanaHubContent(lng) {
+    return $api.get(`astana_hub/content?lang=${lng}`);
+  }
+}
+
+export class ServicesService {
+  static getVisitedKazakhstan(lng) {
+    return $api.get(`kazakh_tourism/visited_kazakhstana?lang=${lng}`);
+  }
+  static getVisitedKazakhstanFuture(lng) {
+    return $api.get(
+      `kazakh_tourism/visited_kazakhstana_in_the_future?lang=${lng}`,
+    );
+  }
+  static getKazakhstanBrands(lng) {
+    return $api.get(
+      `kazakh_tourism/kazakhstani_brands_or_products?lang=${lng}`,
+    );
+  }
+  static getKazakhstanCulture(lng) {
+    return $api.get(
+      `kazakh_tourism/culture_and_history_kazakhstanapi?lang=${lng}`,
+    );
+  }
+  static getKazakhstanAttracts(lng) {
+    return $api.get(`kazakh_tourism/attracts_in_kazakhstana?lang=${lng}`);
+  }
+  static getKazakhTourismAnalytics(lng) {
+    return $api.get(`kazakh_tourism/analytics?lang=${lng}`);
+  }
+  static async kazakhTourismRegister(data) {
+    return $api.post("kazakh_tourism/form", data);
+  }
 }

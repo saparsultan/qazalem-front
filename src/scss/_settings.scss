@@ -73,7 +73,7 @@ iframe {
     }
   }
   &--publish {
-    margin-top: 102px;
+    margin-top: 92px;
   }
 }
 
@@ -634,6 +634,14 @@ iframe {
     //    height: 100%;
     //  }
     //}
+  }
+}
+
+.form {
+  &-captcha {
+    font-size: .938rem;
+    font-weight: 500;
+    color: #ff4d4f;
   }
 }
 

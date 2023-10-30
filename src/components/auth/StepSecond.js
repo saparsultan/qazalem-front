@@ -25,7 +25,7 @@ const StepSecond = ({
   const configs = useQuery({
     queryKey: ["configRegister"],
     queryFn: async () => {
-      const { data } = await AuthService.config();
+      const { data } = await AuthService.config(lng);
       return data;
     },
   });
@@ -69,16 +69,7 @@ const StepSecond = ({
               }
             />
           </Form.Item>
-          <Form.Item
-            name="natonality"
-            label={t("labelCitizenship")}
-            rules={[
-              {
-                required: true,
-                message: t("required"),
-              },
-            ]}
-          >
+          <Form.Item name="natonality" label={t("labelCitizenship")}>
             <Select
               placeholder={t("placeholderSelectCitizenship")}
               style={{
@@ -129,7 +120,6 @@ const StepSecond = ({
             label={t("labelIin")}
             rules={[
               {
-                required: true,
                 pattern: /^\d{12}$/,
                 message: t("requiredField"),
               },

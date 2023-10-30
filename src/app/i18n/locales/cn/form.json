@@ -98,5 +98,25 @@
   "placeholderComments": "输入您的评价和建议",
   "online": "在线的",
   "offline": "离线",
-  "invalidAuth": "无效的电子邮件或密码"
+  "invalidAuth": "无效的电子邮件或密码",
+
+
+  "countryLive": "您居住的国家/地区",
+  "cityOrRegion": "城市/地区",
+  "whatAssociations": "当你听到“哈萨克斯坦”这个词时，你会联想到什么？",
+  "haveVisited": "你去过哈萨克斯坦吗？",
+  "whatAttracts": "哈萨克斯坦什么吸引您？",
+  "reasonNotVisited": "如果“是”，请说明您去过哈萨克斯坦多少次以及您去过哪些城市/地点。 如果“否”，请说明您尚未访问哈萨克斯坦的原因",
+  "selectAllApply": "选择所有符合条件的",
+  "whatOpinionMedia": "您在世界媒体上听到过关于哈萨克斯坦的哪些观点？",
+  "howCulture": "您对哈萨克斯坦的文化和历史有多熟悉？",
+  "indicateBrands": "如果“是”，请说明您知道哪些品牌或产品以及您对它们有什么看法",
+  "youHeardBrands": "您听说过哈萨克斯坦的品牌或产品吗？",
+  "infoRecentEvents": "您是否了解与哈萨克斯坦相关的近期事件或成就？",
+  "notExperience": "如果您没有访问哈萨克斯坦的经历，您将来打算访问吗？",
+  "haveComments": "如果您对哈萨克斯坦还有其他意见、意见或建议，请写在这里",
+  "yourContacts": "您接收研究结果的联系地址",
+  "emailOrSocial": "电子邮件或社交网络",
+  "beforeVisiting": "如果“是”，您在访问哈萨克斯坦之前想了解哪些信息？",
+  "fillCaptcha": "填写验证码"
 }

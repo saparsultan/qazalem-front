@@ -170,7 +170,7 @@ const SignupClient = ({ lng }) => {
         benefit,
       );
     },
-    onSuccess: async (res) => {
+    onSuccess: async () => {
       await notification.success({
         message: tMessage("success"),
         description: tMessage("registerSuccess"),
@@ -186,6 +186,7 @@ const SignupClient = ({ lng }) => {
       console.error("Error registration", error);
     },
   });
+
   return (
     <>
       <Steps current={current} items={items} className="form-steps" />

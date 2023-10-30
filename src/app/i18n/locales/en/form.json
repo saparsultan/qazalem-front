@@ -98,5 +98,25 @@
   "placeholderComments": "Enter your review and suggestion",
   "online": "Online",
   "offline": "Offline",
-  "invalidAuth": "Invalid email or password"
+  "invalidAuth": "Invalid email or password",
+
+
+  "countryLive": "Country in which you reside",
+  "cityOrRegion": "City/Region",
+  "whatAssociations": "What associations do you have when you hear the word «Kazakhstan»?",
+  "haveVisited": "Have you visited Kazakhstan?",
+  "whatAttracts": "What attracts you to Kazakhstan?",
+  "reasonNotVisited": "If «Yes», indicate how many times you have been to Kazakhstan and what cities/places you have visited. If «No», please indicate the reason why you have not yet visited Kazakhstan",
+  "selectAllApply": "Select all that apply",
+  "whatOpinionMedia": "What opinion have you heard about Kazakhstan in the world media?",
+  "howCulture": "How well are you familiar with the culture and history of Kazakhstan?",
+  "indicateBrands": "If «Yes», indicate which brands or products you know and what opinion you have about them",
+  "youHeardBrands": "Have you heard about Kazakhstani brands or products?",
+  "infoRecentEvents": "Have you had any information about recent events or achievements related to Kazakhstan?",
+  "notExperience": "If you have no experience visiting Kazakhstan, do you plan to visit it in the future?",
+  "haveComments": "If you have any other comments, comments or suggestions regarding Kazakhstan, please write them here",
+  "yourContacts": "Your contact address to receive research results",
+  "emailOrSocial": "Email or social networks",
+  "beforeVisiting": "If «Yes», what would you like to know about Kazakhstan before visiting?",
+  "fillCaptcha": "Fill in Captcha"
 }

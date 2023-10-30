@@ -13,21 +13,19 @@ const InterviewHome = ({ lng }) => {
 
   const { data, isLoading, isSuccess } = useInfiniteQuery({
     queryKey: ["blogInterview", lng],
-    queryFn: async ({ limit = 4 }) => {
+    queryFn: async ({ page_size = 4 }) => {
       const getData = {
         lang: lng,
         published_date_start: "",
         published_date_end: "",
         search: "",
-        limit,
-        offset: "",
+        page_size,
+        page: 1,
       };
       const { data } = await NewsService.getInterview(getData);
       return data;
     },
   });
-
-  console.log({ data });
 
   return (
     <>

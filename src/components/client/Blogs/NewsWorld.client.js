@@ -91,8 +91,7 @@ const NewsWorldClient = ({ lng }) => {
         subcategory: categoryQuery,
         published_date: publishDateQuery,
         search: searchQuery,
-        limit: "",
-        offset: "",
+        page: 1,
         lang: lng,
       };
       const { data } = await NewsService.getNewsWorld(getData);

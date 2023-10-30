@@ -27,7 +27,6 @@ const HelpfulInformation = ({ slidesPerView, lng }) => {
     },
     staleTime: Infinity,
   });
-  console.log("sosCountry", data);
 
   return (
     <Swiper
