@@ -1,5 +1,5 @@
 "use client";
-import { DatePicker, Select, Input, Button } from "antd";
+import { DatePicker, Select, Input, Button, Skeleton } from "antd";
 const { RangePicker } = DatePicker;
 import locale from "antd/es/date-picker/locale/ru_RU";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
@@ -16,6 +16,7 @@ import weekOfYear from "dayjs/plugin/weekOfYear";
 import weekYear from "dayjs/plugin/weekYear";
 import { LINK_URLS } from "@/utils/constants";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useTranslation } from "@/app/i18n/client";
 const { Search } = Input;
 
 dayjs.extend(customParseFormat);
@@ -25,21 +26,11 @@ dayjs.extend(localeData);
 dayjs.extend(weekOfYear);
 dayjs.extend(weekYear);
 
-const onChange = (value) => {
-  console.log(`selected ${value}`);
-};
-const onSearch = (value) => {
-  console.log("search:", value);
-};
-
-// Filter `option.label` match the user type `input`
-const filterOption = (input, option) =>
-  (option?.label ?? "").toLowerCase().includes(input.toLowerCase());
-
 const NewsWorldClient = ({ lng }) => {
   const pathname = usePathname();
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { t: tForm } = useTranslation(lng, "form");
   const [publishDate, setPublishDate] = useState("");
   const [startEndDate, setStartEndDate] = useState(null);
   const [category, setCategory] = useState("");
@@ -87,7 +78,7 @@ const NewsWorldClient = ({ lng }) => {
     staleTime: Infinity,
   });
 
-  const { data } = useInfiniteQuery({
+  const { data, isLoading, isSuccess } = useInfiniteQuery({
     queryKey: [
       "blogNewsWorld",
       searchQuery,
@@ -197,13 +188,13 @@ const NewsWorldClient = ({ lng }) => {
           }}
           onClick={onSubmitFilter}
         >
-          Применить
+          {tForm("apply")}
         </Button>
       </div>
       <div className="publish-grid-wrap">
         <div className="publish-search">
           <Search
-            placeholder="Поиск..."
+            placeholder={`${tForm("search")}...`}
             onSearch={onSearch}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
@@ -214,21 +205,36 @@ const NewsWorldClient = ({ lng }) => {
           />
         </div>
         <div className="publish-grid publish-grid--two publish-item">
-          {data &&
-            data?.pages[0]?.results.map(
-              ({ id, published_date, image, title, subcategory }) => (
-                <BlogItem
-                  key={id}
-                  id={id}
-                  date={published_date}
-                  image={image}
-                  subcategory={subcategory}
-                  title={title}
-                  lng={lng}
-                  link={link}
-                />
-              ),
-            )}
+          {!isLoading && isSuccess && data
+            ? data?.pages[0]?.results.map(
+                ({ id, published_date, image, title, subcategory }) => (
+                  <BlogItem
+                    key={id}
+                    id={id}
+                    date={published_date}
+                    image={image}
+                    subcategory={subcategory}
+                    title={title}
+                    lng={lng}
+                    link={link}
+                  />
+                ),
+              )
+            : Array(4)
+                .fill(0)
+                .map((_, index) => (
+                  <div key={index} className="skeleton-blogCard">
+                    <Skeleton.Image
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                      }}
+                      active={true}
+                      className="skeleton-blogCard__img"
+                    />
+                    <Skeleton className="skeleton-blogCard__text" active />
+                  </div>
+                ))}
         </div>
       </div>
     </div>

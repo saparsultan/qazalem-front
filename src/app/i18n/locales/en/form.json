@@ -97,5 +97,6 @@
   "labelComments": "Reviews and suggestions",
   "placeholderComments": "Enter your review and suggestion",
   "online": "Online",
-  "offline": "Offline"
+  "offline": "Offline",
+  "invalidAuth": "Invalid email or password"
 }

@@ -86,23 +86,17 @@ const HeaderClient = ({ children, lng }) => {
     if (status === "authenticated" && session?.user) {
       await router.push(`/${lng}/${LINK_URLS.profile}/${LINK_URLS.main}`);
     } else {
-      router.push(`/${lng}/${LINK_URLS.login}`, {
-        scroll: false,
-      });
+      router.push(`/${lng}/${LINK_URLS.login}`);
     }
   };
 
   const handlePushAuth = async () => {
     setShowProfile(!showProfile);
     if (status === "authenticated" && session?.user) {
-      await signOut();
-      await router.push(`/${lng}`, {
-        scroll: false,
-      });
+      await signOut({ redirect: false });
+      await router.push(`/${lng}`);
     } else {
-      router.push(`/${lng}/${LINK_URLS.signUp}`, {
-        scroll: false,
-      });
+      router.push(`/${lng}/${LINK_URLS.signUp}`);
     }
   };
 

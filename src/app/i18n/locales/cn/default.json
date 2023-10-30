@@ -16,5 +16,8 @@
     "titleChangePassword": "更改密碼",
     "titleRegisterEvent": "報名參加活動",
     "security": "安全",
-    "titleRegisterEventReverse": "活動報名"
+    "titleRegisterEventReverse": "活動報名",
+    "startDate": "开始日期",
+    "endDate": "截止日期",
+    "titleAnnounce": "活动公告"
 }

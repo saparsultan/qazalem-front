@@ -16,5 +16,8 @@
   "titleChangePassword": "Изменить пароль",
   "titleRegisterEvent": "Зарегистрироваться на мероприятие",
   "security": "Безопасность",
-  "titleRegisterEventReverse": "Регистрация на мероприятие"
+  "titleRegisterEventReverse": "Регистрация на мероприятие",
+  "startDate": "Дата начала",
+  "endDate": "Дата окончания",
+  "titleAnnounce": "Анонс мероприятий"
 }

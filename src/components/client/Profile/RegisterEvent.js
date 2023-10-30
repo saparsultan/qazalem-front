@@ -1,14 +1,16 @@
 "use client";
+import { useSession } from "next-auth/react";
 import { App, Button, Form, Input, Select } from "antd";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import UserService from "@/services/UserService";
 import { useTranslation } from "@/app/i18n/client";
+import UserService from "@/services/UserService";
 
 const RegisterEvent = ({ lng }) => {
   const { message } = App.useApp();
   const [form] = Form.useForm();
+  const { data: session } = useSession();
   const { t: tForm } = useTranslation(lng, "form");
-  const { tMessage } = useTranslation(lng, "message");
+  const { t: tMessage } = useTranslation(lng, "message");
 
   const selectEvents = useQuery({
     queryKey: ["selectEvents"],
@@ -46,10 +48,18 @@ const RegisterEvent = ({ lng }) => {
           values.position !== undefined &&
           values.position,
       };
-      await UserService.registerEvents(formData);
+      await UserService.registerEvents(session?.accessToken, formData);
     },
     onSuccess: async () => {
       await message.success(tMessage("registerSuccessEvent"));
+      await form.setFieldsValue({
+        eventType: null,
+        eventFormat: null,
+        passport: null,
+        comments: "",
+        organization: "",
+        position: "",
+      });
     },
     onError: async (error) => {
       console.log("Error register event form", error);

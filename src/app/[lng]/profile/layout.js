@@ -1,7 +1,6 @@
-import React from "react";
+import { App } from "antd";
 import SideBar from "@/components/client/Profile/SideBar";
 import NavLinks from "@/components/client/Profile/NavLinks";
-import { App } from "antd";
 
 const ProfileLayout = ({ children, params: { lng } }) => {
   return (

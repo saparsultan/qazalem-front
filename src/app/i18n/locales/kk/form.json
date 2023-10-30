@@ -97,5 +97,6 @@
   "labelComments": "Пікірлер мен ұсыныстар",
   "placeholderComments": "Пікір мен ұсынысыңызды енгізіңіз",
   "online": "Онлайн",
-  "offline": "Офлайн"
+  "offline": "Офлайн",
+  "invalidAuth": "Email немесе құпия сөз жарамсыз"
 }

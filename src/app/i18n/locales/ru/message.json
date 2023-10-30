@@ -7,5 +7,10 @@
   "error": "Ошибка",
   "successSubmitted": "Форма успешно отправлена!",
   "errorSubmitted": "Произошла ошибка при отправке",
-  "registerSuccess": "Регистрация прошла успешно"
+  "registerSuccess": "Регистрация прошла успешно",
+
+  "successChangePassword": "Ваш пароль успешно изменён!",
+  "errorCurrentPassword": "Неверный старый пароль!",
+  "errorAnotherPassword": "Вы не можете изменять пароль другого пользователя!",
+  "errorChangePassword": "Произошла ошибка при изменении пароля!"
 }

@@ -1,11 +1,16 @@
 {
   "registerSuccessEvent": "Сіз іс-шараға сәтті тіркелдіңіз",
   "registerError": "Тіркеу кезінде қате орын алды",
-  "updateProfileSuccess": "Профиль успешно обновлен",
-  "updateProfileError": "Произошла ошибка при обновлении",
-  "success": "Успешно",
-  "error": "Ошибка",
-  "successSubmitted": "Форма успешно отправлена!",
-  "errorSubmitted": "Произошла ошибка при отправке",
-  "registerSuccess": "Регистрация прошла успешно"
+  "updateProfileSuccess": "Профиль сәтті жаңартылды",
+  "updateProfileError": "Жаңарту кезінде қате орын алды",
+  "success": "Сәтті",
+  "error": "Қате",
+  "successSubmitted": "Форма сәтті жіберілді!",
+  "errorSubmitted": "Жіберу кезінде қате шықты",
+  "registerSuccess": "Тіркеу сәтті өтті",
+
+  "successChangePassword": "Құпия сөзіңіз сәтті өзгертілді!",
+  "errorCurrentPassword": "Ескі құпия сөзіңіз дұрыс емес!",
+  "errorAnotherPassword": "Сіз басқа пайдаланушының құпия сөзін өзгерте алмайсыз!",
+  "errorChangePassword": "Құпия сөзді өзгерту кезінде қате орын алды!"
 }

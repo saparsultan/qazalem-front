@@ -97,5 +97,6 @@
   "labelComments": "Отзывы и предложения",
   "placeholderComments": "Введите отзыв и предложение",
   "online": "Онлайн",
-  "offline": "Офлайн"
+  "offline": "Офлайн",
+  "invalidAuth": "Неверный email или пароль"
 }

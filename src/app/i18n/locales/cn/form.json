@@ -97,5 +97,6 @@
   "labelComments": "意见及建议",
   "placeholderComments": "输入您的评价和建议",
   "online": "在线的",
-  "offline": "离线"
+  "offline": "离线",
+  "invalidAuth": "无效的电子邮件或密码"
 }
