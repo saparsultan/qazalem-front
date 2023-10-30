@@ -1,10 +1,16 @@
 {
   "registerSuccessEvent": "You have successfully registered for the event",
   "registerError": "There was an error while registering",
-  "updateProfileSuccess": "Профиль успешно обновлен",
-  "updateProfileError": "Произошла ошибка при обновлении",
-  "success": "Успешно",
-  "error": "Ошибка",  "successSubmitted": "Форма успешно отправлена!",
-  "errorSubmitted": "Произошла ошибка при отправке",
-  "registerSuccess": "Регистрация прошла успешно"
+  "updateProfileSuccess": "Profile updated successfully",
+  "updateProfileError": "An error occurred during update",
+  "success": "Success",
+  "error": "Error",
+  "successSubmitted": "Form submitted successfully!",
+  "errorSubmitted": "There was an error sending",
+  "registerSuccess": "Registration was successful",
+
+  "successChangePassword": "Your password has been successfully changed!",
+  "errorCurrentPassword": "Invalid old password!",
+  "errorAnotherPassword": "You cannot change another user's password!",
+  "errorChangePassword": "An error occurred while changing the password!"
 }

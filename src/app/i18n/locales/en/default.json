@@ -16,5 +16,8 @@
   "titleChangePassword": "Change password",
   "titleRegisterEvent": "Register for the event",
   "security": "Security",
-  "titleRegisterEventReverse": "Registration for the event"
+  "titleRegisterEventReverse": "Registration for the event",
+  "startDate": "Start date",
+  "endDate": "End date",
+  "titleAnnounce": "Announcement of events"
 }

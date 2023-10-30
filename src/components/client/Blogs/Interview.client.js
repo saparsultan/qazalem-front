@@ -1,5 +1,6 @@
 "use client";
 import { DatePicker, Input, Button, Skeleton } from "antd";
+
 const { RangePicker } = DatePicker;
 import locale from "antd/es/date-picker/locale/ru_RU";
 import { useInfiniteQuery } from "@tanstack/react-query";
@@ -17,6 +18,7 @@ import weekYear from "dayjs/plugin/weekYear";
 import { LINK_URLS } from "@/utils/constants";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useTranslation } from "@/app/i18n/client";
+
 const { Search } = Input;
 
 dayjs.extend(customParseFormat);
@@ -31,6 +33,7 @@ const InterviewClient = ({ lng }) => {
   const pathname = usePathname();
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { t: tForm } = useTranslation(lng, "form");
   const [isClient, setIsClient] = useState(false);
   const [publishDate, setPublishDate] = useState("");
   const [startEndDate, setStartEndDate] = useState(null);
@@ -161,13 +164,13 @@ const InterviewClient = ({ lng }) => {
                   }}
                   onClick={onSubmitFilter}
                 >
-                  Применить
+                  {tForm("apply")}
                 </Button>
               </div>
               <div className="publish-grid-wrap">
                 <div className="publish-search">
                   <Search
-                    placeholder="Поиск..."
+                    placeholder={`${tForm("search")}...`}
                     onSearch={onSearch}
                     value={search}
                     onChange={onChangeSearch}

@@ -2,14 +2,14 @@ import $api, { $apiPrivate } from "@/utils/http";
 
 export default class UserService {
   static getUserMain(id, token) {
-    return $api.get(`user/profile/main/${id}`, {
+    return $apiPrivate.get(`user/profile/main/${id}`, {
       headers: {
         Authorization: "Bearer " + token,
       },
     });
   }
   static getUserPersonal(id, token) {
-    return $api.get(`user/profile/personal/${id}`, {
+    return $apiPrivate.get(`user/profile/personal/${id}`, {
       headers: {
         Authorization: "Bearer " + token,
       },
@@ -30,7 +30,7 @@ export default class UserService {
     });
   }
   static updateMain(id, token, data) {
-    return $api.put(`user/profile/main/${id}`, data, {
+    return $apiPrivate.put(`user/profile/main/${id}`, data, {
       headers: {
         Authorization: "Bearer " + token,
         "Content-Type": "multipart/form-data",
@@ -38,7 +38,7 @@ export default class UserService {
     });
   }
   static updatePersonal(id, token, data) {
-    return $api.put(`user/profile/personal/${id}`, data, {
+    return $apiPrivate.put(`user/profile/personal/${id}`, data, {
       headers: {
         Authorization: "Bearer " + token,
         "Content-Type": "multipart/form-data",
@@ -61,10 +61,21 @@ export default class UserService {
       },
     });
   }
-  static registerEvents(data) {
-    return $apiPrivate.post("events/register_events", data);
+  static updatePassword(id, token, data) {
+    return $apiPrivate.put(`user/profile/password/${id}`, data, {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    });
+  }
+  static registerEvents(token, data) {
+    return $apiPrivate.post("events/register_events", data, {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    });
   }
   static getSelectEvents(lang) {
-    return $apiPrivate.get(`events/select_events?lang=${lang}`);
+    return $api.get(`events/select_events?lang=${lang}`);
   }
 }

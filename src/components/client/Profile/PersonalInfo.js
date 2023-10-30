@@ -63,9 +63,11 @@ const PersonalInfo = ({ lng }) => {
       country: data?.pages[0]?.country,
       city: data?.pages[0]?.city,
       natonality: data?.pages[0]?.citizenship,
+      scopeActivity: data?.pages[0]?.field_of_activity,
       phone: data?.pages[0]?.phone_number,
       course: data?.pages[0]?.course,
-      studies: data?.pages[0]?.profession,
+      studies: data?.pages[0]?.education,
+      speciality: data?.pages[0]?.profession,
     });
   }, [isSuccess]);
 
@@ -109,7 +111,6 @@ const PersonalInfo = ({ lng }) => {
       console.error("Error update personal info", error);
     },
   });
-
   return (
     <div className="profile-form">
       <Form layout="vertical" form={form} onFinish={onSubmitForm}>
@@ -177,6 +178,7 @@ const PersonalInfo = ({ lng }) => {
                 <Form.Item
                   name="scopeActivity"
                   label={tForm("labelFieldActivity")}
+                  className="ddd"
                 >
                   <Select
                     placeholder={tForm("placeholderSelectArea")}
@@ -199,6 +201,7 @@ const PersonalInfo = ({ lng }) => {
                   <Input placeholder={tForm("placeholderSpecialty")} />
                 </Form.Item>
               </div>
+
               <div className="form-item">
                 <Form.Item
                   name="iin"
@@ -213,12 +216,15 @@ const PersonalInfo = ({ lng }) => {
                 >
                   <Input placeholder="____________" />
                 </Form.Item>
+
                 <Form.Item name="phone" label={tForm("labelPhone")}>
                   <Input placeholder="+7 (___) ___-__-__" />
                 </Form.Item>
+
                 <Form.Item name="city" label={tForm("labelCity")}>
                   <Input placeholder={tForm("placeholderCityResidence")} />
                 </Form.Item>
+
                 <Form.Item
                   name="course"
                   label={tForm("labelCourse")}
@@ -231,6 +237,7 @@ const PersonalInfo = ({ lng }) => {
                 >
                   <Input placeholder={tForm("placeholderCourse")} />
                 </Form.Item>
+
                 <Form.Item name="studies" label={tForm("labelStudies")}>
                   <Input placeholder={tForm("placeholderStudios")} />
                 </Form.Item>

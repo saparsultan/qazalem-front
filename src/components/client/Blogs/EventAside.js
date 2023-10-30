@@ -1,30 +1,22 @@
-import React from "react";
-import * as dayjs from "dayjs";
-import kk from "dayjs/locale/kk";
-import ru from "dayjs/locale/ru";
-import en from "dayjs/locale/en";
-import zh from "dayjs/locale/zh";
+import { RedableFormat } from "@/utils/dayjs";
+import { useTranslation } from "@/app/i18n/client";
 
-const EventAside = ({ startDate, endDate }) => {
-  const startDateSrc = startDate
-    ? dayjs(new Date(startDate)).locale(kk).format("D MMMM YYYY")
-    : null;
-
-  const endDateSrc = endDate
-    ? dayjs(new Date(endDate)).locale(kk).format("D MMMM YYYY")
-    : null;
-
-  console.log({ startDateSrc });
+const EventAside = ({ lng, startDate, endDate }) => {
+  const { t } = useTranslation(lng, "default");
   return (
     <aside className="publdet-aside">
       <ul className="list-reset event-date-list">
         <li className="event-date-list__item">
-          <small>Дата начала</small>
-          <div className="event-date-list__text">{startDateSrc}</div>
+          <small>{t("startDate")}</small>
+          <div className="event-date-list__text">
+            <RedableFormat date={startDate} lng={lng} format="D MMMM YYYY" />
+          </div>
         </li>
         <li className="event-date-list__item">
-          <small>Дата окончания</small>
-          <div className="event-date-list__text">{endDateSrc}</div>
+          <small>{t("endDate")}</small>
+          <div className="event-date-list__text">
+            <RedableFormat date={endDate} lng={lng} format="D MMMM YYYY" />
+          </div>
         </li>
       </ul>
     </aside>

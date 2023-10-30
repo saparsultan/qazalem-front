@@ -3,7 +3,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
-import { Button, ConfigProvider, Form, Input } from "antd";
+import { Alert, Button, ConfigProvider, Form, Input } from "antd";
 import { useTranslation } from "@/app/i18n/client";
 import theme from "@/theme/themeConfig";
 import { LINK_URLS } from "@/utils/constants";
@@ -14,24 +14,31 @@ const Login = ({ params: { lng } }) => {
   const { t: tlayout } = useTranslation(lng, "layout");
   const router = useRouter();
   const [form] = Form.useForm();
-  const [errorMessage, setErrorMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(false);
 
   const onSubmitAuth = async (values) => {
+    setLoading(true);
     signIn("credentials", {
       username: values.email,
       password: values.password,
       redirect: false,
       callbackUrl: "/",
-    }).then((res) => {
-      if (res?.error) {
-        console.log("error message", res?.error);
-      } else {
-        router.push(`/${lng}/${LINK_URLS.profile}/${LINK_URLS.main}`);
-      }
-    });
+    })
+      .then((res) => {
+        if (res?.error) {
+          console.error("Error login", res);
+          setErrorMessage(true);
+        } else {
+          setErrorMessage(false);
+          router.push(`/${lng}/${LINK_URLS.profile}/${LINK_URLS.main}`);
+        }
+        setLoading(false);
+      })
+      .catch((e) => {
+        return setErrorMessage(true);
+      });
   };
-
-  // setError('email', {message: "Something went wrong.", type: "error"})
 
   return (
     <ConfigProvider theme={theme}>
@@ -49,6 +56,16 @@ const Login = ({ params: { lng } }) => {
                   layout="vertical"
                   onFinish={onSubmitAuth}
                 >
+                  {errorMessage && (
+                    <Alert
+                      message={tForm("invalidAuth")}
+                      type="error"
+                      showIcon
+                      style={{
+                        marginBottom: "1.5em",
+                      }}
+                    />
+                  )}
                   <Form.Item
                     name="email"
                     label="E-mail"
@@ -61,17 +78,6 @@ const Login = ({ params: { lng } }) => {
                         required: true,
                         message: tForm("requiredField"),
                       },
-                      () => ({
-                        validator() {
-                          if (errorMessage === "unauthorized") {
-                            return Promise.reject(
-                              new Error("Неверный email или пароль"),
-                            );
-                          } else {
-                            return Promise.resolve();
-                          }
-                        },
-                      }),
                     ]}
                   >
                     <Input placeholder={tForm("placeholderEmail")} />
@@ -100,11 +106,13 @@ const Login = ({ params: { lng } }) => {
                   </Form.Item>
                   <Form.Item>
                     <Button
+                      loading={loading}
+                      size="middle"
                       type="primary"
                       htmlType="submit"
                       style={{ width: "100%", marginBottom: "8px" }}
                     >
-                      {tlayout("login")}
+                      {!loading ? tlayout("login") : ""}
                     </Button>
                     {tForm("or")}&nbsp;
                     <Link href={`/${lng}/${LINK_URLS.signUp}`}>

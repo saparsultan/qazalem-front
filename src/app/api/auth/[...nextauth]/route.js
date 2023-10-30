@@ -85,6 +85,7 @@ export const authOptions = {
 
   pages: {
     signIn: "/ru/login",
+    signOut: "/",
     // newUser: '/auth/register'
   },
 };

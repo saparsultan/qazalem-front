@@ -14,7 +14,6 @@ const EventPage = ({ params: { lng } }) => {
       return data;
     },
   });
-  console.log({ data });
 
   return (
     <>
@@ -27,6 +26,7 @@ const EventPage = ({ params: { lng } }) => {
             <div className="publdet-wrap">
               <BlogContentPageClient data={data} lng={lng} noArticleWidget />
               <EventAside
+                lng={lng}
                 startDate={data?.event_date}
                 endDate={data?.event_date_end}
               />

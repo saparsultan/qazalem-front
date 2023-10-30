@@ -1,18 +1,9 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import { DatePicker, Select, Input, Button } from "antd";
+import { useEffect, useState } from "react";
+import { DatePicker, Select, Input, Button, Skeleton } from "antd";
 import locale from "antd/es/date-picker/locale/ru_RU";
-import {
-  useInfiniteQuery,
-  useQuery,
-  useQueryClient,
-} from "@tanstack/react-query";
-import {
-  useRouter,
-  usePathname,
-  useSearchParams,
-  useParams,
-} from "next/navigation";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import * as dayjs from "dayjs";
 import kk from "dayjs/locale/kk";
 import advancedFormat from "dayjs/plugin/advancedFormat";
@@ -24,6 +15,7 @@ import weekYear from "dayjs/plugin/weekYear";
 import NewsService from "@/services/NewsService";
 import BlogItem from "@/components/client/Blogs/BlogItem";
 import { LINK_URLS } from "@/utils/constants";
+import { useTranslation } from "@/app/i18n/client";
 const { RangePicker } = DatePicker;
 const { Search } = Input;
 
@@ -34,15 +26,11 @@ dayjs.extend(localeData);
 dayjs.extend(weekOfYear);
 dayjs.extend(weekYear);
 
-// Filter `option.label` match the user type `input`
-const filterOption = (input, option) =>
-  (option?.label ?? "").toLowerCase().includes(input.toLowerCase());
-
 const EventsClient = ({ lng }) => {
-  const queryClient = useQueryClient();
   const pathname = usePathname();
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { t: tForm } = useTranslation(lng, "form");
   const [search, setSearch] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
@@ -101,7 +89,6 @@ const EventsClient = ({ lng }) => {
       const { data } = await NewsService.getEventsCountry(lng);
       return data;
     },
-    staleTime: Infinity,
   });
 
   const eventsType = useQuery({
@@ -110,10 +97,9 @@ const EventsClient = ({ lng }) => {
       const { data } = await NewsService.getEventsType(lng);
       return data;
     },
-    staleTime: Infinity,
   });
 
-  const { data } = useInfiniteQuery({
+  const { data, isLoading, isSuccess } = useInfiniteQuery({
     queryKey: [
       "blogEvents",
       searchQuery,
@@ -204,120 +190,117 @@ const EventsClient = ({ lng }) => {
     );
   };
 
-  console.log("EVENTS", data);
-
   return (
-    <section className="section section--publish news-world__container">
-      <div className="container">
-        <div className="news-world">
-          <h2 className="title title-left text-low title-h2 news-world__title">
-            Анонс мероприятий
-          </h2>
-          <div className="publish publish--two">
-            <div className="publish-filter publish-item">
-              <RangePicker
-                locale={locale}
-                value={startEndDate}
-                onChange={onChangeDate}
-              />
+    <div className="publish publish--two">
+      <div className="publish-filter publish-item">
+        <RangePicker
+          locale={locale}
+          value={startEndDate}
+          onChange={onChangeDate}
+        />
 
-              <Select
-                allowClear
-                placeholder="Страна проведения"
-                value={
-                  country && country !== ""
-                    ? {
-                        value: country,
-                        label: getCountryLabel(country),
-                      }
-                    : null
+        <Select
+          allowClear
+          placeholder="Страна проведения"
+          value={
+            country && country !== ""
+              ? {
+                  value: country,
+                  label: getCountryLabel(country),
                 }
-                onChange={onChangeCountry}
-                options={
-                  eventsCountry?.data?.length &&
-                  eventsCountry?.data.map(({ id, name }) => {
-                    return {
-                      value: id,
-                      label: name,
-                    };
-                  })
+              : null
+          }
+          onChange={onChangeCountry}
+          options={
+            eventsCountry?.data?.length &&
+            eventsCountry?.data.map(({ id, name }) => {
+              return {
+                value: id,
+                label: name,
+              };
+            })
+          }
+        />
+        <Select
+          allowClear
+          placeholder="Тип мероприятия"
+          value={
+            eventType && eventType !== ""
+              ? {
+                  value: eventType,
+                  label: getEventsTypeLabel(eventType),
                 }
-              />
-              <Select
-                allowClear
-                placeholder="Тип мероприятия"
-                value={
-                  eventType && eventType !== ""
-                    ? {
-                        value: eventType,
-                        label: getEventsTypeLabel(eventType),
-                      }
-                    : null
-                }
-                onChange={onChangeEventType}
-                options={
-                  eventsType?.data?.length &&
-                  eventsType?.data.map(({ id, name }) => {
-                    return {
-                      value: id,
-                      label: name,
-                    };
-                  })
-                }
-              />
-              <Button
-                type="primary"
-                style={{
-                  width: "100%",
-                }}
-                onClick={onSubmitFilter}
-              >
-                Применить
-              </Button>
-            </div>
-            <div className="publish-grid-wrap">
-              <div className="publish-search">
-                <Search
-                  placeholder="Поиск..."
-                  onSearch={onSearch}
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  className="publish-search__input"
-                  style={{
-                    width: "100%",
-                  }}
-                />
-              </div>
-              <div className="publish-grid publish-grid--two publish-item">
-                {data &&
-                  data?.pages[0]?.results.map(
-                    ({
-                      id,
-                      event_date_start,
-                      event_date_end,
-                      image,
-                      slug,
-                      title,
-                    }) => (
-                      <BlogItem
-                        key={id}
-                        id={id}
-                        event_date={event_date_start}
-                        event_date_end={event_date_end}
-                        image={image}
-                        slug={slug}
-                        title={title}
-                        lng={lng}
-                        link={link}
-                      />
-                    ),
-                  )}
-              </div>
-            </div>
-          </div>
+              : null
+          }
+          onChange={onChangeEventType}
+          options={
+            eventsType?.data?.length &&
+            eventsType?.data.map(({ id, name }) => {
+              return {
+                value: id,
+                label: name,
+              };
+            })
+          }
+        />
+        <Button
+          type="primary"
+          style={{
+            width: "100%",
+          }}
+          onClick={onSubmitFilter}
+        >
+          {tForm("apply")}
+        </Button>
+      </div>
+      <div className="publish-grid-wrap">
+        <div className="publish-search">
+          <Search
+            placeholder={`${tForm("search")}...`}
+            onSearch={onSearch}
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="publish-search__input"
+            style={{
+              width: "100%",
+            }}
+          />
+        </div>
+        <div className="publish-grid publish-grid--two publish-item">
+          {!isLoading && isSuccess && data
+            ? data?.pages[0]?.results.map(
+                ({ id, event_date, event_date_end, image, slug, title }) => (
+                  <BlogItem
+                    key={id}
+                    id={id}
+                    event_date={event_date}
+                    event_date_end={event_date_end}
+                    image={image}
+                    slug={slug}
+                    title={title}
+                    lng={lng}
+                    link={link}
+                  />
+                ),
+              )
+            : Array(4)
+                .fill(0)
+                .map((_, index) => (
+                  <div key={index} className="skeleton-blogCard">
+                    <Skeleton.Image
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                      }}
+                      active={true}
+                      className="skeleton-blogCard__img"
+                    />
+                    <Skeleton className="skeleton-blogCard__text" active />
+                  </div>
+                ))}
         </div>
       </div>
-    </section>
+    </div>
   );
 };
 

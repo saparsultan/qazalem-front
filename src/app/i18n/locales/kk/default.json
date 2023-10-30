@@ -16,5 +16,8 @@
   "titleChangePassword": "Құпия сөзді өзгерту",
   "titleRegisterEvent": "Іс-шараға тіркелу",
   "security": "Қауіпсіздік",
-  "titleRegisterEventReverse": "Іс-шараға тіркелу"
+  "titleRegisterEventReverse": "Іс-шараға тіркелу",
+  "startDate": "Басталу күні",
+  "endDate": "Мерзімнің өту күні",
+  "titleAnnounce": "Іс-шаралар анонсы"
 }

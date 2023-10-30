@@ -6,9 +6,10 @@ import { signOut, useSession } from "next-auth/react";
 import { LINK_URLS } from "@/utils/constants";
 import defaultAvatar from "@/assets/img/default.png";
 import { useTranslation } from "@/app/i18n/client";
+import { Skeleton } from "antd";
 
 const SideBar = ({ lng }) => {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const { t: tDefault } = useTranslation(lng, "default");
   const pathname = usePathname();
   const router = useRouter();
@@ -22,13 +23,23 @@ const SideBar = ({ lng }) => {
   const defaultLink = "profile-sidebar-list__link";
 
   const handleLogout = async () => {
-    await signOut();
-    await router.push(`/${lng}`, {
-      scroll: false,
-    });
+    await signOut({ redirect: false });
+    await router.push(`/${lng}`);
   };
 
-  return (
+  return !session?.user && status === "unauthenticated" ? (
+    <div
+      style={{
+        padding: "1.25em",
+      }}
+    >
+      <Skeleton
+        paragraph={{
+          rows: 8,
+        }}
+      />
+    </div>
+  ) : (
     <>
       <div className="profile-sidebar__header profile-sidebar-header">
         <div className="profile-sidebar-header__preview">
@@ -54,7 +65,9 @@ const SideBar = ({ lng }) => {
             <Image
               quality={75}
               src={
-                session && session?.user ? session?.user.image : defaultAvatar
+                session && session?.user.image
+                  ? session?.user.image
+                  : defaultAvatar
               }
               alt="Avatar"
               sizes="(max-width: 768px) 100vw"
@@ -67,7 +80,7 @@ const SideBar = ({ lng }) => {
           </div>
           <div className="profile-sidebar-header__fio">
             {session?.user &&
-              `${session?.user.lastname} ${session?.user.firstname} ${session?.user.middlename}`}
+              `${session?.user?.lastname} ${session?.user?.firstname} ${session?.user?.middlename}`}
           </div>
         </div>
       </div>
@@ -75,6 +88,7 @@ const SideBar = ({ lng }) => {
         <ul className="list-reset profile-sidebar-list">
           <li className="profile-sidebar-list__item">
             <Link
+              passHref
               href={profileMain}
               className={pathname === profileMain ? activeLink : defaultLink}
             >
@@ -95,6 +109,7 @@ const SideBar = ({ lng }) => {
           </li>
           <li className="profile-sidebar-list__item">
             <Link
+              passHref
               href={profilePersonal}
               className={
                 pathname === profilePersonal ? activeLink : defaultLink
@@ -117,6 +132,7 @@ const SideBar = ({ lng }) => {
           </li>
           <li className="profile-sidebar-list__item">
             <Link
+              passHref
               href={profileSocial}
               className={pathname === profileSocial ? activeLink : defaultLink}
             >
@@ -137,6 +153,7 @@ const SideBar = ({ lng }) => {
           </li>
           <li className="profile-sidebar-list__item">
             <Link
+              passHref
               href={profileAdditional}
               className={
                 pathname === profileAdditional ? activeLink : defaultLink
@@ -159,6 +176,7 @@ const SideBar = ({ lng }) => {
           </li>
           <li className="profile-sidebar-list__item">
             <Link
+              passHref
               href={profileChangePassword}
               className={
                 pathname === profileChangePassword ? activeLink : defaultLink
@@ -181,6 +199,7 @@ const SideBar = ({ lng }) => {
           </li>
           <li className="profile-sidebar-list__item">
             <Link
+              passHref
               href={profileRegisterEvent}
               className={
                 pathname === profileRegisterEvent ? activeLink : defaultLink
