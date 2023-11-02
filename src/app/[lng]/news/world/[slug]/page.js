@@ -28,8 +28,8 @@ const WorldNewsPage = ({ params: { lng } }) => {
         subcategory: "",
         published_date: "",
         search: "",
-        limit: 5,
-        offset: "",
+        page: 1,
+        page_size: 5,
       };
       const { data } = await NewsService.getNewsWorld(getData);
       return data;

@@ -445,7 +445,9 @@ const KazakhTourismClient = ({ lng }) => {
         sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
         onChange={setCaptcha}
       />
-      {!captchaError && <div className="form-captcha">Заполните Captcha</div>}
+      {captchaError && (
+        <div className="form-captcha">{tForm("fillCaptcha")}</div>
+      )}
       <Button
         type="primary"
         size="large"

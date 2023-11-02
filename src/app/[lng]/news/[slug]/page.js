@@ -29,8 +29,8 @@ const NewsPage = ({ params: { lng } }) => {
         published_date_start: "",
         published_date_end: "",
         search: "",
-        limit: 5,
-        offset: "",
+        page: 1,
+        page_size: 5,
       };
       const { data } = await NewsService.getNewsOriginCountry(getData);
       return data;

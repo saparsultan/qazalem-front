@@ -1,6 +1,9 @@
+import Link from "next/link";
 import { useTranslation } from "@/app/i18n";
 import KazakhTourismClient from "@/components/client/Services/KazakhTourism.client";
 import BackLink from "@/components/client/BackLink";
+import { LINK_URLS } from "@/utils/constants";
+
 export default async function KazakhTourism({ params: { lng } }) {
   const { t } = await useTranslation(lng, "default");
   return (
@@ -12,6 +15,12 @@ export default async function KazakhTourism({ params: { lng } }) {
             <h2 className="title text-low title-left title-h2 services-page__title publish__title">
               {t("titleFormTourism")}
             </h2>
+            <Link
+              href={`/${lng}/${LINK_URLS.services}/kazakh-tourism/results`}
+              className="services-page__result-link"
+            >
+              {t("surveyResults")}
+            </Link>
             <p className="publish__desc">{t("descFormTourism")}</p>
           </div>
           <KazakhTourismClient lng={lng} />

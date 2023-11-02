@@ -100,6 +100,12 @@
       align-items: flex-start;
       justify-content: flex-start;
     }
+    &__result {
+      &-link {
+        text-decoration: underline;
+        margin-bottom: 1em;
+      }
+    }
     &-form {
       display: grid;
       grid-template-columns: 1fr;
@@ -127,6 +133,34 @@
       }
       &__input {
         margin-top: .5em!important;
+      }
+    }
+  }
+}
+
+.analytic {
+  &-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 1.5em;
+    .ant-progress-outer {
+      width: 100%!important;
+    }
+  }
+  &-item {
+    padding: 1.5em;
+    background-color: var(--light-color);
+    border-radius: 12px;
+    &__title {
+      font-weight: 700;
+      margin-bottom: 1em;
+    }
+  }
+  &-answer {
+    &__item {
+      &-title {
+        font-size: .875rem;
+        font-weight: 500;
       }
     }
   }

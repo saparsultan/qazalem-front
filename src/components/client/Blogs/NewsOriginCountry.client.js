@@ -1,5 +1,5 @@
 "use client";
-import { DatePicker, Select, Input, Button, Skeleton } from "antd";
+import { DatePicker, Select, Input, Button, Skeleton, Pagination } from "antd";
 const { RangePicker } = DatePicker;
 import locale from "antd/es/date-picker/locale/ru_RU";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
@@ -36,7 +36,7 @@ const NewsOriginCountryClient = ({ lng }) => {
   const [category, setCategory] = useState("");
   const [search, setSearch] = useState("");
 
-  // const [pagination, setPagination] = useState("");
+  const [pagination, setPagination] = useState(1);
 
   const link = `/${lng}/${LINK_URLS.news}`;
 
@@ -86,6 +86,7 @@ const NewsOriginCountryClient = ({ lng }) => {
       searchQuery,
       publishDateQuery,
       categoryQuery,
+      pagination,
       lng,
     ],
     queryFn: async ({ pageParam = 0 }) => {
@@ -98,7 +99,7 @@ const NewsOriginCountryClient = ({ lng }) => {
         published_date_start: firstDate,
         published_date_end: secondDate,
         search: searchQuery,
-        page: 1,
+        page: pagination,
         lang: lng,
       };
       const { data } = await NewsService.getNewsOriginCountry(getData);
@@ -152,16 +153,10 @@ const NewsOriginCountryClient = ({ lng }) => {
     }
   };
 
-  // const onShowSizeChange = (current, pageSize) => {
-  //   console.log(current, pageSize);
-  // };
-
-  // const onChangeSize = (current, pageSize) => {
-  //   const size = current * 10;
-  //   setPagination(size);
-  //   console.log(current, pageSize);
-  //   console.log({ size });
-  // };
+  const onChangeSize = (current, pageSize) => {
+    setPagination(current);
+    console.log(current, pageSize);
+  };
 
   return (
     <div className="publish publish--two">
@@ -249,13 +244,13 @@ const NewsOriginCountryClient = ({ lng }) => {
                   </div>
                 ))}
         </div>
-        {/*<Pagination*/}
-        {/*  showSizeChanger*/}
-        {/*  onChange={onChangeSize}*/}
-        {/*  onShowSizeChange={onShowSizeChange}*/}
-        {/*  defaultCurrent={1}*/}
-        {/*  total={data?.pages[0].count}*/}
-        {/*/>*/}
+        <div className="publish-pagination">
+          <Pagination
+            onChange={onChangeSize}
+            defaultCurrent={1}
+            total={data?.pages[0].count}
+          />
+        </div>
       </div>
     </div>
   );

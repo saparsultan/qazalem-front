@@ -1,5 +1,5 @@
 "use client";
-import { DatePicker, Select, Input, Button, Skeleton } from "antd";
+import { DatePicker, Select, Input, Button, Skeleton, Pagination } from "antd";
 const { RangePicker } = DatePicker;
 import locale from "antd/es/date-picker/locale/ru_RU";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
@@ -35,6 +35,7 @@ const NewsWorldClient = ({ lng }) => {
   const [startEndDate, setStartEndDate] = useState(null);
   const [category, setCategory] = useState("");
   const [search, setSearch] = useState("");
+  const [pagination, setPagination] = useState(1);
 
   const link = `/${lng}/${LINK_URLS.news}/${LINK_URLS.world}`;
 
@@ -75,7 +76,6 @@ const NewsWorldClient = ({ lng }) => {
       const { data } = await NewsService.getNewsWorldCategory(lng);
       return data;
     },
-    staleTime: Infinity,
   });
 
   const { data, isLoading, isSuccess } = useInfiniteQuery({
@@ -84,6 +84,7 @@ const NewsWorldClient = ({ lng }) => {
       searchQuery,
       publishDateQuery,
       categoryQuery,
+      pagination,
       lng,
     ],
     queryFn: async ({ pageParam = 0 }) => {
@@ -91,7 +92,7 @@ const NewsWorldClient = ({ lng }) => {
         subcategory: categoryQuery,
         published_date: publishDateQuery,
         search: searchQuery,
-        page: 1,
+        page: pagination,
         lang: lng,
       };
       const { data } = await NewsService.getNewsWorld(getData);
@@ -100,8 +101,6 @@ const NewsWorldClient = ({ lng }) => {
     getNextPageParam: (lastPage, pages) => lastPage.nextCursor,
     getPreviousPageParam: (firstPage, allPages) => firstPage.prevCursor,
   });
-
-  console.log({ newsWorldCategory });
 
   const onChangeDate = (value) => {
     if (value) {
@@ -116,10 +115,6 @@ const NewsWorldClient = ({ lng }) => {
     }
     setStartEndDate(value);
   };
-
-  console.log({ publishDate });
-  console.log({ category });
-  console.log({ data });
 
   const onChangeCategory = (value) => {
     value && true && true && !isNaN(value)
@@ -147,6 +142,10 @@ const NewsWorldClient = ({ lng }) => {
     } else {
       router.push(`${pathname}?search=${search}`);
     }
+  };
+  const onChangeSize = (current, pageSize) => {
+    setPagination(current);
+    console.log(current, pageSize);
   };
 
   return (
@@ -234,6 +233,13 @@ const NewsWorldClient = ({ lng }) => {
                     <Skeleton className="skeleton-blogCard__text" active />
                   </div>
                 ))}
+        </div>
+        <div className="publish-pagination">
+          <Pagination
+            onChange={onChangeSize}
+            defaultCurrent={1}
+            total={data?.pages[0].count}
+          />
         </div>
       </div>
     </div>
