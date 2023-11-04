@@ -10,7 +10,7 @@ export default async function Nav({ lng }) {
       <Link href={`/${lng}/${LINK_URLS.about}`} className="nav__link">
         {t("aboutPortal")}
       </Link>
-      <Link href={`/${lng}/${LINK_URLS.services}`} className="nav__link">
+      <Link href={`/${lng}#${LINK_URLS.services}`} className="nav__link">
         {t("services")}
       </Link>
       <Link href={`/${lng}/${LINK_URLS.news}`} className="nav__link">

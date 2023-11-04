@@ -153,9 +153,8 @@ const NewsOriginCountryClient = ({ lng }) => {
     }
   };
 
-  const onChangeSize = (current, pageSize) => {
+  const onChangeSize = (current) => {
     setPagination(current);
-    console.log(current, pageSize);
   };
 
   return (

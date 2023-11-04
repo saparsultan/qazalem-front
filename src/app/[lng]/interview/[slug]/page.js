@@ -28,8 +28,8 @@ const InterviewPage = ({ params: { lng } }) => {
         published_date_start: "",
         published_date_end: "",
         search: "",
-        limit: 5,
-        offset: "",
+        page: 1,
+        page_size: 5,
         lang: lng,
       };
       const { data } = await NewsService.getInterview(getData);

@@ -1,5 +1,5 @@
 "use client";
-import { DatePicker, Input, Button, Skeleton } from "antd";
+import { DatePicker, Input, Button, Skeleton, Pagination } from "antd";
 
 const { RangePicker } = DatePicker;
 import locale from "antd/es/date-picker/locale/ru_RU";
@@ -39,6 +39,7 @@ const InterviewClient = ({ lng }) => {
   const [startEndDate, setStartEndDate] = useState(null);
   const [category, setCategory] = useState("");
   const [search, setSearch] = useState("");
+  const [pagination, setPagination] = useState(1);
   const link = `/${lng}/${LINK_URLS.interview}`;
 
   const searchQuery =
@@ -68,7 +69,7 @@ const InterviewClient = ({ lng }) => {
   }, [publishDateQuery, searchQuery]);
 
   const { data, isLoading, isSuccess } = useInfiniteQuery({
-    queryKey: ["blogInterview", searchQuery, publishDateQuery, lng],
+    queryKey: ["blogInterview", searchQuery, publishDateQuery, pagination, lng],
     queryFn: async ({ pageParam = 0 }) => {
       const datesArray = publishDateQuery.split(" ");
       const firstDate =
@@ -79,7 +80,7 @@ const InterviewClient = ({ lng }) => {
         published_date_start: firstDate,
         published_date_end: secondDate,
         search: searchQuery,
-        page: 1,
+        page: pagination,
         lang: lng,
       };
       const { data } = await NewsService.getInterview(getData);
@@ -90,7 +91,6 @@ const InterviewClient = ({ lng }) => {
   });
 
   const onChangeDate = (value) => {
-    console.log("RANGE", value);
     if (value) {
       const startDateSrc = dayjs(new Date(value[0]))
         .locale(kk)
@@ -138,6 +138,10 @@ const InterviewClient = ({ lng }) => {
       // router.push(pathname);
     }
     setSearch(target);
+  };
+
+  const onChangeSize = (current) => {
+    setPagination(current);
   };
 
   return (
@@ -213,6 +217,14 @@ const InterviewClient = ({ lng }) => {
                             />
                           </div>
                         ))}
+                </div>
+
+                <div className="publish-pagination">
+                  <Pagination
+                    onChange={onChangeSize}
+                    defaultCurrent={1}
+                    total={data?.pages[0].count}
+                  />
                 </div>
               </div>
             </div>

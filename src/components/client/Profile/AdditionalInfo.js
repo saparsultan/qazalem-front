@@ -93,7 +93,7 @@ const AdditionalInfo = ({ lng }) => {
             <Form.Item name="relocate" label={tForm("doYouWantMove")}>
               <Input placeholder={tForm("youAnswer")} />
             </Form.Item>
-            <Form.Item name="ability" label="Какие у вас есть способности?">
+            <Form.Item name="ability" label={tForm("whatAbilities")}>
               <Input placeholder={tForm("youAnswer")} />
             </Form.Item>
             <Form.Item name="instrument" label={tForm("whatInstrumentPlay")}>

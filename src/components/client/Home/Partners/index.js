@@ -42,6 +42,7 @@ const Partners = () => {
                   className="grid-slider__bg partners__img"
                   src={image}
                   alt={name}
+                  sizes="(max-width: 768px) 100vw, 33vw"
                   fill
                   center="true"
                 />

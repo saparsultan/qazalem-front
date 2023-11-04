@@ -21,7 +21,7 @@ export default async function Home({ params: { lng } }) {
     <div className="main">
       <SliderMain lng={lng} />
       <SliderInfo lng={lng} />
-      <section className="section company-list__container">
+      <section id="services" className="section company-list__container">
         <div className="container">
           <div className="company-list">
             <h2 className="title title-h2 company-list__title">

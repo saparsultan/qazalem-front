@@ -1,7 +1,7 @@
 "use client";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
-import { Select, Input, Button } from "antd";
+import React, { useEffect, useState } from "react";
+import { Select, Input, Button, Pagination } from "antd";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { useTranslation } from "@/app/i18n/client";
 import NewsService from "@/services/NewsService";
@@ -16,6 +16,7 @@ const FaqClient = ({ lng }) => {
   const searchParams = useSearchParams();
   const [direction, setDirection] = useState("");
   const [search, setSearch] = useState("");
+  const [pagination, setPagination] = useState(1);
 
   const searchQuery =
     searchParams.get("search") && searchParams.get("search") !== null
@@ -44,13 +45,13 @@ const FaqClient = ({ lng }) => {
   });
 
   const { data } = useInfiniteQuery({
-    queryKey: ["blogFaq", searchQuery, directionQuery, lng],
+    queryKey: ["blogFaq", searchQuery, directionQuery, pagination, lng],
     queryFn: async ({ pageParam = 0 }) => {
       const getData = {
         direction: directionQuery,
         search: searchQuery,
         published_date: "",
-        page: 1,
+        page: pagination,
         lang: lng,
       };
       const { data } = await NewsService.getFaq(getData);
@@ -82,6 +83,10 @@ const FaqClient = ({ lng }) => {
     } else {
       router.push(`${pathname}?search=${search}`);
     }
+  };
+
+  const onChangeSize = (current) => {
+    setPagination(current);
   };
 
   return (
@@ -153,6 +158,13 @@ const FaqClient = ({ lng }) => {
                 ]}
               />
             ))}
+        </div>
+        <div className="publish-pagination">
+          <Pagination
+            onChange={onChangeSize}
+            defaultCurrent={1}
+            total={data?.pages[0].count}
+          />
         </div>
       </div>
     </div>

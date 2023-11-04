@@ -20,7 +20,7 @@ const BlogItem = ({
         <Image
           sizes="(max-width: 768px) 100vw"
           src={image}
-          alt="interview1"
+          alt={title}
           width={100}
           height={100}
           placeholder="empty"

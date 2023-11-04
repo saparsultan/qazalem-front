@@ -143,9 +143,8 @@ const NewsWorldClient = ({ lng }) => {
       router.push(`${pathname}?search=${search}`);
     }
   };
-  const onChangeSize = (current, pageSize) => {
+  const onChangeSize = (current) => {
     setPagination(current);
-    console.log(current, pageSize);
   };
 
   return (

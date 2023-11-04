@@ -1,6 +1,6 @@
 "use client";
-import { useEffect, useState } from "react";
-import { DatePicker, Select, Input, Button, Skeleton } from "antd";
+import React, { useEffect, useState } from "react";
+import { DatePicker, Select, Input, Button, Skeleton, Pagination } from "antd";
 import locale from "antd/es/date-picker/locale/ru_RU";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
@@ -37,6 +37,7 @@ const EventsClient = ({ lng }) => {
   const [startEndDate, setStartEndDate] = useState([]);
   const [country, setCountry] = useState("");
   const [eventType, setEventType] = useState("");
+  const [pagination, setPagination] = useState(1);
 
   const link = `/${lng}/${LINK_URLS.events}`;
 
@@ -107,6 +108,7 @@ const EventsClient = ({ lng }) => {
       endDateQuery,
       countryQuery,
       typeQuery,
+      pagination,
       lng,
     ],
     queryFn: async ({ pageParam = 0 }) => {
@@ -117,8 +119,7 @@ const EventsClient = ({ lng }) => {
         countries: countryQuery,
         search: searchQuery,
         archive: false,
-        limit: "",
-        offset: "",
+        page: 1,
         lang: lng,
       };
       const { data } = await NewsService.getEvents(getData);
@@ -188,6 +189,9 @@ const EventsClient = ({ lng }) => {
       eventsType?.data?.length &&
       eventsType?.data?.filter((i) => i?.id === value)[0]?.name
     );
+  };
+  const onChangeSize = (current) => {
+    setPagination(current);
   };
 
   return (
@@ -298,6 +302,13 @@ const EventsClient = ({ lng }) => {
                     <Skeleton className="skeleton-blogCard__text" active />
                   </div>
                 ))}
+        </div>
+        <div className="publish-pagination">
+          <Pagination
+            onChange={onChangeSize}
+            defaultCurrent={1}
+            total={data?.pages[0].count}
+          />
         </div>
       </div>
     </div>
