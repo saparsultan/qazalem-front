@@ -118,5 +118,14 @@
   "yourContacts": "Your contact address to receive research results",
   "emailOrSocial": "Email or social networks",
   "beforeVisiting": "If «Yes», what would you like to know about Kazakhstan before visiting?",
-  "fillCaptcha": "Fill in Captcha"
+  "fillCaptcha": "Fill in Captcha",
+  "descriptionKz": "Description in kazakh",
+  "descriptionRu": "Description in russian",
+  "descriptionEn": "Description in english",
+  "descriptionCn": "Description in chinese",
+  "add": "Add",
+  "cancel": "Cancel",
+  "videoLink": "Link to video",
+  "price": "Price",
+  "priceForWhat": "Price for what"
 }

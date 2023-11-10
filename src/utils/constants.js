@@ -21,6 +21,8 @@ export const LINK_URLS = {
   additional: "additional",
   changePassword: "change-password",
   registerEvent: "register-event",
+  registerGuide: "register-guide",
+  guide: "guide",
   news: "news",
   world: "world",
   events: "events",

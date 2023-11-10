@@ -645,5 +645,72 @@ iframe {
   }
 }
 
+.ant-picker-panel {
+  &:last-child {
+    width: 0;
+    .ant-picker-header {
+      position: absolute;
+      right: 0;
+      .ant-picker-header-prev-btn, .ant-picker-header-view {
+        visibility: hidden;
+      }
+    }
+
+    .ant-picker-body {
+      display: none;
+    }
+
+    @media (min-width: 768px) {
+      width: 280px!important;
+      .ant-picker-header {
+        position: relative;
+        .ant-picker-header-prev-btn, .ant-picker-header-view {
+          visibility: initial;
+        }
+      }
+
+      .ant-picker-body {
+        display: block;
+      }
+    }
+  }
+}
+
+.ant-input-number {
+  width: 100%;
+}
+
+.ant-form {
+  &__alert-info {
+    margin-bottom: 1em!important;
+    .ant-alert-message {
+      font-weight: 600;
+    }
+  }
+  &__tab-info {
+    .ant-tabs-nav {
+      margin-bottom: 0!important;
+      padding: 0 6px;
+    }
+  }
+}
+
+.ant-empty-description {
+  max-width: 350px;
+  text-align: center;
+}
+
+.player-wrapper {
+  position: relative;
+  padding-top: 56.25%; /* Player ratio: 100 / (1280 / 720) */
+}
+
+.react-player {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 12px;
+  overflow: hidden;
+}
 
 

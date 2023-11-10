@@ -65,8 +65,8 @@ const SideBar = ({ lng }) => {
             <Image
               quality={75}
               src={
-                session && session?.user.image
-                  ? session?.user.image
+                session && session?.user?.image
+                  ? session?.user?.image
                   : defaultAvatar
               }
               alt="Avatar"

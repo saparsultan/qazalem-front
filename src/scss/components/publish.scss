@@ -12,6 +12,9 @@
   }
   &--two {
     grid-template-columns: 300px 1fr;
+    @include tablet {
+      grid-template-columns: 1fr;
+    }
   }
   &-filter {
     display: flex;
@@ -53,6 +56,9 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-gap: 1.25em;
+    @include small-tablet {
+      grid-gap: .875em;
+    }
     &-wrap {
       display: flex;
       flex-direction: column;
@@ -89,6 +95,9 @@
     }
     &--two {
       grid-template-columns: repeat(2, 1fr);
+      @include mobile {
+        grid-template-columns: 1fr;
+      }
     }
   }
   &-pagination {

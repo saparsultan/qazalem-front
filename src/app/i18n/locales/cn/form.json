@@ -118,5 +118,14 @@
   "yourContacts": "您接收研究结果的联系地址",
   "emailOrSocial": "电子邮件或社交网络",
   "beforeVisiting": "如果“是”，您在访问哈萨克斯坦之前想了解哪些信息？",
-  "fillCaptcha": "填写验证码"
+  "fillCaptcha": "填写验证码",
+  "descriptionKz": "哈萨克语描述",
+  "descriptionRu": "俄语描述",
+  "descriptionEn": "英文说明",
+  "descriptionCn": "中文说明",
+  "add": "添加",
+  "cancel": "取消",
+  "videoLink": "视频链接",
+  "price": "巴加西",
+  "priceForWhat": "价格什么的"
 }

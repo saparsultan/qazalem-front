@@ -12,6 +12,7 @@ import { languagesClient } from "@/app/i18n/settings";
 import { LINK_URLS } from "@/utils/constants";
 import logoIcon from "@/assets/img/logo.png";
 import logoPrimaryIcon from "@/assets/img/logo-primary.png";
+import MobileMenu from "@/components/layout/MobileMenu";
 
 const HeaderClient = ({ children, lng }) => {
   const langClient = lng.toUpperCase();
@@ -280,7 +281,7 @@ const HeaderClient = ({ children, lng }) => {
             </div>
           </div>
         </header>
-        {/*<MobileMenu lng={lng} showMenu={showMenu} setShowMenu={setShowMenu} />*/}
+        <MobileMenu lng={lng} showMenu={showMenu} setShowMenu={setShowMenu} />
       </>
     )
   );

@@ -1,13 +1,11 @@
 "use client";
 import { DatePicker, Select, Input, Button, Skeleton, Pagination } from "antd";
 const { RangePicker } = DatePicker;
-import locale from "antd/es/date-picker/locale/ru_RU";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import NewsService from "@/services/NewsService";
 import BlogItem from "@/components/client/Blogs/BlogItem";
 import React, { useEffect, useState } from "react";
 import * as dayjs from "dayjs";
-import kk from "dayjs/locale/kk";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import advancedFormat from "dayjs/plugin/advancedFormat";
 import weekday from "dayjs/plugin/weekday";
@@ -111,18 +109,15 @@ const NewsOriginCountryClient = ({ lng }) => {
 
   const onChangeDate = (value) => {
     if (value) {
-      const startDateSrc = dayjs(new Date(value[0]))
-        .locale(kk)
-        .format("YYYY-MM-DD");
-      const endDateSrc = dayjs(new Date(value[1]))
-        .locale(kk)
-        .format("YYYY-MM-DD");
+      const startDateSrc = dayjs(new Date(value[0])).format("YYYY-MM-DD");
+      const endDateSrc = dayjs(new Date(value[1])).format("YYYY-MM-DD");
       const publishDate = `${startDateSrc} ${endDateSrc}`;
       setPublishDate(publishDate);
     } else if (value === null || value === undefined) {
       setPublishDate("");
     }
     setStartEndDate(value);
+    console.log({ value });
   };
 
   const onChangeCategory = (value) => {
@@ -160,11 +155,8 @@ const NewsOriginCountryClient = ({ lng }) => {
   return (
     <div className="publish publish--two">
       <div className="publish-filter publish-item">
-        <RangePicker
-          locale={locale}
-          value={startEndDate}
-          onChange={onChangeDate}
-        />
+        <RangePicker value={startEndDate} onChange={onChangeDate} />
+        <DatePicker />
 
         <Select
           allowClear

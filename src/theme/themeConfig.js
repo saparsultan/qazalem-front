@@ -32,4 +32,3 @@ const theme = {
   },
 };
 export default theme;
-// "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjk0Nzk4NDI4LCJpYXQiOjE2OTQ3NzMyMjgsImp0aSI6IjUyMWZjZTI2Yjk0MTQ3N2I5OTNhNGQ2ZGZmZmMxYjc2IiwidXNlcl9pZCI6MTh9.bjUlBAc0U9ELHQXmu11fnLsVIPCwDjAxL9FBDpWIos0

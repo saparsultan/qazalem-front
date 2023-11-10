@@ -78,4 +78,46 @@ export default class UserService {
   static getSelectEvents(lang) {
     return $api.get(`events/select_events?lang=${lang}`);
   }
+  static registerGuide(token, data) {
+    return $apiPrivate.post("guide/register", data, {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    });
+  }
+  static registerGuideVideo(token, data) {
+    return $apiPrivate.post("guide/video", data, {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    });
+  }
+  static getDescriptionGuide(token) {
+    return $apiPrivate.get(`guide`, {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    });
+  }
+  static updateDescriptionGuide(id, token, data) {
+    return $apiPrivate.put(`guide/update/${id}`, data, {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    });
+  }
+  static getProfileGuideVideo(token) {
+    return $apiPrivate.get(`guide/personal/video`, {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    });
+  }
+  static updateProfileGuideVideo(id, token, data) {
+    return $apiPrivate.put(`guide/video/update/${id}`, data, {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    });
+  }
 }

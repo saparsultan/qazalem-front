@@ -2,7 +2,7 @@
 import { useQuery } from "@tanstack/react-query";
 import HomeService from "@/services/HomeServices";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation } from "swiper/modules";
+import { Navigation, Pagination } from "swiper/modules";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -20,7 +20,10 @@ const Partners = () => {
       slidesPerView="6"
       spaceBetween={20}
       navigation={true}
-      modules={[Navigation]}
+      pagination={{
+        dynamicBullets: true,
+      }}
+      modules={[Navigation, Pagination]}
       className="grid-slider partners-slider"
     >
       {data?.length &&

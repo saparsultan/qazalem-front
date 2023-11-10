@@ -22,5 +22,12 @@
     "titleAnnounce": "活动公告",
     "titleFormTourism": "外国人对哈萨克斯坦的偏好研究表",
     "descFormTourism": "感谢您参与哈萨克斯坦研究！ 您的回答将帮助我们更好地了解外国人对我们国家的看法和偏好。",
-    "surveyResults": "调查结果"
+    "surveyResults": "调查结果",
+    "formRegistration": "报名表格",
+    "mySuggestions": "我的建议",
+    "addSuggestion": "加报价",
+    "description": "描述",
+    "toAddSuggestion": "要添加建议，请注册为指南。",
+    "reviews": "评论",
+    "changeSuggestion": "更改建议"
 }

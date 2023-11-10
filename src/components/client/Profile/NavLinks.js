@@ -3,11 +3,15 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTranslation } from "@/app/i18n/client";
 import { LINK_URLS } from "@/utils/constants";
+import { useSession } from "next-auth/react";
 
 const NavLinks = ({ lng }) => {
+  const { data: session, status } = useSession();
   const { t } = useTranslation(lng, "layout");
   const pathname = usePathname();
   const profileMain = `/${lng}/${LINK_URLS.profile}/${LINK_URLS.main}`;
+  const registerGuide = `/${lng}/${LINK_URLS.profile}/${LINK_URLS.registerGuide}`;
+  const guide = `/${lng}/${LINK_URLS.profile}/${LINK_URLS.guide}`;
   const defaultLink = "profile-menu__link";
   const activeLink = "profile-menu__link active";
 
@@ -17,7 +21,11 @@ const NavLinks = ({ lng }) => {
         <Link
           href={profileMain}
           className={
-            pathname.includes(`${LINK_URLS.profile}`) ? activeLink : defaultLink
+            pathname.includes(`${LINK_URLS.profile}`) &&
+            !pathname.includes(`${LINK_URLS.registerGuide}`) &&
+            !pathname.includes(`${LINK_URLS.guide}`)
+              ? activeLink
+              : defaultLink
           }
         >
           <svg
@@ -36,7 +44,15 @@ const NavLinks = ({ lng }) => {
         </Link>
       </li>
       <li className="profile-menu__item">
-        <Link href="/" className="profile-menu__link">
+        <Link
+          href={session?.user?.guide_id ? guide : registerGuide}
+          className={
+            pathname.includes(`${LINK_URLS.registerGuide}`) ||
+            pathname.includes(`${LINK_URLS.guide}`)
+              ? activeLink
+              : defaultLink
+          }
+        >
           <svg
             width="24"
             height="24"
@@ -49,7 +65,9 @@ const NavLinks = ({ lng }) => {
               fill="currentColor"
             />
           </svg>
-          <span className="profile-menu__text">{t("registerGuide")}</span>
+          <span className="profile-menu__text">
+            {session?.user?.guide_id ? t("infoGuide") : t("registerGuide")}
+          </span>
         </Link>
       </li>
       <li className="profile-menu__item">

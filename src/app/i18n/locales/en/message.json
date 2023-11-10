@@ -12,5 +12,12 @@
   "successChangePassword": "Your password has been successfully changed!",
   "errorCurrentPassword": "Invalid old password!",
   "errorAnotherPassword": "You cannot change another user's password!",
-  "errorChangePassword": "An error occurred while changing the password!"
+  "errorChangePassword": "An error occurred while changing the password!",
+  "errorFilledProfile": "All information in your profile must be filled out correctly and completely!",
+  "attention": "Attention",
+  "attentionDescGuide": "Before completing your registration as a guide, please make sure that all information in your profile is filled out correctly and completely.",
+  "registerSuccessGuide": "You have successfully registered in Guide",
+  "successAddSuggestion": "The offer has been added successfully",
+  "errorAddSuggestion": "An error occurred while adding an offer",
+  "successUpdateSuggestion": "Offer updated successfully"
 }

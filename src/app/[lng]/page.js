@@ -87,22 +87,22 @@ export default async function Home({ params: { lng } }) {
         </div>
       </section>
       <BannerLink lng={lng} />
-      {/*<section className="section video__container">*/}
-      {/*  <div className="container">*/}
-      {/*    <div className="video">*/}
-      {/*      <h2 className="title title-h2 video__title">*/}
-      {/*        QAZALEM{" "}*/}
-      {/*        <Image*/}
-      {/*          src={youtubeIcon}*/}
-      {/*          alt="video-icon"*/}
-      {/*          className="video__title-icon"*/}
-      {/*        />{" "}*/}
-      {/*        CHANNEL*/}
-      {/*      </h2>*/}
-      {/*      <Youtube lng={lng} />*/}
-      {/*    </div>*/}
-      {/*  </div>*/}
-      {/*</section>*/}
+      <section className="section video__container">
+        <div className="container">
+          <div className="video">
+            <h2 className="title title-h2 video__title">
+              QAZALEM{" "}
+              <Image
+                src={youtubeIcon}
+                alt="video-icon"
+                className="video__title-icon"
+              />{" "}
+              CHANNEL
+            </h2>
+            <Youtube lng={lng} />
+          </div>
+        </div>
+      </section>
       <section className="section world-news-home__container">
         <div className="container">
           <div className="world-news-home">

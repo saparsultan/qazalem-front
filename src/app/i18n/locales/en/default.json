@@ -22,5 +22,12 @@
   "titleAnnounce": "Announcement of events",
   "titleFormTourism": "Form for studying the preferences of foreigners about Kazakhstan",
   "descFormTourism": "Thank you for your participation in the study about Kazakhstan! Your answers will help us better understand the opinions and preferences of foreigners regarding our country.",
-  "surveyResults": "Survey results"
+  "surveyResults": "Survey results",
+  "formRegistration": "Registration form",
+  "mySuggestions": "My suggestions",
+  "addSuggestion": "Add a suggestion",
+  "description": "Description",
+  "toAddSuggestion": "To add suggestions, register as a Guide.",
+  "reviews": "Reviews",
+  "changeSuggestion": "Change suggestion"
 }

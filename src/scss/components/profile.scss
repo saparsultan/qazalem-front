@@ -236,3 +236,102 @@
     padding-top: 0 !important;
   }
 }
+
+.video {
+  &-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1em;
+    background-color: var(--light-color);
+    border-radius: 12px;
+  }
+  &-item {
+    position: relative;
+    &-add {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+      padding: 2em;
+      margin-bottom: 1em;
+      background-color: rgba(0, 0, 0, 0.04);
+      border-radius: 12px;
+      border: 1px solid var(--primary-color);
+      cursor: pointer;
+      transition: opacity .2s ease;
+      &__btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        .anticon {
+          font-size: 1.5rem;
+        }
+      }
+      &__text {
+        font-size: 1.125rem;
+        font-weight: 500;
+        color: var(--primary-color);
+        margin-left: .375em;
+      }
+      &:hover {
+        opacity: .7;
+      }
+    }
+    &-text {
+      padding: 1em;
+      &__desc {
+        font-size: 1rem;
+        line-height: 147%;
+      }
+      &__footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-top: 1em;
+        margin-top: 1em;
+        font-size: .875rem;
+        font-weight: 600;
+        border-top: 1px solid rgba(0, 9, 41, 0.1);
+        &-price {
+          color: var(--primary-color);
+        }
+      }
+    }
+    &-edit {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: .5em;
+      background-color: var(--light-color);
+      box-shadow: 0 0 24px rgba(0, 0, 0, 0.06);
+      border: 2px solid rgba(0, 0, 0, 0.04);
+      border-radius: 12px;
+      cursor: pointer;
+      .anticon {
+        font-size: 1.25rem;
+        transition: opacity .15s ease-in-out;
+        &:hover {
+          opacity: .5;
+        }
+      }
+    }
+    &-tab {
+      .ant-tabs-nav {
+        height: 40px!important;
+        padding: 0!important;
+      }
+      .ant-tabs-tab {
+        font-weight: 500!important;
+        color: #96a8b8!important;
+      }
+      .ant-tabs-tabpane {
+        margin-top: 1em;
+      }
+    }
+  }
+}

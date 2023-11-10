@@ -60,7 +60,7 @@
     &__content {
       padding: 1em 0;
       @include mobile {
-        padding: 0.9375em;
+        padding: 0.9375em 0;
       }
     }
     &__tag {
